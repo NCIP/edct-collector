@@ -1,0 +1,73 @@
+<?php
+
+function cacure_change_role_block($op = 'list', $delta = 0, $edit = array())
+{
+  switch ($op) {
+    case 'list':
+      $blocks[0] = array(
+        'info' => t('Custom block with change role form'),
+      );
+      return $blocks;
+      break;
+    case 'view':
+      switch ($delta) {
+        case 0:
+          // Your module will need to define this function to render the block.
+          $block = array(
+            'title' => t('Area of Interest'),
+            'content' => cacure_change_role_block_content(),
+          );
+          break;
+      }
+      return $block;
+      break;
+  }
+}
+
+
+function cacure_change_role_block_content() {
+  global $user;
+
+  $allowed_roles = _autoassignrole_get_settings('user_roles');
+  $all_roles = user_roles(TRUE);
+
+  $allowed_roles = array_intersect_key($all_roles, $allowed_roles);
+  $current_role = array_intersect_key($user->roles, $allowed_roles);
+
+//  print_r(key($current_role));
+//  die;
+//
+  return drupal_get_form('cacure_change_role_block_form', $allowed_roles, $current_role );
+}
+
+
+function cacure_change_role_block_form($form_state, $allowed_roles, $current_role ) {
+  $form['roles_list'] = array(
+    '#type' => 'select',
+//    '#title' => t('Choose role'),
+    '#default_value' => key($current_role),
+    '#options' => $allowed_roles,
+  );
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Switch'));
+  return $form;
+}
+
+
+function cacure_change_role_block_form_submit($form, &$form_state) {
+  global $user;
+
+  $allowed_roles = _autoassignrole_get_settings('user_roles');
+  $all_roles = user_roles(TRUE);
+
+  $allowed_roles = array_intersect_key($all_roles, $allowed_roles);
+  $current_role = array_intersect_key($user->roles, $allowed_roles);
+  $new_role_value = $allowed_roles[$form_state['values']['roles_list']];
+
+  unset($user->roles[key($current_role)]);
+
+  $user->roles[$form_state['values']['roles_list']] = $new_role_value;
+  user_save($user, array('roles' => $user->roles));
+
+//  drupal_set_message(t('Your Area of Interest has been changed from @old_role to @new_role.', array('@new_role' => $new_role_value, '@old_role' => $current_role[key($current_role)])));
+
+}

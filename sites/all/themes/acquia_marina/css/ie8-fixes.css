@@ -1,0 +1,77 @@
+/* $Id: ie8-fixes.css 7703 2010-07-14 22:42:55Z jeremy $ */
+
+/* Marina - Icons */
+.title-icon .block-icon,
+#comments .block-icon {
+  top: 0;
+}
+body #page-inner h2.user-name{
+  right: 810px;
+}
+h2.user-name{
+  right: 250px !important; 
+}
+/*NEW*/
+#pid-user-register legend span{
+  top: 6px;
+}
+#pid-user-register form#user-register .fieldset_account #edit-name-wrapper .description{
+  top: 12px;
+}
+#pid-user-register form#user-register .fieldset_account #edit-pass-wrapper .description{
+  top: 135px;
+}
+body#pid-home #content-top-left{
+  right: 150px;
+}
+body#pid-home.not-logged-in #content-top-left{
+  right: -30px; 
+}
+form#user-register .group-aq{
+  width: 700px;
+  display: block;
+}
+body form#user-register .group-aq>fieldset{
+  margin-top: 20px;
+}
+body form#user-register fieldset.fieldset_personal_info legend{
+  position: relative;
+  top: -20px;
+}
+body form#user-register fieldset.fieldset_account legend{
+  top: 20px;
+}
+body form#user-register fieldset.group-aq #edit-user-roles-wrapper label{
+  margin-bottom: 4px;
+}
+body #block-cacure_t-13{
+  width: 56px;
+}
+body#pid-primary-links-switch-theme #switchtheme-switch-form #switchtheme-submit{
+  margin-top: 0;
+}
+body.front.logged-in.public-health #content-top-left{
+  
+}
+body#pid-home.front.logged-in #content-top-left{
+  right: -32px;
+}
+body form#user-register .group-aq legend{
+  top: 10px;
+}
+body form#user-register .personal-info legend{
+  top: -12px;
+  margin-top: 0;
+  position: relative;
+}
+body div#block-cacure_mgmt-2 .sub-head .status,
+body div#block-cacure_mgmt-1 .sub-head .status{
+  right: 66px;
+}
+body div#block-cacure_mgmt-1 .finish span,
+body div#block-cacure_mgmt-2 .finish span{
+  padding: 0 0 0 313px;
+}
+body .xform-page div#block-cacure_mgmt-1 div.form-element div.text.active {
+  margin-left: -6px;
+}

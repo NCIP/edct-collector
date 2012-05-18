@@ -1,0 +1,45 @@
+/*-----------------Status--------------------------------------------------*/
+div.approved {background-image: url(images/approved-status.png); background-position: right center;}
+div.in-progress {background-image: url(images/in-progress-status.png); background-position: right center;}
+div.submitted {background-image: url(images/submitted-status.png); background-position: right center;}
+/*-----------------Header Styles To Grid16-16-------------------------------------------------*/
+.header-group-wrapper .header-group.grid16-16 {width: 1024px;}
+/*-----------------Listing Forms-Grid16-16-------------------------------------------------*/
+#pid-my-current-questionnaire .main-group.grid16-16  h1.title {left: 0;}
+.main-group.grid16-16, .content-group.grid16-16 {width: 100%;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content{width: 1000px;}
+.main-group.grid16-16 #block-cacure_mgmt-1 .content .sub-head .status{right: 38px;}
+.main-group.grid16-16 .content .health-element{}
+.main-group.grid16-16 #block-cacure_mgmt-1  .content .health-element .element-header{padding-left: 0;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content .health-element .element-header .module-name{padding-left: 10px;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content .health-element .form-element-list, .main-group.grid16-16 div#block-cacure_mgmt-2 .content .health-element .form-element-list  {padding:10px 10px 0 10px; width: 99%; overflow: hidden;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content .health-element .form-element-list .form-element{width: 100%; overflow: hidden;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content .health-element .form-element-list .form-element .text{background-position: right center; padding: 0 10px 0 0; width: 91%;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content .health-element .form-element-list .form-element .edit{padding: 0; float: right; width: 7%;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content p.finish{margin: 0; max-width: 98%; overflow: hidden; padding: 0 10px; width: 98%; border-top: 1px dotted #ccc;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content p.finish span.part{float: left; width: 52px;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content p.finish > a{float: left;}
+.main-group.grid16-16 div#block-cacure_mgmt-1 .content p.finish > span{float: right; padding-left: 0; width: 6%;}
+.content-inner-inner .content-content div#block-cacure_mgmt-1 .content {width: 100%;}
+.#block-cacure_mgmt-1 .element-header {}
+/*-----------------Listing Forms-Grid16-12-------------------------------------------------*/
+.main-group.grid16-12 h1.title {margin: 0; padding: 0;}
+.main-group.grid16-12 div#block-cacure_mgmt-4 h2 {color: #669933;}
+.main-group.grid16-12 div#block-cacure_mgmt-4 {margin-top: 0;}
+.main-group.grid16-16 #block-cacure_mgmt-1 .content .sub-head .status{right: 28px;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content .health-element .form-element-list, .main-group.grid16-16 div#block-cacure_mgmt-2 .content .health-element .form-element-list  {padding:10px 0 0 10px;}
+.main-group.grid16-12 div#block-cacure_mgmt-1  .content .health-element .element-header{padding-left: 0;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content .health-element .element-header .module-name{padding-left: 10px;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content .health-element .form-element-list .form-element .text{width: 615px; padding-left: 0;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content .health-element .form-element-list .form-element .edit{padding: 0 0 0 10px;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content p.finish{margin: 0; max-width: 690px; overflow: hidden; padding: 0 10px; width: 690px; border-top: 1px dotted #ccc;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content p.finish span.part{float: left; width: 52px;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content p.finish > a{float: left;}
+.main-group.grid16-12 div#block-cacure_mgmt-1 .content p.finish > span{float: right; padding-left: 0; width: 65px;}
+.content-inner-inner .content-content div#block-cacure_mgmt-1 .content {width: 100%;}
+.#block-cacure_mgmt-1 .element-header {}
+/*-----------------generic-intro--------------------------- -----------------------*/
+.main-group.grid16-16 .content #generic-intro {background: url(images/box-big-blue-w1000.png) no-repeat; width: 1000px; overflow: hidden;}
+.main-group.grid16-16 .content #generic-intro h2{max-width: 980px; width: 980px;}
+.main-group.grid16-16 .content #general-instructions {width: 960px; max-width: 960px;  border-bottom: 1px solid #ccc;}
+.main-group.grid16-16 .content #general-instructions #left, .main-group.grid16-16 .content #general-instructions #right{width: 460px}

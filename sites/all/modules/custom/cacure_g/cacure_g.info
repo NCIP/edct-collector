@@ -1,0 +1,9 @@
+; $Id $
+name = "CURE General module"
+description = "CURE General module"
+core = 6.x
+version = "6.x-1.1"
+core = "6.x"
+project = "tXFormsest"
+package = CURE custom modules
+datestamp = "1223218820"

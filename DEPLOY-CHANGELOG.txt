@@ -1,0 +1,272 @@
+2012-03-26
+----------
+Kolesnik Kirill: Activating the Administrative screen for setting permissions on CaCure tags (per user).
+1. Login into Drupal as Admin.
+2. Go to Admin menu -> Site building -> Modules.
+3. Select "CaCure tag permissions" (CaCure custom modules category).
+4. Save configuration. 
+5. Clear Drupal cash data. 
+
+
+2011-12-05
+----------
+Anton Yakushin: Permissions to modify user
+1. Login into Drupal as Admin.
+2. Go to Admin menu -> Site building -> Modules.
+3. Select "Path Access".
+4. Save configuration. 
+
+5. Go to admin/user.
+6. Follow by "Path Access".
+7. Select "edit" for NCCCP role.
+8. Choose "Access every page except the listed pages."
+In textbox input "user/*" (without quotes).
+9. Save path access. 
+
+2011-11-09
+-----------
+Leonid Kagan: Disable the View and Print features 
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Blocks. 
+3. Scroll down to content bottom section and and find "My Submitted Questionnaire overview" block.
+4. Click "Configure" button. 
+5. In block "User specific visibility settings" select "Hide this block by default but let individual users show it."
+6. Save block
+
+7. Go to Admin menu -> Site building -> Blocks. 
+8. Scroll down to content bottom section and and find "My submitted modules list" block.
+9. Click "Configure" button. 
+10. In block "User specific visibility settings" select "Hide this block by default but let individual users show it."
+11. Save block
+
+
+2011-10-25
+-----------
+Yakushin Anton: SpiraTeam #807: Remove NCI News Release from home page
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Blocks. 
+3. Scroll down and find "NCI News Releases feed latest items" block.
+4. Choose "Configure" button. (/hostname/admin/build/block/configure/aggregator/feed-12)
+5. In block "User specific visibility settings" select "Hide this block by default but let individual users show it."
+6. Save block
+
+Yakushin Anton: SpiraTeam #804: Delete contact us from the bottom menu bar
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Menus.
+3. Select "Footer Links". (/hostname/admin/build/menu-customize/menu-footer-links)
+4. Uncheck "Enabled" for "contact us".
+5. Save configuration.
+
+Yakushin Anton: SpiraTeam #805: Home page edits
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site configuration -> Front page. (/hostname/admin/settings/front)
+3. Perform corrections to block "Front Page for anonymous user."
+4. Save configurations
+
+2011-10-19
+----------
+Vladislav Litovka: SpiraTeam #154: Submission reporting
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Add new item to 'Primary links' menu
+Path: admin/reports
+Menu link title: Reports
+Mark as checked next checkboxes: Enabled, Expanded
+Restrict item visibility -> Show menu item only to selected roles, select: administrator, NCCCP admin
+4. Save.
+5. Add new item to 'Primary links' menu
+Path: admin/reports/cacure-report
+Menu link title: Submission status report
+Mark as checked next checkboxes: Enabled
+Parent item: Reports
+Restrict item visibility -> Show menu item only to selected roles, select: administrator, NCCCP admin
+6. Save.
+
+Vladislav Litovka: SpiraTeam #791: "Using this Tool" should redirect to NCCCP DCT wiki page
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Primary links' menu
+4. Click on edit for 'Using this Tool'
+5. Edit item
+6. Save.
+
+Vladislav Litovka: SpiraTeam #790: "FAQs" tab should be renamed to "Using this Tool"
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Primary links' menu
+4. Click on edit for 'FAQs'
+5. Edit item
+6. Save.
+
+2011-10-18
+----------
+Leonid kagan: SpiraTeam #676: Please change term “Questionnaire”  to “Quarterly Report Section”  in every place.
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Content management -> Conten -> List
+3. Edit 'My Submitted Questionnaires" section
+4. Change Title to "My Submitted Quarterly Reports"
+5. Save.
+
+2011-10-17
+----------
+Vladislav Litovka: SpiraTeam #154: Create screen to display report data
+1. Login into Drupal as admin.
+2. Go to Admin menu -> User management -> Roles. (/hostname/admin/user/roles)
+3. Click on 'edit permissions' link for 'NCCCP admin'
+4. Find 'cacure_report module' and mark this item as enabled.
+5. Save permissions.
+
+Vladislav Litovka: SpiraTeam #154: Create screen to display report data
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Modules -> List. (/hostname/admin/build/modules/list)
+3. Mark module 'Cacure Submission Status' as enabled
+4. Save configuration.
+
+2011-10-14
+----------
+Vladislav Litovka: SpiraTeam #770: Removing the "About Questionnaire" block
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Blocks -> List. (/hostname/admin/build/menu/list)
+3. Open 'Questionnaire Generic Introduction' block
+4. Expand 'User specific visibility settings' section
+5. Select 'Hide this block by default but let individual users show it.' radio box.
+6. Save.
+
+Vladislav Litovka: SpiraTeam #767: Changing term “Questionnaire”  to “Quarterly Report Section”
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Primary links' menu
+4. Click on edit for 'My Current Questionnaires'
+5. Edit item
+6. Save.
+7. Click on edit for 'My Submitted Questionnaires'
+8. Edit item
+9. Save.
+
+Vladislav Litovka: SpiraTeam #765: Moving user ID and "Log out" button to the top
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Footer links' menu
+4. Unmark 'logout' item as 'enabled'
+5. Save configuration.
+
+Vladislav Litovka: SpiraTeam #764: Replacing the "NCCCP Program Goal" content text
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site configuration -> Front page. (/hostname/admin/settings/front)
+3. Expand 'Front Page for anonymous user.'.
+4. Edit source of page in WYSIWYG editor.
+5. Save configuration.
+
+Vladislav Litovka: SpiraTeam #761: Removing text "Demonstration Site" from the browser tab
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site configuration -> Site information. (/hostname/admin/settings/site-information)
+3. Edit 'Name' field.
+4. Save configuration.
+
+Vladislav Litovka: SpiraTeam #760: Removing "My Form" option from the drop down list
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Primary links' menu
+4. Unmark 'My Form' item as 'enabled'
+5. Save configuration.
+
+2011-10-10
+----------
+Vladislav Litovka: SpiraTeam #746: Modifications to My Forms page
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Content management -> Content -> List Menus. (/hostname/admin/content/node)
+3. Edit 'My Forms' item
+4. Save changes.
+
+Vladislav Litovka: Hide 'Home' item in menu
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Memus -> List Menus. (/hostname/admin/build/menu/list)
+3. Open 'Primary links' menu
+4. Unmark 'Home' item as 'enabled'
+5. Save configuration.
+
+Vladislav Litovka: IE CSS issue
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site building -> Modules -> List. (/hostname/admin/build/modules/list)
+3. Find module called 'IE Unlimited CSS Loader'.
+4. Mark it as 'Enabled'.
+5. Save configuration.
+
+2011-10-07
+----------
+Pavel Kruglikov: SpiraTeam #731: On the main page, all the headings should be aligned.
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site Configuration -> Front Page. (/hostname/admin/settings/front)
+3. Correct content in "Front Page" blocks.
+4. Save configuration.
+
+Pavel Kruglikov: SpiraTeam #684: UI Branding changes
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site Building -> Menus.
+3. Choose there "Primary links" (/hostname/admin/build/menu-customize/primary-links)
+4. Uncheck "Enabled" for "My Notes" (under "My forms").
+5. Save configuration.
+6. Go to Admin menu -> Site Building -> Modules.
+7. Uncheck module "Notes" in block "Hammertech".
+8. Save configuration.
+
+------------
+Pavel Kruglikov: SpiraTeam #729: Move the welcome text to the login page. Login page lead directly to “My Forms” page
+1. Login into Drupal as admin.
+2. Go to Admin menu -> User Management -> Login Destination. (/hostname/admin/user/login_destination)
+3. In the block "Destination URL settings" replace data in textarea on: "node/71" (without quotes).
+4. Save Configuration.
+5. Go to Admin menu -> Site Configuration -> Front page. (/hostname/admin/settings/front)
+6. In block "Front Page for anonymous user" replace text under "NCCCP Program Goals"
+7. Save Configuration.
+
+2011-10-05
+------------------
+Vladislav Litovka: SpiraTeam #724: On the main page please change the header from Program Goals to NCCCP Program Goals
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site Configuration -> Front Page. (/hostname/admin/settings/front)
+3. Correct content in "Front Page" blocks.
+4. Save configuration.
+
+2011-10-04
+---------------------
+Vladislav Litovka: SpiraTeam #716: Remove Refer a Friend link in footer
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site Building -> Menus.
+3. On that page choose "Footer Links".(/hostname/admin/build/menu-customize/menu-footer-links)
+4. Uncheck "Enabled" for "refer friend" and perform "Save Configuration"
+
+Vladislav Litovka: SpiraTeam #719: Disable Registration Button and Process from the NCCCP site
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Users -> Users settings. (/hostname/admin/user/settings)
+3. In block "Public registration" choose "Only site administrators can create new user accounts.".
+4. Save configuration.
+5. Go to Admin menu -> Site Building -> Menus.
+6. Choose "Access Account". (/hostname/admin/build/menu-customize/menu-account-links) 
+7. Uncheck "Enabled" for "Username and Password Retrieval".
+8. Save configuration.
+9. Go to Admin menu -> Content.
+10. Find page with title "Demo Registration" and choose "edit". (/hostname/node/3/edit?destination=admin%2Fcontent%2Fnode) 
+11. Maximize block "Publish options" and uncheck all options.
+12. Save.
+ 
+Vladislav Litovka: SpiraTeam #722: Page (site) name should be "NCCCP Quarterly Report System"
+1. Login into Drupal as admin.
+2. Go to Admin menu -> Site Configuration -> Site information. (/hostname/admin/settings/site-information)
+3. Change "Name" field.
+4. Save configuration.
+ 
+2011-10-03
+----------------------
+Leonid Kagan: SpiraTeam #234: Deployment process does not support deployment of configuration changes	
+	This is a sample of how all instructions must be organized
+	You can and encouraged to use multiple lines for each item, and can format it in any way
+	as long asgeneral rules are obeyed:
+		1. First line is "Name: Issue ID: Issue description"
+		2. Items within a single day are ordered in a sequence
+		3. And separated by an empty line
+		
+Leonid Kagan: From e-mail: This is also a sample
+	1. Login into Drupal as admin
+	2. Go to "Config->modules>users"
+	3. Uncheck "something or other" checkbox

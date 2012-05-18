@@ -1,0 +1,9 @@
+; $Id $
+name = "CURE Text Size"
+description = "This module add feature to change font size on page"
+core = 6.x
+version = "6.x-0.3"
+core = "6.x"
+project = "tXFormsest"
+package = CURE custom modules
+datestamp = "1223218820"

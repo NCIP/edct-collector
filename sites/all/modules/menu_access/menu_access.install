@@ -1,0 +1,94 @@
+<?php 
+// $Id: menu_access.install,v 1.1 2009/03/25 17:18:16 emptyvoid Exp $
+/** 
+  * @file menu_access.install
+  * This file provides the install and uninstall for the menu access database schema.
+  */
+
+/**
+  * Implementation of hook_install().
+  */
+function menu_access_install() {
+  drupal_install_schema('menu_access');
+  // create default settings for menu access
+  
+  variable_set('menu_access_settings', array('per_menu' => '1', 'priority' => '10', 'view' => array('1', '2'), 'update' => array('2'), 'delete' => array('2')));
+  //'view' => 'anonymous user; authenticated user', 
+  
+  //$t = get_t();
+  //db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", 'navigation', $t('Navigation'), $t('The navigation menu is provided by Drupal and is the main interactive menu for any site. It is usually the only menu that contains personalized links for authenticated users, and is often not even visible to anonymous users.'));
+  
+  // update the menu router method to use the menu_access_check_access method
+  //db_query("UPDATE {menu_router} SET access_callback = 'menu_access_check_access' WHERE path = 'admin/build/menu-customize/%'");
+  
+  menu_rebuild();
+  //menu_access_add_menu_custom();
+}
+
+/**
+  * Implementation of hook_schema().
+  */
+function menu_access_schema() {
+  
+  $schema['menu_access_role'] = array(
+    'fields' => array(
+         'menu_name' => array('type' => 'varchar', 'length' => '32', 'not null' => TRUE, 'default' => '', 'description' => t('The machine readable name of the menu')),
+         'rid' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '10', 'description' => t('The role identification number.')),
+         'realm' => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => '', 'description' => t('The security realm.')),
+         'grant_view' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1', 'description' => t('Determines if the role has view access.')),
+         'grant_update' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1', 'description' => t('Determines if the role has create and edit access.')),
+         'grant_delete' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1',  'description' => t('Determines if the role has delete access.'))
+      ),
+    'primary key' => array('menu_name', 'rid', 'realm'),
+    'description' => t('the role table for menu access.'),
+  );
+  $schema['menu_access_user'] = array(
+    'fields' => array(
+         'menu_name' => array('type' => 'varchar', 'length' => '32', 'not null' => TRUE, 'default' => '', 'description' => t('The machine readable name of the menu')),
+         'uid' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '10', 'description' => t('The user identification number.')),
+         'realm' => array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => '', 'description' => t('The security realm.')),
+         'grant_view' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1', 'description' => t('Determines if the user has view access.')),
+         'grant_update' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1', 'description' => t('Determines if the user has create and edit access.')),
+         'grant_delete' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0, 'disp-width' => '1',  'description' => t('Determines if the user has delete access.'))
+      ),
+    'primary key' => array('menu_name', 'uid', 'realm'),
+    'description' => t('the user table for menu access.'),
+  );
+  
+  return $schema;
+}
+
+
+/**
+  * Utility Methods for extending the menu_custom table.
+  */
+  
+function menu_access_add_menu_custom() {
+  $field_details = array(
+        'uid' => array('type' => 'int', 'not null' => TRUE, 'default' => '1', 'description' => t('User Id that created the menu')),
+  );
+  
+  db_add_field($ret, 'menu_custom', 'uid', $field_details);
+  
+}
+
+function menu_access_remove_menu_custom() {
+
+  db_drop_field($ret, 'menu_custom', 'uid');
+
+}
+
+/*
+ * Implementation of hook_uninstall()
+ */
+function menu_access_uninstall() {
+  drupal_uninstall_schema('menu_access');
+  variable_del('menu_access_settings');
+  
+  // revert menu callback to default.
+  //db_query("UPDATE {menu_router} SET access_callback = 'user_access' WHERE path = 'admin/build/menu-customize/%'");
+  
+  menu_rebuild();
+  //menu_access_remove_menu_custom();
+}
+

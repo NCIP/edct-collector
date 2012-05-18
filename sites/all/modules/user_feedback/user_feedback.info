@@ -1,0 +1,8 @@
+name = User Feedback
+description = Provides a block which contains a form for users to post feedback.
+; Information added by drupal.org packaging script on 2010-04-13
+version = "6.x-1.1"
+core = "6.x"
+project = "user_feedback"
+datestamp = "1271125816"
+

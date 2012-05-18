@@ -1,0 +1,400 @@
+<?php
+require_once dirname(__FILE__).'/SimpleXmlParser.php';
+
+/**
+ *Implementation of hook_init(). 
+ */
+function cure_tag_permissions_init() {
+  drupal_add_css(drupal_get_path('module', 'cure_tag_permissions') . '/cure_tag_permissions.css');  
+}
+
+/**
+ * Implementation of hook_menu(). 
+ */
+function cure_tag_permissions_menu() {
+  $items = array();
+
+  $items['admin/user/cure_tags_permissions'] = array(
+    'title' => t('CURE tags permissions'),
+    'description' => t('Administrative tool for setting permissions on form tags (per user).'),
+    'page callback' => 'cure_tag_permissions_main_callback',    
+    'access arguments' => array('administer permissions'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu callback. Generates forms.
+ * @return string 
+ */
+function cure_tag_permissions_main_callback() {      
+  $output = drupal_get_form('cure_tag_permissions_entity_form');
+  if ($eid = cure_tag_permissions_get_eid()) {
+    $output .= drupal_get_form('cure_tag_permissions_table');       
+  }  
+  return $output;
+}
+
+/**
+ * Generates form for user filtering.
+ * Function is an {@see drupal_get_form()} argument in {@see cacure_tag_permissions_main_callback()}.
+ * Returns array of form elements. 
+ * @param array $form_state
+ * @return array
+ */
+function cure_tag_permissions_entity_form(&$form_state) {  
+  $users = cure_tag_permissions_get_users();
+  $form = array();
+  $def_value = array();
+  if (!empty($users)) {
+    if ($eid = cure_tag_permissions_get_eid()) {
+      $def_value = array($users[$eid] => $eid);
+    }  
+    $form['eid'] = array(    
+      '#type' => 'select', 
+      '#title' => t('Choose user to assign permissions'), 
+      '#options' => $users,
+      '#default_value' => $def_value    
+    );
+    $form['submit'] = array('#type' => 'submit', '#value' => t('Show'));
+  }
+  return $form;
+}
+
+/**
+ * Implementation of {@see cacure_tag_permissions_entity_form()} submit function.
+ * Gets entety id and set Drupal variable.
+ * @param array $form
+ * @param array $form_state
+ * @return null 
+ */
+function cure_tag_permissions_entity_form_submit($form, &$form_state) { 
+  if (!empty($form_state['values']['eid'])) { 
+    cure_tag_permissions_set_eid($form_state['values']['eid']);
+    $form_state['redirect'] = 'admin/user/cure_tags_permissions';
+    return;
+  }
+} 
+
+/**
+ * Implementation of {@see cacure_tag_permissions_entity_form()} theming function.
+ * @param array $form
+ * @return string 
+ */
+function theme_cure_tag_permissions_entity_form($form) { 
+  $output = '<fieldset>';
+  if (!empty($form['eid'])) {    
+    $output .= drupal_render($form['eid']);
+    $output .= drupal_render($form);    
+  }
+  else {
+    $output .= '<div>Users were not found.</div>';
+  }
+  $output .= '</fieldset>';
+  return $output;
+}
+
+/**
+ * Function is a {@see drupal_get_form()} argument in {@see cacure_tag_permissions_main_callback()}.
+ * Generates tags permissions form elements.  
+ * Uses {@see cacure_tag_permissions_get_users()} to retrieve users info array.
+ * Uses {@see cacure_tag_permissions_get_tags()} to retrieve tags info array.
+ * Uses {@see cacure_tag_permissions_get_permissions()} to retrieve an array of permissions of entities.
+ * Uses {@see cacure_tag_permissions_default_perms()} to retrieve an array of existing permissions of entities.
+ */
+function cure_tag_permissions_table() {   
+  $eid = cure_tag_permissions_get_eid();
+  $users = cure_tag_permissions_get_users();
+  
+  if (!empty($eid) && !empty($users) && isset($users[$eid])) {    
+    $tags = cure_tag_permissions_get_tags();  
+    $entity_perm = cure_tag_permissions_get_permissions();
+    $settings = require dirname(__FILE__).'/settings.php';      
+    $form = array();      
+    foreach ($tags['tags']['tag'] as $tag) {    
+      $tag_attr = $tag['@attributes'];        
+      if ($tag_attr['type'] == 'formTag') {          
+        $form['tag_permission'][] = array('#value' => t($tag_attr['id']));            
+        foreach ($settings['permissions'] as $perm) {
+          $options[$tag_attr['id'].':'.$perm] = '';       
+        }       
+      }
+    }  
+    $def_perms = cure_tag_permissions_default_perms($users, $entity_perm, $settings['permissions']);
+    
+    $default_value = array();
+    if (isset($def_perms[$eid])) {
+      $default_value = $def_perms[$eid];
+    }
+    $form['checkboxes'] = array('#type' => 'checkboxes', '#options' => $options, '#default_value' => $default_value);
+    $form['user'] = array('#value' => t($users[$eid]), '#tree' => true);          
+    $form['submit'] = array('#type' => 'submit', '#value' => t('Save tags permissions'));  
+    
+    return $form;
+  }
+}
+
+/**
+ * Implementation of {@see cacure_tag_permissions_entity_form()} submit function.
+ * @param array $form
+ * @param array $form_state 
+ */
+function cure_tag_permissions_table_submit($form, &$form_state) {  
+  $eid = cure_tag_permissions_get_eid();
+  $form_data = cure_tag_permissions_parse_post_data($form_state['values']);     
+  $xml = cure_tag_permissions_prepare_xml_for_entity($eid, $form_data);    
+  $call = new RestCall();     
+  $errors = array();   
+  
+  $response = $call->savePermissions($eid, $xml);
+  if ($response->data != 'OK') {
+    drupal_set_message('Error occured. Form tags permissions were not changed.', 'warning');    
+  }    
+  if (empty($errors)) {
+    drupal_set_message('Form tags permissions were changed.');    
+  }
+  $form_state['redirect'] = 'admin/user/cure_tags_permissions';
+}
+
+/**
+ * Implementation {@see cacure_tag_permissions_entity_form()} theming function..
+ * Generates table from form data passed.
+ * @param array $form
+ * @return string 
+ */
+function theme_cure_tag_permissions_table($form) {  
+  $settings = require dirname(__FILE__).'/settings.php';
+  $tag_perms = element_children($form['tag_permission']);
+  if (!empty($tag_perms)) {
+    foreach ($tag_perms as $key) {    
+      if (is_array($form['tag_permission'][$key])) {     
+        $row = array();              
+        if (is_numeric($key)) {
+          $tag_id = $form['tag_permission'][$key]['#value'];
+          $row[] = array('data' => drupal_render($form['tag_permission'][$key]), 'id' => 'tag_'.$tag_id, 'class' => 'cacure_tags_permissions_tag_id'); 
+          foreach ($settings['permissions'] as $perm) {          
+            if (is_array($form['checkboxes'][$tag_id.':'.$perm])) {              
+              $row[] = array('data' => drupal_render($form['checkboxes'][$tag_id.':'.$perm]), 'class' => 'cacure_tags_permissions_tag_table_checkbox', 'title' => t($tag_id).' : '.$perm);              
+            }                   
+          }
+        }
+        $rows[] = $row;
+      }
+    }       
+    $header[] = array('data' => t('User '.drupal_render($form['user']).' form tags permissions'));  
+
+    foreach ($settings['permissions'] as $permission) {
+      $header[] = array('data' => t($permission), 'class' => 'cacure_tags_permissions_tag_table_header');
+    }    
+
+    $output = theme('table', $header, $rows, array('id' => 'tag_permissions'));
+    $output .= drupal_render($form);
+    return $output;
+  }
+}
+
+/**
+ * Prepares data for parsing it into xml string.
+ * @param array $data
+ * @return array 
+ */
+function cure_tag_permissions_parse_post_data($data) {
+  $form_data = array();
+  if (!empty($data['checkboxes']) && is_array($data['checkboxes'])) {
+    foreach ($data['checkboxes'] as $tag_perm=>$value) {              
+      if ($value === $tag_perm) {
+        $tag_perm = explode(':', $tag_perm);
+        $tag_id = $tag_perm[0];          
+        $perm = $tag_perm[1];
+        $form_data[$tag_id][] = $perm;
+      }       
+    }
+  }
+  return $form_data;
+}
+
+/**
+ * Generates xml string from data passed in.
+ * @param string $eid
+ * @param array $tag_info
+ * @return string 
+ */
+function cure_tag_permissions_prepare_xml_for_entity($eid, $tag_info) {    
+  $xmlWriter = new XMLWriter;        
+  $xmlWriter->openMemory();
+  $xmlWriter->startDocument('1.0', 'utf-8'); 
+  $xmlWriter->startElement('security');
+  $xmlWriter->writeAttribute('xmlns', "http://www.healthcit.com/CollectorSecurity");  
+  $xmlWriter->startElement('permissions');
+  $xmlWriter->startElement('entityTagPermissions');
+  $xmlWriter->writeAttribute('entityId', $eid);  
+  $xmlWriter->startElement('formTagPermissions');
+  foreach ($tag_info as $tag_id=>$permissions) {
+    $xmlWriter->startElement('tag');
+    $xmlWriter->writeAttribute('id', $tag_id);
+    foreach ($permissions as $perm) {
+      $xmlWriter->writeElement('formTagPermission', $perm);
+    }
+    $xmlWriter->endElement();
+  }
+  $xmlWriter->endElement();                    
+  $xmlWriter->endElement();
+  $xmlWriter->endElement();
+  $xmlWriter->endElement();
+  $xmlWriter->endDocument();
+  $xml = $xmlWriter->outputMemory();
+  return $xml;
+}
+
+/**
+ * Implementation of hook_theme().
+ * @return type 
+ */
+function cure_tag_permissions_theme() {
+  return array(    
+    'cure_tag_permissions_table' => array(       
+       'arguments' => array('form' => NULL),
+     ),
+     'cure_tag_permissions_entity_form' => array(       
+       'arguments' => array('form' => NULL),
+     ),
+   );
+}
+
+/**
+ * Used to prepare an associative array in which key is entity's identifier (generated by API server) 
+ * and value is Drupal user's name.
+ * @return array 
+ */
+function cure_tag_permissions_get_users() {
+  $users = array();
+  $entity_perm = cure_tag_permissions_get_permissions();        
+  $entities = array();
+  foreach ($entity_perm['permissions']['entityTagPermissions'] as $permission) {
+    $entities[] = $permission['@attributes']['entityId'];
+  }
+  
+  foreach ($entities as $entity) {
+    $u_id = db_fetch_array(db_query('SELECT uid FROM cc_user WHERE identifier = "'.$entity.'"'));
+    $user = db_fetch_array(db_query('SELECT name FROM users WHERE uid = "'.$u_id['uid'].'"'));
+    if ($user['name']) {
+      $users[$entity] = $user['name'];
+    }
+  }    
+  return $users;
+}
+
+/**
+ * Returns array of tags permissions.
+ * @return array
+ */
+function cure_tag_permissions_get_permissions() {
+  $call = new RestCall();
+  $entity_perm = $call->getPermissions();
+  $s_entity_perm = new SimpleXMLElement($entity_perm);  
+  $xml_parser = new SimpleXmlParser();  
+  $entity_perm = $xml_parser->parseXml($s_entity_perm);
+  return $entity_perm;
+}
+
+/**
+ * Returns array of tags.
+ * @return array 
+ */
+function cure_tag_permissions_get_tags() {
+  $call = new RestCall();
+  $tags = $call->getTags();
+  $s_tags = new SimpleXMLElement($tags);    
+  $xml_parser = new SimpleXmlParser();
+  $tags = $xml_parser->parseXml($s_tags); 
+  return $tags;
+}
+
+/**
+ * Returns array of existing entities 
+ * @param array $users
+ * @param array $entity_perm
+ * @param array $permissions
+ * @return array
+ */
+function cure_tag_permissions_default_perms($users, $entity_perm, $permissions) {  
+  $def_perms = array();
+  foreach ($users as $id=>$name) {
+    foreach ($entity_perm['permissions']['entityTagPermissions'] as $tag_permission) {
+      $eid = $tag_permission['@attributes']['entityId'];          
+      if ($id === $eid) {                                     
+        if (!empty($tag_permission['formTagPermissions'])) {               
+          foreach ($tag_permission['formTagPermissions'] as $tags) {            
+            foreach ($tags as $key=>$tag) {  
+              $tags_perm = array();     
+              if (is_numeric($key)) {
+                $tag_id = $tag['@attributes']['id'];                                       
+                if (is_string($tag['formTagPermission'])) {
+                  $tags_perm[] = $tag['formTagPermission'];
+                } 
+                else if (is_array($tag['formTagPermission'])){
+                  $tags_perm = $tag['formTagPermission'];
+                }
+              }
+              else if (is_string($key)) {
+                $tag_id = $tags['@attributes']['id'];
+                if (is_string($tags['formTagPermission'])) {
+                  $tags_perm[] = $tags['formTagPermission'];
+                } 
+                else if (is_array($tags['formTagPermission'])) {
+                  $tags_perm = $tags['formTagPermission'];
+                }
+              }        
+              foreach ($permissions as $perm) {
+                if (in_array($perm, $tags_perm)) {                    
+                  $def_perms[$eid][$tag_id.':'.$perm] = $tag_id.':'.$perm;
+                }       
+              }
+            }                                                                      
+          }
+        }            
+      }
+    }
+  }
+  return $def_perms;
+}
+
+/**
+ * Records entety id in Drupal variable.
+ * @param string $eid
+ * @return bool 
+ */
+function cure_tag_permissions_set_eid($eid) {
+  return variable_set('cacure_tag_permissions_eid', $eid);  
+}
+
+/**
+ * Gets enteties id recorded in Drupal variable.
+ * @return string
+ */
+function cure_tag_permissions_get_eid() {
+  return variable_get('cacure_tag_permissions_eid', null);  
+}
+
+function my_debug($var, $type = 'print', $die = true) {
+  echo '<pre>';
+  switch ($type) {
+    case 'print':
+      print_r($var);
+      break;
+    case 'dump':
+      var_dump($var);
+      break;
+    default:
+      print_r($var);
+      break;
+  }
+  echo '</pre>';
+  if ($die === true) {
+    die;
+  }
+}
+
+

@@ -1,0 +1,22 @@
+@charset
+"utf-8";
+/* CSS Document */
+.row, .nested, .block {
+  overflow: visible;
+}
+/************  My Questionaire Blocks ***********************/
+#block-block-18 {
+  width: 100%;
+}
+#block-cacure_xforms-33 {
+  width: 100%;
+}
+#block-xforms-0 {
+  width: 900px;
+}
+#block-cacure_mgmt-1 .sub-head {
+  padding: 0 0 0 18px;
+}
+#block-cacure_mgmt-1 .element-header {
+  padding: 0 0 0 18px;
+}

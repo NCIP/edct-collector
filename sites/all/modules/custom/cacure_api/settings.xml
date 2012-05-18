@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <server>
+        <address>127.0.0.1</address>
+        <port>8580</port>
+        <context>caCure</context>
+    </server>
+    <apis>
+        <api>
+            <local>getNewEntityInGroup</local>
+            <remote>GetNewEntityInGroup</remote>
+        </api>
+        <api>
+            <local>getNewEntityInNewGroup</local>
+            <remote>GetNewEntityInNewGroup</remote>
+        </api>
+        <api>
+            <local>getAllUserModules</local>
+            <remote>AllUserModules</remote>
+        </api>
+        <api>
+            <local>getAvaliableModules</local>
+            <remote>AvailableModules</remote>
+        </api>
+        <api>
+            <local>getCurrentModule</local>
+            <remote>CurrentModule</remote>
+        </api>
+
+        <api>
+            <local>getForm</local>
+            <remote>GetForm</remote>
+        </api>
+        <api>
+            <local>allModules</local>
+            <remote>AllModules</remote>
+        </api>
+        <api>
+            <local>getNextFormId</local>
+            <remote>NextFormId</remote>
+        </api>
+        <api>
+            <local>getPrevFormId</local>
+            <remote>PreviousFormId</remote>
+        </api>
+        <api>
+            <local>saveForm</local>
+            <remote>SaveForm</remote>
+        </api>
+        <api>
+            <local>changeModuleStatus</local>
+            <remote>ChangeModuleStatus</remote>
+        </api>
+        <api>
+            <local>changeFormStatus</local>
+            <remote>ChangeFormStatus</remote>
+        </api>
+        <api>
+            <local>getFormData</local>
+            <remote>GetFormData</remote>
+        </api>
+        <api>
+            <local>getStaleForms</local>
+            <remote>GetStaleForms</remote>
+        </api>
+        <api>
+            <local>assignEntityToGroup</local>
+            <remote>AssignEntityToGroup</remote>
+        </api>
+        <api>
+            <local>getAllSharingGroups</local>
+            <remote>GetAllSharingGroups</remote>
+        </api>
+        <api>
+            <local>getModuleStatusByOwner</local>
+            <remote>GetModuleStatusByOwner</remote>
+        </api>
+        <api>
+            <local>getTags</local>
+            <remote>GetTags</remote>
+        </api>
+        <api>
+            <local>getGroupId</local>
+            <remote>GetGroupId</remote>
+        </api>
+        <api>
+            <local>getPermissions</local>
+            <remote>GetPermissions</remote>
+        </api>
+        <api>
+            <local>savePermissions</local>
+            <remote>SavePermissions</remote>
+        </api>
+    </apis>
+    <contexts>
+        <context>
+            <local>ncccp</local>
+            <remote>ncccp</remote>
+            <role>NCCCP</role>
+            <description>NCCCP context.</description>
+        </context>
+        <context>
+            <local>db</local>
+            <remote>db</remote>
+            <role>Diabetes</role>
+            <description>This is the diabetes context.</description>
+        </context>
+        <context>
+            <local>ds</local>
+            <remote>ds</remote>
+            <role>Disaster Support</role>
+            <description>This is the disaster support context.</description>
+        </context>
+        <context>
+            <local>hra</local>
+            <remote>hra</remote>
+            <role>Health Risk Assessment</role>
+            <description>This is the Health Risk Assessment context.</description>
+        </context>
+        <context>
+            <local>mil</local>
+            <remote>mil</remote>
+            <role>Military</role>
+            <description>This is the military context.</description>
+        </context>
+        <context>
+            <local>ph</local>
+            <remote>ph</remote>
+            <role>Public Health</role>
+            <description>This is the public health context.</description>
+        </context>
+        <context>
+            <local>rs</local>
+            <remote>rs</remote>
+            <role>Research</role>
+            <description>This is the research context.</description>
+        </context>
+    </contexts>
+</settings>

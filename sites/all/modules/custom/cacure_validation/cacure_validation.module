@@ -1,0 +1,71 @@
+<?php
+
+function cacure_validation_form_alter(&$form, &$form_state, $form_id) {
+   if ($form_id == 'refer_a_friend_form') {
+     $form['#validate'][] = 'cacure_validate_refer_validate';
+   }
+}
+
+function cacure_validate_refer_validate($form, &$form_state) {
+  if(module_exists('email_verify')) {
+    include_once drupal_get_path('module', 'email_verify') .'/email_verify.inc.php';
+    if ($error = _email_verify_check($form_state['values']['email'])) {
+      form_set_error('email', $error);
+    }
+    $emails =array();
+    $emails = explode(',', $form_state['values']['emails']);
+    foreach($emails as $email_address) {
+      if ($error = _email_verify_check($email_address)) {
+        form_set_error('emails', $error);
+      }
+    }
+  }
+//print_r($form_state);
+}
+
+
+/**
+ * Implementation of hook_webform_validation_validators().
+ *
+ * This function returns an array of validators, in the validator key => options array form.
+ * Possible options:
+ * - name (required): name of the validator
+ * - component types (required): defines which component types can be validated by this validator. Specify 'all' to allow all types
+ * - custom_error (optional): define whether a user can specify a custom error message upon creating the validation rule.
+ * - custom_data (optional): define whether custom data can be added to the validation rule
+ * - min_components (optional): define the minimum number of components to be selected for creating a validation rule
+ * - max_components (optional): define the maximum number of components to be selected for creating a validation rule
+ * - description (optional): provide a descriptive explanation about the validator
+ */
+function cacure_validation_webform_validation_validators() {
+  return array('custom_email' => array(
+      'name' => "Custom e-mail",
+      'component_types' => array(
+        'email'
+      ),
+      'description' => t('Advanced verification for email addresses.'),
+    )
+  );
+}
+
+/**
+ * Implementation of hook_webform_validation_validate().
+ */
+function cacure_validation_webform_validation_validate($validator_name, $items, $components, $rule) {
+  if ($items) {
+    $errors = array();
+    switch ($validator_name) {
+      case 'custom_email':
+        foreach ($items as $key => $val) {
+          if(module_exists('email_verify')) {
+            include_once drupal_get_path('module', 'email_verify') .'/email_verify.inc.php';
+            if($error = _email_verify_check($val)) {
+              $errors[$key] = $error;
+            }
+          }
+        }
+        return $errors;
+        break;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<?php
+// $Id: custom_node_template.install,v 1.1.2.3 2009/11/28 10:38:58 WebNewCastle Exp $
+
+/**
+ * @file
+ * Install functions, uninstall functions, and schema definitions for the Custom Node Template module.
+ */
+
+
+/**
+ * Implementation of hook_schema().
+ */
+function custom_node_template_schema() {
+
+  $schema = array();
+
+  $schema['custom_node_template'] = array(
+    'description' => 'Custom node template table.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Id number',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'Node id number',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nodetemplate' => array(
+        'description' => 'Node template',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function custom_node_template_install() {
+
+  drupal_install_schema('custom_node_template');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function custom_node_template_uninstall() {
+  drupal_uninstall_schema('custom_node_template');
+  // Delete all the custom node template variables and then clear the variable cache
+  db_query("DELETE FROM {variable} WHERE name LIKE 'nodetemplate_%'");
+  cache_clear_all('variables', 'cache');
+}

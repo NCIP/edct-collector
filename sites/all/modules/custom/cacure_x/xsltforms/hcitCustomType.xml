@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="xsltforms.xsl" type="text/xsl"?>
+    <!--  DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"  -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xform="http://www.w3.org/2002/xforms"
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns:ajx="http://www.ajaxforms.net/2006/ajx">
+
+<head>
+	<title>Main Page</title>
+	<xform:model>
+      <xsd:schema xmlns:hcit="http://www.healthcit.com/2010/xforms" 
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   targetNamespace="http://www.healthcit.com/2010/xforms">
+        <xsd:simpleType name="gMonthYear">
+          <xsd:restriction base="xsd:gYearMonth">
+            <xsd:pattern value="(01|02|03|04|05|06|07|08|09|10|11|12)[\/-][1,2][0-9]{3}"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:schema>
+      <xform:instance id="FormDataInstance">
+        <form xmlns="" name="test" id="2495">
+          <question id="2498" sn="">
+            <text>Year Question</text>
+
+            <answer id="12495"/>
+          </question>
+          <question id="2508" sn="test">
+            <text>test question</text>
+            <answer id="12917"/>
+          </question>
+          <question id="2609" sn="">
+            <text/>
+
+            <answer id="13050"/>
+          </question>
+        </form>
+      </xform:instance>
+      <xform:instance id="LearnMoreInstance">
+        <data xmlns=""/>
+      </xform:instance>
+      <xform:instance id="PureContentInstance">
+        <data xmlns=""/>
+
+      </xform:instance>
+      <xform:instance id="DataGroupInstance">
+        <data xmlns="">
+          <data-group id="Q.GRP-2498" visible="true()"/>
+          <data-group id="Q.GRP-2508" visible="true()"/>
+          <data-group id="Q.GRP-2609" visible="true()"/>
+        </data>
+      </xform:instance>
+      <xform:bind nodeset="instance('DataGroupInstance')//data-group[@id='Q.GRP-2498']" id="Q.GRP-2498" relevant="true()"/>
+
+      <xform:bind nodeset="instance('FormDataInstance')//question[@id='2498']/answer[@id='12495']" id="Q-2498" type="xsd:gYear" required="false()"/>
+      <xform:bind nodeset="instance('DataGroupInstance')//data-group[@id='Q.GRP-2508']" id="Q.GRP-2508" relevant="true()"/>
+      <xform:bind nodeset="instance('FormDataInstance')//question[@id='2508']/answer[@id='12917']" id="Q-2508" type="xsd:string" required="false()" constraint="string-length(.)&lt;= 5"/>
+      <xform:bind nodeset="instance('DataGroupInstance')//data-group[@id='Q.GRP-2609']" id="Q.GRP-2609" relevant="true()"/>
+      <xform:bind nodeset="instance('FormDataInstance')//question[@id='2609']/answer[@id='13050']" id="Q-2609" type="hcit:gMonthYear" required="false()"/>
+      <xform:submission id="SendDataElement" method="post" includenamespaceprefixes="" action="xform.view">
+        <xform:message ev:event="xforms-submit-error">Unable to submit</xform:message>
+      </xform:submission>
+
+    </xform:model></head>
+
+<body class="twoColFixLtHdr">
+<div id="container">
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="header">
+  	<div id="primDivContainer">
+    	<div id="primDiv">
+			<!-- Begin Module Navigation -->
+			<!-- End Module Navigation -->	
+		</div>
+    <!-- end #primDivContainer --></div>
+
+		<div id="utilDiv">
+        	<div id="bannerLinks">
+        	
+            	<a href="/FormBuilder//home">Home</a> |
+             
+        	 
+        	
+            	<a href="/FormBuilder//logout">Logout</a> |
+             
+                <a href="javascript:alert('Not yet available')" >Help</a> 
+			</div>
+		</div>
+  		<div id="spaceDiv"><p> <!-- --></p></div>
+
+  </div><!-- end #header -->
+
+<!-- Header End -->
+<div id="xfContentDiv">
+		
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="title"><h1>test</h1></div>
+
+	<p><!--  Here goes the XForms body -->
+	
+    <xform:group ref="instance('DataGroupInstance')//data-group[@id='Q.GRP-2498']">
+      <xform:output ref="instance('FormDataInstance')//question[@id='2498']/text" class="hcitQuestionText"/>
+      <xform:input bind="Q-2498" class="hcitAnswerText">
+
+        <xform:label>enter year</xform:label>
+        <xform:alert>
+          <xform:output value="'Incorrect format.'"/>
+        </xform:alert>
+      </xform:input>
+    </xform:group>
+    <xform:group ref="instance('DataGroupInstance')//data-group[@id='Q.GRP-2508']">
+      <xform:output ref="instance('FormDataInstance')//question[@id='2508']/text" class="hcitQuestionText"/>
+
+      <xform:input bind="Q-2508" class="hcitAnswerText hcit-text-field-width-medium">
+        <xform:label>medium</xform:label>
+        <xform:alert>
+          <xform:output value="'Incorrect format.'"/>
+        </xform:alert>
+      </xform:input>
+    </xform:group>
+    <xform:group ref="instance('DataGroupInstance')//data-group[@id='Q.GRP-2609']">
+
+      <xform:output ref="instance('FormDataInstance')//question[@id='2609']/text" class="hcitQuestionText"/>
+      <xform:input bind="Q-2609" class="hcitAnswerText">
+        <xform:label>month year</xform:label>
+        <xform:alert>
+          <xform:output value="'Incorrect format.'"/>
+        </xform:alert>
+      </xform:input>
+    </xform:group>
+
+    <xform:submit submission="SendDataElement">
+      <xform:label>Save</xform:label>
+    </xform:submit>
+  
+	</p>
+</div>
+		
+		<div id="xfFooter">
+		
+<!-- Footer Begin -->
+<div id="footer"> 
+	<!-- <div id="disclamer"><a href="javascript:alert('caCURE Form Builder version 0.2')">About caCURE Form Builder</a></div> -->
+    <div id="powered"><a href="javascript:alert('caCURE Form Builder version 0.8.1')">About caCURE Form Builder</a>  <a href="https://cabig.nci.nih.gov/"><img src="/FormBuilder/images/pb_cabig.gif" alt="Powered by caBIG&#174;" width="72" height="29" border="0" title="Powered by caBIG&#174;" /></a></div>
+
+	<br class="clearfloat" />
+	<div id="bot-bg"></div>
+</div><!-- end #footer -->
+<!-- Footer End -->
+<!-- end #container -->
+	</div>
+</div>
+</body>
+</html>

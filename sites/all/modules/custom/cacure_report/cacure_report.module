@@ -1,0 +1,157 @@
+<?php
+function cacure_report_init() {
+	drupal_set_header("CacheControl: no-cache");
+	drupal_set_header("Pragma: no-cache");
+	drupal_set_header("Expires: -1");
+
+	drupal_add_css(drupal_get_path('module', 'cacure_report') . '/css/list.css');
+	drupal_add_js(drupal_get_path('module', 'cacure_report') . '/js/list.js');
+}
+
+function cacure_report_perm() {
+	return array('access submission status report');
+}
+
+function cacure_report_menu() {
+	$items = array();
+	$items['admin/reports/cacure-report'] = array(
+			'title' => t('Submission status report'),
+			'description' => 'Show submission status report.',
+			'page callback' => 'cacure_report_callback',
+			'page arguments' => array(),
+			'access arguments' => array('access submission status report'),
+		);
+	return $items;
+}
+
+function cacure_report_callback() {
+	$context = caCure_get_contexts();
+	if (!$context && arg(0) != 'form') {
+		$context = 'default';
+	} elseif (!$context) {
+		$context = arg(1);
+	}
+
+	$restcall3 = new RestCall();
+	$restcall2 = new RestCall();
+	$restcall = new RestCall();
+	
+	// getting list of modules
+	$xml3 = $restcall3->allModules();
+	$xmlMap3 = new MySimpleXMLElement($xml3);
+	$modules = $xmlMap3->toArray($xmlMap3);
+	
+	//formating new array
+	$modules_list = array();
+	$module_id = 0;
+	if (isset($modules['module'][0])) {
+		foreach ($modules['module'] as $i=>$m) {
+			$modules_list[] = array('module_id'=>$m['@attributes']['id'], 'module_name'=>$m['@attributes']['name']);
+		}
+	} else {
+		$modules_list[] = array('module_id'=>$modules['module']['@attributes']['id'], 'module_name'=>$modules['module']['@attributes']['name']);
+	}
+	// getting id of first module
+	foreach ($modules_list as $i) {
+		if (!$module_id) {
+			$module_id = $i['module_id'];
+		}
+		if (isset($_GET['module_id']) && is_numeric($_GET['module_id']) && $_GET['module_id'] == $i['module_id']) {
+			$module_id = $i['module_id'];
+		}
+	}
+	
+	// Get list of user's groups
+	$xml2 = $restcall2->getAllSharingGroups();
+	$xmlMap2 = new MySimpleXMLElement($xml2);
+	$groups = $xmlMap2->toArray($xmlMap2);
+	
+	// formating array with user groups
+	$glist = array();
+	foreach ($groups['sharingGroups']['group'] as $g) {
+		$glist[$g['@attributes']['id']] = $g['name'];
+	}
+	//print_r($glist);
+	
+	//Getting list of assigned users
+	$query = 'SELECT c.identifier, c.uid, u.name FROM cc_user c LEFT JOIN users u ON c.uid=u.uid WHERE c.identifier <> \'\' AND u.name <> \'\'';
+	$result = db_query($query);
+	$users = array();
+	while($array = db_fetch_array($result)) {
+		$users[$array['identifier']] = $array['name'];
+	}
+	//print_r($users);
+	
+	// Getting list with filtered groups
+	$xml = $restcall->getModuleStatusByOwner($module_id);
+	$xmlMap = new MySimpleXMLElement($xml);
+	$module = $xmlMap->toArray($xmlMap);
+	
+	// formating array with groups
+	$filtered_modules = array();
+	if (isset($module['module'][0])) {
+		foreach ($module['module'] as $i=>$m) {
+			if (isset($glist[$m['@attributes']['owner']])) {
+				$module['module'][$i]['@attributes']['name'] = $glist[$m['@attributes']['owner']];
+			}
+			$filtered_modules[] = $module['module'][$i];
+		}
+	} else {
+		if (isset($glist[$module['module']['@attributes']['owner']])) {
+			$module['module']['@attributes']['name'] = $glist[$module['module']['@attributes']['owner']];
+		}
+		$filtered_modules[] = $module['module'];
+	}
+	//print_r($filtered_modules);
+
+	return theme_cacure_report(array('listing'=>$modules_list, 'modules'=>$filtered_modules, 'module_id'=>$module_id, 'users'=>$users));
+}
+
+function theme_cacure_report($result) {
+	$output = 'Please, select module:&nbsp;&nbsp;';
+	$output .= '<select name="module_id" onchange="parent.window.location.href=\'/admin/reports/cacure-report?module_id=\'+this.value;">';
+	foreach ($result['listing'] as $item) {
+		$output .= '<option value="'.$item['module_id'].'"'.(($item['module_id']==$result['module_id'])?' selected':'').'>'.$item['module_name'].'</option>';
+	}
+	$output .= '</select><br /><table class="sticky-enabled sticky-table"><thead class="tableHeader-processed"><tr class=""><th>Site Name</th><th>Module Status</th><th>Modified On</th><th>Modified By</th></tr></thead><tbody>';
+	foreach ($result['modules'] as $i=>$item) {
+		$output .= '<tr class="odd"><td><a class="sh_link_'.$i.' showhidelink" href="javascript:show_hide_module(\''.$i.'\');">+</a>'.$item['@attributes']['name'].'</td>';
+		switch($item['@attributes']['status']) {
+			case 'new': $status = '<span style="color: black;">'.$item['@attributes']['status'].'</span>'; break;
+			case 'in-progress': $status = '<span style="color: #FFCA00;">'.$item['@attributes']['status'].'</span>'; break;
+			case 'completed': $status = '<span style="color: #00B050;">'.$item['@attributes']['status'].'</span>'; break;
+			default: $status = ''.$item['@attributes']['status'].''; break;
+		}
+		$output .= '<td>'.$status.'</td>';
+		$output .= '<td>'.substr($item['@attributes']['dateModified'], 0, 10).' '.substr($item['@attributes']['dateModified'], 11, 5).'</td>';
+		if (isset($item['@attributes']['updatedBy']) && isset($result['users'][$item['@attributes']['updatedBy']])) {
+			$output .= '<td>'.$result['users'][$item['@attributes']['updatedBy']].'</td>';
+		} else {
+			$output .= '<td>&nbsp;</td>';
+		}
+		$output .= '</tr><tr class="odd hide_form_sresult module_forms_'.$i.'"><td colspan="4">';
+		$output .= '<table width="100%">';
+		foreach ($item['form'] as $form) {
+			switch($form['@attributes']['status']) {
+				case 'new': $status = '<span style="color: black;">'.$form['@attributes']['status'].'</span>'; break;
+				case 'in-progress': $status = '<span style="color: #FF003A;">'.$form['@attributes']['status'].'</span>'; break;
+				case 'submitted': $status = '<span style="color: #FFCA00;">'.$form['@attributes']['status'].'</span>'; break;
+				case 'approved': $status = '<span style="color: #00B050;">'.$form['@attributes']['status'].'</span>'; break;
+				default: $status = ''.$form['@attributes']['status'].''; break;
+			}
+			$output .= '<tr class="odd"><td>'.$form['@attributes']['name'].'</td>';
+			$output .= '<td>'.$status.'</td>';
+			$output .= '<td>'.substr($form['@attributes']['dateModified'], 0, 10).' '.substr($form['@attributes']['dateModified'], 11, 5).'</td>';
+			if (isset($form['@attributes']['lastUpdatedBy']) && isset($result['users'][$form['@attributes']['lastUpdatedBy']])) {
+				$output .= '<td>'.$result['users'][$form['@attributes']['lastUpdatedBy']].'</td></tr>';
+			} else {
+				$output .= '<td>&nbsp;</td></tr>';
+			}
+		}
+		$output .= '</table>';
+		$output .= '</td></tr>';
+	}
+	$output .= '</tbody></table>';
+	return $output;
+}
+?>

@@ -1,0 +1,131 @@
+<?php
+/**
+ * Implementation of hook_init().
+ * @return void
+ */
+function cacure_g_init() {
+  $arg = arg();
+  $arrow_fix = false;
+//d(arg()); die;
+//  d($_SERVER);
+  if ($arg[0] == 'user' && $arg[2] == 'edit') {
+    $arrow_fix = '/my-account/user/edit';
+  }
+  //  drupal_add_css(drupal_get_path('thame', 'acquia_marina') . '/css/local.css');
+  //db_query("UPDATE system s SET s.weight=1002 WHERE s.name='cacure_g'");
+
+  if ($arrow_fix) {
+    //    drupal_add_js(array('fix_arrow_list' => $arrow_fix), 'setting');
+    //    drupal_add_js(drupal_get_path('module', 'cacure_g') . '/js/fix_arrow.js', 'module');
+  }
+}
+/**
+ * Implementation of hook_elements().
+ */
+function cacure_g_elements() {
+  $type['optionwidgets_buttons']['#process'][] = 'remove_radio_na';
+  return $type;
+}
+
+/**
+ * Unset the N/A option on option widget radio buttons.
+ */
+function remove_radio_na($element) {
+  unset($element['value']['#options']['']);
+  return $element;
+}
+/**
+ * Implementation of hook_preprocess_page();
+ */
+function cacure_g_preprocess_page(&$variables) {
+  $arg = arg();
+
+  if ($arg[0] == 'node' && $arg[1] = '46') {
+    $scripts = drupal_add_js();
+    $new_jquery = array('misc/jquery-1.4.2.min.js' => $scripts['core']['misc/jquery.js']);
+    $scripts['core'] = array_merge($new_jquery, $scripts['core']);
+    unset($scripts['core']['misc/jquery.js']);
+
+    $variables['scripts'] = drupal_get_js('header', $scripts);
+  }
+}
+/**
+ * Implementation of hook_form_alter().
+ */
+function cacure_g_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'switchtheme_switch_form') {
+    unset($form['theme']['#options']['fusion_core'], $form['theme']['#options']['rootcandy_fixed'], $form['theme']['#options']['ninesixty']);
+  }
+//    d($form_id);
+  if($form_id == 'user_profile_form'){
+//    d($form);die;
+    $form['account']['name']['#description'] = t('Usernames must be a minimum of 2 characters and contain at least one letter and one number. Punctuation and special characters are not allowed.');
+    $form['account']['pass']['#description'] = t('Passwords must be a 
+    minimum of 8 characters and contain a minimum of 1 uppercase letter, 1 
+    lowercase letter, 1 number and 1 special character.');
+  }
+
+  if ($form_id == 'user_login_block') {
+//    d($form); die;
+    if (variable_get('user_register', 1)) {
+      $items[] = l(t('Not a member? Click here'), 'join-now', array('attributes' => array('title' => t('Create a new user account.'))));
+    }
+    //$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+    $form['links'] = array('#value' => theme('item_list', $items));
+  }
+  if ($form_id == 'user_register') {
+//    d($form);die;
+    $form['account']['name']['#description'] = t('Usernames must be a minimum of 2 characters and contain at least one letter and one number. Punctuation and special characters are not allowed.');
+    $form['account']['pass']['#description'] = t('Passwords must be a minimum of 8 characters and contain a minimum of 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.');
+//    $au = $form['autoassignrole_user'];
+//    $form['group_aq']['autoassignrole_user'] = $au;
+    $form['Personal Info']['#weight'] = 1;
+//    $form['group_aq']['#weight'] = 2;
+//    $pi = $form['Personal Info'];
+    $form['Personal Info']['au'] = $form['autoassignrole_user'];
+    $form['Personal Info']['au']['#weight'] = -1;
+//    $form['group_aq']['#title'] = 'Personal info';
+    $form['account']['#attributes'] = array('class' => 'personal-info clearfix');
+    $form['Personal Info']['#attributes'] = array('class' => 'personal-info light-border clearfix');
+    $form['Questions']['#attributes'] = array('class' => 'personal-info light-border clearfix');
+    $form['Questions']['profile_receive_cure']['#default_value'] = 'Yes';
+    $form['Questions']['profile_receive_biobanking']['#default_value'] = 'Yes';
+    $form['Questions']['profile_receive_hosted']['#default_value'] = 'Yes';
+    $form['Questions']['profile_receive_services']['#default_value'] = 'Yes';
+//    $form['group_aq']['profile_first_name'] = $pi['profile_first_name'];
+//    $form['group_aq']['profile_last_name'] = $pi['profile_last_name'];
+//    $form['group_aq']['profile_phone_number'] = $pi['profile_phone_number'];
+//    $form['group_aq']['autoassignrole_user']['#weight'] = 4;
+    $form['#validate'][] = 'cacure_g_form_validate';
+//    print_r($form);
+//    die;
+    unset($form['Personal Info']['profile_zip_code'], $form['autoassignrole_user']);
+//    d($form);die;
+    drupal_set_title(t('Create Account'));
+  }
+}
+/**
+ * Form validate function.
+ */
+function cacure_g_form_validate($form, &$form_state) {
+//  d($form_state);
+  $form_state['values']['profile_first_name'] = $form_state['clicked_button']['#post']['profile_first_name'];
+  $form_state['values']['profile_last_name'] = $form_state['clicked_button']['#post']['profile_last_name'];
+  $form_state['values']['profile_phone_number'] = $form_state['clicked_button']['#post']['profile_phone_number'];
+  $ur = $form_state['clicked_button']['#post']['user_roles'];
+  $form_state['values']['user_roles'] = $ur;
+//  d($form_state);die;
+}
+
+/**
+ * Implementation of hook_mail_alter().
+ */
+function cacure_g_mail_alter(&$message) {
+  if($message['id'] == 'user_password_reset') {
+    $user = user_load(array('uid'=>$message['params']['account']->uid));
+    $variables = array('!first_name' => $user->profile_first_name);
+    foreach($message['body'] as $key => $body) {
+      $message['body'][$key] = strtr($body, $variables);
+    }
+  }
+}

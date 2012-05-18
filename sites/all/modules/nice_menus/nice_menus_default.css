@@ -1,0 +1,228 @@
+/* $Id: nice_menus_default.css,v 1.10 2010/10/09 16:58:04 add1sun Exp $ */
+/*
+  This is the default layout template for nice menus, and will provide
+  a starting point for the look of your menus. To customize, it's
+  recommended to create a custom CSS file using this file as a template,
+  then configure the module to use your custom CSS file
+  (this is done in the global settings tab of the theme administration.)
+
+  See README.txt and the handbook page (http://drupal.org/node/185543)
+  for more information on using the CSS.
+*/
+
+/******************************
+ Global CSS for ALL menu types
+******************************/
+
+ul.nice-menu,
+ul.nice-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  top: 60px;
+  left: 300px;
+  
+}
+
+ul.nice-menu a{color: #FFFFFF !important;}
+
+ul.nice-menu li {
+  float: left; /* LTR */
+  background-color: #eee;
+}
+
+
+ul.nice-menu a {
+  padding: 0.3em 5px 0.3em 5px;
+}
+
+
+
+ul.nice-menu ul {
+  top: 1.8em;
+  left: -1px; /* LTR */
+  margin-right: 0; /* LTR */
+}
+
+ul.nice-menu ul li {
+  width: 12.5em;
+}
+
+/******************************
+ VERTICAL (left/right) menus
+******************************/
+
+/* This is the default width of all vertical menus. */
+ul.nice-menu-right, ul.nice-menu-left,
+ul.nice-menu-right li, ul.nice-menu-left li {
+  width: 12.5em;
+}
+
+/* VERTICAL menus where submenus pop RIGHT (default). */
+ul.nice-menu-right ul {
+  width: 12.5em;
+  left: 12.5em;
+  top: -1px;
+}
+
+ul.nice-menu-right ul ul {
+  width: 12.5em;
+  left: 12.5em;
+  top: -1px;
+}
+
+ul.nice-menu-right li.menuparent,
+ul.nice-menu-right li li.menuparent {
+  color: #CCCCCC;
+  background: #1E1E1E;
+}
+
+ul.nice-menu-right li.menuparent:hover,
+ul.nice-menu-right li li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}
+
+/* VERTICAL menus where submenus pop LEFT. */
+ul.nice-menu-left li ul {
+  width: 12.5em;
+  left: -12.65em;
+  top: -1px;
+}
+
+ul.nice-menu-left li ul li ul {
+  width: 12.5em;
+  left: -12.65em;
+  top: -1px;
+}
+
+ul.nice-menu-left li.menuparent,
+ul.nice-menu-left li li.menuparent {
+  color: #CCCCCC;
+  background: #1E1E1E;
+}
+
+ul.nice-menu-left li.menuparent:hover,
+ul.nice-menu-left li li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}
+
+ul.nice-menu-left a, ul.nice-menu-left ul a {
+  padding-left: 14px;
+}
+
+/******************************
+ HORIZONTAL (down) menus
+******************************/
+
+ul.nice-menu-down {
+  border: 0;
+
+}
+
+ul.nice-menu-down li { 
+}
+
+ul.nice-menu-down li li {
+  border-top: 0;
+  border-bottom: 1px solid #888888;
+}                               
+
+ul.nice-menu-down ul {
+  left: 0; /* LTR */
+}
+
+ul.nice-menu-down ul li {
+  clear: both;
+}
+
+ul.nice-menu-down li ul li ul {
+  left: 12.5em; /* LTR */
+  top: -1px;
+}
+
+ul.nice-menu-down .menuparent a {
+  padding-right: 15px; /* LTR */
+}
+
+ul.nice-menu-down li.menuparent {
+  color: #CCCCCC;
+  background: url("images/bg-menu.png") repeat scroll 0 0 transparent;
+}
+
+ul.nice-menu-down li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}
+
+ul.nice-menu-down li li.menuparent {
+  color: #CCCCCC;
+  background: #1E1E1E;
+}
+
+ul.nice-menu-down li li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}
+
+/******************************
+ Garland-specific CSS
+******************************/
+
+/**
+ * Global CSS for ALL menu types
+ */
+ul.nice-menu li {
+  margin: 0;
+  padding-left: 0; /* LTR */
+  background: #1E1E1E;
+}
+
+#header-region ul.nice-menu li {
+  margin: 0;
+  /* Padding rules are needed to deal with Garland's header line-height. */
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  background: url("images/bg-menu.png") repeat scroll 0 0 transparent;
+}
+
+#header-region ul.nice-menu ul {
+  top: 1.8em;
+  left: -1px; /* LTR */
+  border: 0;
+
+  margin-right: 0; /* LTR */
+}
+
+#header-region ul.nice-menu ul {
+  top: 1.7em;
+}
+
+/**
+ * HORIZONTAL (down) menus
+ */
+#header-region ul.nice-menu-down li ul li ul {
+  left: 12.5em; /* LTR */
+  top: -1px;
+}
+
+#header-region ul.nice-menu-down li.menuparent {
+  color: #CCCCCC;
+  background: #1E1E1E;
+}
+
+#header-region ul.nice-menu-down li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}
+
+#header-region ul.nice-menu-down li li.menuparent {
+  color: #CCCCCC;
+  background: #1E1E1E;
+}
+
+#header-region ul.nice-menu-down li li.menuparent:hover {
+  color: #FFFFFF;
+  background: #1E1E1E;
+}

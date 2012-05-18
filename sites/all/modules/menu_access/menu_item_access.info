@@ -1,0 +1,14 @@
+; $Id: menu_item_access.info,v 1.4 2009/04/13 22:20:08 emptyvoid Exp $
+name = "Menu Item Access"
+description = "Provides flexible menu item access control."
+dependencies[] = menu
+dependencies[] = menu_access
+package = Access control
+
+
+; Information added by drupal.org packaging script on 2009-10-29
+version = "6.x-1.8"
+core = "6.x"
+project = "menu_access"
+datestamp = "1256789446"
+

@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Core interface
+ */
+interface QueryCoreInterface{
+
+  public function  __construct();
+
+  public function useTables();
+
+  public function usePlugin(QueryPlaginInterface $plugin);
+
+  public function find();
+
+  public function inner(array $map);
+
+  public function left(array $map);
+
+  public function run();
+
+  public function results();
+}
+
+/**
+ * Plugin in
+ */
+interface QueryPlaginInterface{
+
+}
+
+
+class Query implements QueryCoreInterface{
+
+  private $tables, $join_map, $find = null, $results;
+
+  public function  __construct() {
+    // TODO: Implement __construct() method.
+  }
+
+
+  /**
+   * Set methods
+   */
+
+  public function useTables() {
+    $this->tables = func_get_args();
+    return $this;
+  }
+
+  public function inner($map) {
+    $this->join_map['inner'] = $map;
+  }
+
+  public function left(array $map) {
+    $this->join_map['left'] = $map;
+  }
+
+  
+
+  public function find() {
+    // TODO: Implement find() method.
+  }
+  public function usePlugin(QueryPlaginInterface $plugin) {
+    // TODO: Implement usePlugin() method.
+  }
+
+  public function run() {
+     
+  }
+
+  public function results() {
+    // TODO: Implement results() method.
+  }
+
+
+}
+
+
+class QueryGenSQl{
+  
+}
+
+class QueryPlugin implements QueryPlaginInterface{
+
+}

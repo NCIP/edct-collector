@@ -1,0 +1,483 @@
+<?php
+/**
+ * Implementration of hook_init().
+ */
+function cacure_mgmt_init() {
+  drupal_set_header("CacheControl: no-cache");
+  drupal_set_header("Pragma: no-cache");
+  drupal_set_header("Expires: -1");
+
+  drupal_add_css(drupal_get_path('module', 'cacure_mgmt') . '/css/management-default.css');
+  drupal_add_css(drupal_get_path('module', 'cacure_mgmt') . '/css/custom.css');
+  drupal_add_js(drupal_get_path('module', 'cacure_mgmt') . '/js/cacure_mgmt.js');
+  drupal_add_js(drupal_get_path('module', 'cacure_mgmt') . '/js/cookie.js');
+  
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function cacure_mgmt_menu() {
+  $items = array();
+
+  $items['management'] = array(
+    'title' => 'Management module',
+    'page callback' => 'management_page',
+    'access arguments' => array('access content'),
+    'description' => '',
+    'file' => 'cacure_mgmt.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['management/submitmodule/%'] = array(
+    'title' => '',
+    'page callback' => 'cacure_mgmt_submitmodule_callback',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'description' => '',
+    'file' => 'cacure_mgmt.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['submit-questionnaire/%'] = array(
+    'title' => 'Submit Quarterly Report',
+    'page callback' => 'cacure_mgmt_submit_questionnaire_callback',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'description' => '',
+    'file' => 'cacure_mgmt.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/settings/cacure_settings/submit_path'] = array(
+    'title' => 'Submit path.',
+    'page callback' => 'cacure_mgmt_submit_path_callback',
+    'access arguments' => array('access cacure settings'),
+    'description' => '',
+    'file' => 'cacure_mgmt.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+
+  $items['questionnaire/%'] = array(
+    'title' => 'Questionnaire',
+    'page callback' => 'management_questionnaire_callback',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1),
+    'description' => '',
+    'file' => 'cacure_mgmt.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function cacure_mgmt_theme() {
+
+  $path = drupal_get_path('module', 'cacure_mgmt');
+
+  return array(
+    //  All avaliable modules.
+    'xslt_mod_aval' => array(
+      'template' => 'cacure_mgmt-available-now',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/xslt',
+    ),
+
+    'xslt_mod_submitted' => array(
+      'template' => 'cacure_mgmt-submitted',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/xslt',
+    ),
+
+    'xslt_mod_submitted_overview' => array(
+      'template' => 'cacure_mgmt-submitted-overview',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/xslt',
+    ),
+
+
+    'submit_block' => array(
+      'template' => 'submit-block',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/templates',
+    ),
+
+    'submitted_block' => array(
+      'template' => 'submitted-block',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ */
+function cacure_mgmt_theme_registry_alter(&$theme_registry) {
+  $block = $theme_registry['block'];
+  $block['theme paths'][] = drupal_get_path('module', 'cacure_mgmt') . '/templates/blocks';
+  $block['type'] = 'module';
+  $theme_registry['block'] = $block;
+}
+
+/**
+ * Implementation fo hook_block().
+ */
+function cacure_mgmt_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+
+    $blocks[1]['info'] = t('My Questionnaire');
+    $blocks[1]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[2]['info'] = t('My Submitted Questionnaire');
+    $blocks[2]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[3]['info'] = t('My Submit Questionnaire');
+    $blocks[3]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[4]['info'] = t('My Submitted Questionnaire overview');
+    $blocks[4]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[5]['info'] = t('My submitted modules list');
+    $blocks[5]['cache'] = BLOCK_NO_CACHE;
+	
+    $blocks[6]['info'] = t('My Questionare sidebar');
+    $blocks[6]['cache'] = BLOCK_NO_CACHE;
+	
+    return $blocks;
+  } else
+    if ($op == 'view') {
+      $block = array();
+      switch ($delta) {
+
+        case 1:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = management_myquest_block();
+          return $block;
+
+        case 2:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = management_myquest_submitted_block();
+          return $block;
+
+        case 3:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = cacure_mgmt_submit_block();
+          return $block;
+
+        case 4:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = management_myquest_submitted_overview_block();
+          return $block;
+
+        case 5:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = cacure_mgmt_submitted_block();
+          return $block;
+		
+		case 6:
+          $block['subject'] = ''; //t('My Questionnaire - Available NOW');
+          $block['content'] = management_myquest_block();
+          return $block;
+      }
+    }
+}
+
+/**
+ * Cacure submitted block
+ */
+function cacure_mgmt_submitted_block() {
+  $context = caCure_get_contexts();
+  if (!$context && arg(0) != 'form')
+    $context = 'default';
+  elseif (!$context) $context = arg(1);
+
+  $restcall = new RestCall();
+
+  $xml = $restcall->getAllUserModules($context);
+
+  $xmlMap = new MySimpleXMLElement($xml);
+  $module = $xmlMap->toArray($xmlMap);
+
+  if (is_array($module['module']) && $module['module']['@attributes']['status'] != 'completed')
+    return theme('submitted_block', array());
+
+  if (is_array($module['module']))
+  $modules[] = array(
+    'id' => isset($module['module']['@attributes']['id']),
+    'context' => $context,
+    'name' => $module['module']['@attributes']['name'],
+    'date' => date('m/d/Y', strtotime($module['module']['@attributes']['dateSubmitted'])),
+  );
+
+/*
+  foreach ($contexts as $context) {
+
+    $status = 'IN-PROGRESS';
+    $xml = $restcall->getCurrentModule(array('ctx' => $context));
+
+    $xmlMap = new MySimpleXMLElement($xml);
+
+    $modules = $xmlMap->toArray($xmlMap);
+    d($modules);
+    die;
+    if (empty($modules) || empty($modules['module']['form']))
+      $status = 'COMPLETED';
+
+    if ($status == 'COMPLETED') {
+      $xml = $restcall->getCurrentModule(array('ctx' => $context));
+
+      $xmlMap = new MySimpleXMLElement($xml);
+      $module = $xmlMap->toArray($xmlMap);
+      $modules[] = array(
+        'id' => isset($module['module']['@attributes']['id']),
+        'context' => $context,
+        'name' => $module['module']['@attributes']['name'],
+        'date' => date('m/d/Y', strtotime($module['module']['@attributes']['dateSubmitted'])),
+      );
+    }
+  }*/
+//die;
+  return theme('submitted_block', $modules);
+}
+
+/**
+ * Cacure sumbit questionnaire block.
+ */
+function cacure_mgmt_submit_block() {
+//  if(arg(0) == 'admin')
+//    return;
+  $arg = array();
+  $arg['class'] = 'form-module-submit-disabled';
+
+  $restcall = new RestCall();
+  $xml = $restcall->getAllUserModules(arg(1));
+
+  $xmlMap = new MySimpleXMLElement($xml);
+  $modules = $xmlMap->toArray($xmlMap);
+  //d($modules); die;
+  $arg['id'] = $modules['module']['@attributes']['id'];
+
+  if (isset($modules['module']['form']['@attributes']['status'])) {
+    $count = 1;
+    if ($modules['module']['form']['@attributes']['status'] == 'approved')
+      $count = 0;
+  } else {
+    $count = count($modules['module']['form']);
+    foreach ($modules['module']['form'] as $form) {
+      if ($form['@attributes']['status'] == 'approved')
+        $count--;
+    }
+  }
+  $status = 'IN_PROGRESS';
+  if ($count == 0 && $status != 'COMPLETED')
+    $arg['class'] = 'form-module-submit-enabled';
+
+  return theme('submit_block', $arg);
+}
+
+/**
+ * Cacure sumbit submitted block.
+ */
+function management_myquest_submitted_overview_block() {
+  global $base_path, $user;
+  $arg = array();
+  $context = caCure_get_contexts();
+  if (!$context && arg(0) != 'form')
+    $context = 'default';
+  elseif (!$context) $context = arg(1);
+  $restcall = new RestCall();
+  $xml = $restcall->getAllUserModules($context);
+
+  $xmlMap = new MySimpleXMLElement($xml);
+  $modules = $xmlMap->toArray($xmlMap);
+
+  $xml = $restcall->getAllUserModules($context);
+//print_r($xml);
+//d($modules); die;
+  //hack ********
+/*
+  if (empty($modules)) {
+    $identifier = cacure_reg_get_identifier();
+    if (isset($user->identifier) && !empty($user->identifier)) {
+      db_query("UPDATE cc_user cu SET cu.identifier='%s' WHERE cu.uid=%d", $identifier, $user->uid);
+    } else {
+      cacure_reg_save_identifier($identifier, $user);
+    }
+    $user->identifier = $identifier;
+    $restcall = new RestCall();
+    $xml = $restcall->getAllUserModules(array('ctx' => $context));
+    $xmlMap = new MySimpleXMLElement($xml);
+    $modules = $xmlMap->toArray($xmlMap);
+  }*/
+  if (is_array($modules['module'])) {
+	$arg['module_id'] = $modules['module']['@attributes']['id'];
+  }
+
+  if (is_array($modules['module']) && $modules['module']['@attributes']['status'] != 'completed') {
+    $arg['message'] = 'No previously submitted quarterly reports';
+  }
+  if (is_array($modules['module']) && isset($modules['module']['@attributes']['dateSubmitted'])) {
+    $sbt_date_string = $modules['module']['@attributes']['dateSubmitted'];
+    $arg['submitted_date'] = date('m/d/y', strtotime($sbt_date_string));
+  } else {
+    $arg['submitted_date'] = 'unknown';
+  }
+
+  if (is_array($modules['module'])) {
+	$arg['module_name'] = $modules['module']['@attributes']['name'];
+  }
+  
+  $xslt = '<?xml version="1.0" encoding="ISO-8859-1"?>' . theme('xslt_mod_submitted_overview', $arg);
+
+  $xml = management_add_staff($xml);
+
+  $dom = new DOMDocument();
+  $dom->loadXML($xml);
+
+  $stylesheet = new DOMDocument;
+  $stylesheet->loadXML((string) $xslt);
+
+  $proc = new XSLTProcessor;
+  $proc->registerPHPFunctions();
+  $proc->importStylesheet($stylesheet);
+
+  $dom = $proc->transformToDoc($dom);
+  return $dom->saveHTML();
+}
+
+/**
+ * Block content.
+ */
+function management_myquest_submitted_block() {
+
+  $arg = array();
+  $context = caCure_get_contexts();
+  if (!$context && arg(0) != 'form')
+    $context = 'default';
+  elseif (!$context) $context = arg(1);
+
+  $restcall = new RestCall();
+  $xml = $restcall->getAllUserModules($context);
+
+  $xmlMap = new MySimpleXMLElement($xml);
+
+  $modules = $xmlMap->toArray($xmlMap);
+
+  if ($modules['module']['@attributes']['status'] != 'completed') {
+    $arg['message'] = 'You currently have no submitted questionnaires';
+  }
+
+  if (isset($modules['module']['@attributes']['dateSubmitted'])) {
+    $sbt_date_string = $modules['module']['@attributes']['dateSubmitted'];
+    $arg['submitted_date'] = date('m/d/y', strtotime($sbt_date_string));
+  } else {
+    $arg['submitted_date'] = 'unknown';
+  }
+
+  $xslt = '<?xml version="1.0" encoding="ISO-8859-1"?>' . theme('xslt_mod_submitted', $arg);
+
+  $xml = management_add_staff($xml);
+
+  $dom = new DOMDocument();
+  $dom->loadXML($xml);
+
+  $stylesheet = new DOMDocument;
+  $stylesheet->loadXML((string) $xslt);
+
+  $proc = new XSLTProcessor;
+  $proc->registerPHPFunctions();
+
+  $proc->importStylesheet($stylesheet);
+
+  $dom = $proc->transformToDoc($dom);
+  return $dom->saveHTML();
+}
+
+
+function management_myquest_block() {
+
+  $arg = array();
+  
+  $context = caCure_get_contexts();
+  if (!$context && arg(0) != 'form')
+    $context = 'default';
+  elseif (!$context) $context = arg(1);
+
+  $arg['context'] = $context;
+
+  $restcall = new RestCall();
+
+  $status = 'IN-PROGRESS';
+
+  $xml = $restcall->getAllUserModules($context);
+
+  $xmlMap = new MySimpleXMLElement($xml);
+
+  $modules = $xmlMap->toArray($xmlMap);
+
+//  d($modules);die;
+
+  if (empty($modules) || empty($modules['module']['form']) || $modules['module']['@attributes']['status'] == 'completed')
+    $status = 'COMPLETED';
+
+  if ($status == 'COMPLETED')
+    $arg['message'] = '<h3>No new questionnaires are available</h3>';
+
+  $xslt = '<?xml version="1.0" encoding="ISO-8859-1"?>' . theme('xslt_mod_aval', $arg);
+
+  $xml = management_add_staff($xml);
+
+  $dom = new DOMDocument();
+  $dom->loadXML($xml);
+
+  $stylesheet = new DOMDocument;
+  $stylesheet->loadXML((string) $xslt);
+
+  $proc = new XSLTProcessor;
+  $proc->registerPHPFunctions();
+  $proc->importStylesheet($stylesheet);
+
+  $dom = $proc->transformToDoc($dom);
+  return $dom->saveHTML();
+}
+
+// TODO: Restcall returns broken link in xmlns="http://www.healthcit.com/ModuleMetadata"
+/**
+ * It just kostil
+ */
+function management_add_staff($xml) {
+  return str_replace('xmlns="http://www.healthcit.com/ModuleMetadata"', 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', $xml);
+}
+
+/**
+ * Set class to submit button.
+ * @param  $module
+ * @param  $id
+ * @param string $class
+ * @return string
+ */
+function setClass($module, $id, $class = 'form-module-submit-disabled') {
+  if ($module['@attributes']['id'] == $id) {
+    if (isset($module['form']['@attributes']['id'])) {
+      if ($module['form']['@attributes']['status'] == 'completed') {
+        $class = 'form-module-submit-enabled';
+      }
+    } else {
+      $count = 0;
+      foreach ($module['form'] as $form) {
+        if ($form['@attributes']['status'] == 'completed') {
+          $count++;
+        }
+      }
+      if ($count == count($module['form'])) {
+        $class = 'form-module-submit-enabled';
+      }
+    }
+  }
+  return $class;
+}

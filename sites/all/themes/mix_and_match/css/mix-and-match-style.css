@@ -1,0 +1,1202 @@
+/* $Id: mix-and-match-style.css,v 1.5 2011/01/15 16:03:46 aross Exp $ */ 
+
+/**
+ * @file
+ * General styling used by all color schemes
+ * and colors for default gray base color scheme.
+ * Some of the colors are overridden in other 
+ * schemes (see base-colors.css) but some are 
+ * used by all.  
+ */
+
+/* ---------------------- GENERAL HTML ELEMENTS ---------------------------- */
+
+body {
+  font-size: 75%;   /* also set in fusion_starter.info: settings[base-font-size] = font-size-12 */
+  font-family: "Myriad Pro", Myriad, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  line-height: 140%;
+}
+
+h1 {
+  font-size: 160%;
+}
+
+h1, h2 {
+  margin: 0 0 0.5em 0;
+}
+
+h3, h4, h5, h6 {
+  margin: 0.2em 0;
+}
+
+p {
+  margin: 0.5em 0;
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: underline;
+}
+
+/* ----------------------------- SITE INFO --------------------------------- */
+
+#header-group .block .inner {
+  margin-right: 0; /* LTR */
+}
+
+#header-site-info span {
+  display: block;
+  float: left; /* LTR */
+}
+
+#header-site-info {
+ /* margin: 20px 0 5px 0;*/
+}
+
+#header-site-info-inner {
+  float: left; /* LTR */
+  min-width: 500px;
+}
+
+#logo {
+  float: left; /* LTR */
+  margin: 0 10px 0 0; /* LTR */
+}
+
+#site-name-slogan {
+  float: left; /* LTR */
+}
+
+#site-name {
+  font-size: 200%;
+  font-weight: bold;
+  line-height: 100%;
+}
+
+#slogan {
+  font-size: 110%;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------- LAYOUT ---------------------------------------- */
+
+/* Classes (.region-name) should always be used instead of IDs (#region-name) so
+  that Skinr styles can override them with a class later */
+
+.grid-type-960 .page {
+  width: 960px;
+}
+
+/* ------------------------- PRIMARY MENU ---------------------------------- */
+
+.primary-menu {
+  margin-bottom: 0px;
+}
+
+#primary-menu.block {
+  margin: 10px 0 0 0;
+}
+
+.primary-menu-inner ul.sf-menu a,
+.primary-menu-inner ul.sf-menu a:visited  {
+  font-size: 100%;
+  font-weight: bold;
+  padding: 0;
+}
+
+/* These are the top level menu items, add border-right here for separators */
+.primary-menu-inner ul.sf-menu li {
+  padding: 8px 15px;
+}
+
+/* Add border-right: 0; here to remove separator on last menu item */
+.primary-menu-inner ul.sf-menu li.first {
+  border-left: 0; /* LTR */
+}
+
+/* Style for individual dropdown menu items, add border-bottom for separators */
+.primary-menu-inner ul.sf-menu li li {
+  padding: 5px 15px;
+}
+
+/* ------------------------- SECONDARY MENU -------------------------------- */
+
+.secondary-menu {
+  float: right; /* LTR */
+  width: auto;
+  margin-bottom: 0;
+}
+
+.secondary-menu-inner ul.links {
+  float: right; /* LTR */
+  padding-top: 5px;
+}
+
+.secondary-menu-inner ul.links li {
+  font-size: 85%;
+  padding-right: 5px; /* LTR */
+}
+
+/* Styles for links */
+.secondary-menu-inner ul.links li a:link,
+.secondary-menu-inner ul.links li a:visited {
+  padding: 3px;
+}
+
+/* ------------------------- SEARCH FORM IN HEADER ------------------------- */
+
+.search-box {
+  float: right; /* LTR */
+  clear: right; /* LTR */
+  width: auto;
+  padding-top: 20px;
+  padding-right: 5px; /* LTR */
+}
+
+#search-box.block .inner {
+  margin: 0;
+  text-align: right; /* LTR */
+}
+
+#search-input .form-text {
+  float: left; /* LTR */
+  margin-right: 20px; /* LTR */
+  width: 160px;
+  padding: 0 5px;
+  font-size: 13px;
+  height: 19px;
+}
+
+#search-button {
+  position: absolute;
+  right: 0; /* LTR */
+  top: 0;
+}
+
+/* ------------------------------- REGIONS ----------------------------- */
+
+.preface-top-wrapper,
+.main-wrapper,
+.postscript-bottom-wrapper,
+.footer-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  padding-top: 5px;
+}
+
+#postscript-bottom {
+  padding-bottom: 5px;
+}
+/*
+#content-region-inner,
+#content-help-inner,
+#content-messages-inner {
+  margin: 5px 10px;
+}
+*/
+
+.main-wrapper #content-content .node .first .inner {
+  margin-right: 30px; /* LTR */
+}
+
+.node-top {
+  margin-bottom: 10px;
+}
+
+.footer-message-text {
+  text-align: center;
+  padding: 15px 0;
+}
+
+#footer {
+  font-size: 100%;
+}
+
+/* ---------------------------- BLOCKS ------------------------------------- */
+
+h2.block-title {
+  font-size: 145%;
+  font-weight: normal;
+  padding: 10px 10px 0 10px;
+  margin-bottom: 0;
+}
+
+.block .inner .content {
+/*  padding: 10px;*/
+}
+
+.main-wrapper .block .inner,
+.preface-top-wrapper .block .inner,
+.postscript-bottom-wrapper .block .inner,
+.footer-wrapper .block .inner {
+  margin: 5px;
+}
+
+.footer-wrapper .block .inner {
+  margin-bottom: 10px;
+}
+
+.node-top .block .inner,
+.node-bottom .block .inner {
+  margin: 0;
+}
+
+.preface-top-wrapper .block .inner {
+  margin: 10px 5px 0 5px;
+}
+
+.preface-top-wrapper .block.first .inner,
+.postscript-bottom-wrapper .block.first .inner,
+.footer-wrapper .block.first .inner {
+  margin-left: 0; /* LTR */
+}
+
+.preface-top-wrapper .block.last .inner,
+.postscript-bottom-wrapper .block.last .inner,
+.footer-wrapper .block.last .inner {
+  margin-right: 0; /* LTR */
+}
+
+/* Layout specific settings */
+.sidebars-split .sidebar-first .block .inner {
+  margin-left: 0; /* LTR */
+}
+
+.sidebars-split .preface-bottom .block.last .inner,
+.sidebars-split .postscript-top .block.last .inner,
+.sidebars-split .sidebar-last .block .inner {
+  margin-right: 0; /* LTR */
+}
+
+.sidebars-both-first .sidebar-first .block .inner {
+  margin-left: 0; /* LTR */
+}
+
+.sidebars-both-first .main-content .block .inner,
+.sidebars-both-first .preface-bottom .block.last .inner,
+.sidebars-both-first .postscript-top .block.last .inner {
+  margin-right: 0; /* LTR */
+}
+
+.sidebars-both-first .sidebar-last .block .inner {
+  margin-right: 5px; /* LTR */
+}
+
+.sidebars-both-last .main-content .block .inner,
+.sidebars-both-last .preface-bottom .block.first .inner,
+.sidebars-both-last .postscript-top .block.first .inner {
+  margin-left: 0; /* LTR */
+}
+
+.sidebars-both-last .sidebar-first .block .inner {
+  margin-right: 0; /* LTR */
+}
+
+.sidebars-both-last .sidebar-last .block .inner {
+  margin-left: 5px; /* LTR */
+}
+
+.preface-top-wrapper .block .inner,
+.main-wrapper .block .inner,
+.postscript-bottom-wrapper .block .inner,
+.footer-wrapper .block .inner,
+.footer-message .block .inner {
+  padding: 0;
+}
+
+.header-group .block,
+.main-wrapper .block,
+.preface-top-wrapper .block,
+.postscript-bottom-wrapper .block,
+.footer-wrapper .block {
+  margin: 0;
+}
+
+
+/* ------------------------ NODE STYLES ------------------------------------ */
+
+.block .node .inner .content {
+  padding: 0;
+}
+
+/* Fix for node top and bottom blocks */
+.block .node .inner .node-top .inner .content,
+.block .node .inner .node-bottom .inner .content {
+  padding: 10px;
+}
+
+/* Change unpublished and preview colors for dark background themes */
+.node-unpublished {
+  background-color: #fff4f4;
+}
+.preview .node {
+  background-color: #ffffea;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  margin-top: 10px;
+  margin-left: 10px; /* LTR */
+}
+
+/* Separators and padding for node teasers */
+.teaser {
+  padding-bottom: 10px;
+}
+
+.teaser .inner .content {
+  padding: 5px 10px;
+}
+
+.teaser h2.title {
+  margin-bottom: 5px;
+}
+
+/* Author/date info */
+.submitted {
+  font-size: 85%;
+}
+
+.node .picture {
+  float: left; /* LTR */
+  margin: 5px 15px 10px 10px; /* LTR */
+}
+
+/* Links for nodes (taxonomy, commenting, read more, etc) */
+.node div.links {
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+
+.node div.terms {
+  margin: 0;
+  padding: 5px 0;
+}
+.node ul.links {
+  padding: 0;
+  margin: 0;
+}
+.node ul.links li {
+  margin-right: 10px;
+}
+.node ul.links a {
+  font-weight: bold;
+}
+
+/* ------------------------------ DRUPAL MESSAGES -------------------------- */
+
+#content-messages {
+  float:none;
+}
+
+/* General style for all errors/messages (border, padding, etc.) */
+div.content-messages div.messages,
+div.content-help div.help {
+  border-width: 1px;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+}
+
+/* Status messages: green */
+div.content-messages-inner div.status {
+  background-color: #B2D982;
+  border-color: #8DBF50;
+  color: #323232;
+}
+
+/* Warning messages: orange */
+div.content-messages-inner div.warning {
+  background-color: #FEB771;
+  border-color: #DF9244;
+  color: #323232;
+}
+
+/* Error messages: red */
+div.content-messages-inner div.error {
+  background-color: #E87A73;
+  border-color: #D16054;
+  color: #323232;
+}
+
+/* Help messages: blue */
+.help,
+div.content-help-inner div.help {
+  background-color: #B6D1F1;
+  border-color: #8EAACC;
+  color: #323232;
+}
+
+/* Error that appears when a required form field is not filled out */
+.form-item input.error,
+.form-item textarea.error,
+.form-item select.error {
+  border: 1px solid #aa1144;
+}
+
+/* "New" text and required form field asterisk (default = red) */
+.marker,
+.form-required {
+  color: #aa1144;
+}
+
+/* ---------------------------- ADMIN PAGES --------------------------------- */
+
+.page-admin #main-content-inner .nested,
+.page-admin #content-group,
+.page-admin #content-region,
+.page-admin #content-inner {
+  margin-bottom:0;
+}
+
+/* ---------------------- TAB MENUS ---------------------------------------- */
+
+#content-tabs {
+  background-color: transparent;
+  float: left; /* LTR */
+  margin: 10px 0;
+  padding: 0;
+  font-weight: bold;
+  margin-top: 0px;
+}
+
+#content-tabs ul.primary,
+#content-tabs ul.secondary {
+  clear: both;
+  float: left; /* LTR */
+  margin: 0;
+  width: 100%;
+}
+
+#content-tabs ul.primary {
+  border-bottom: 1px solid #A6A6A6;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+#content-tabs ul.secondary {
+  padding: 5px;
+  padding-top: 0px;
+  text-transform: lowercase;
+}
+
+#content-tabs ul.primary li,
+#content-tabs ul.secondary li {
+  background-color: #c2c2c2;
+  border: 1px solid #a6a6a6;
+  display: inline;
+  float: left; /* LTR */
+  list-style: none;
+}
+
+#content-tabs ul.primary li {
+  margin: 0 2px;
+  padding: 2px 0;
+  border-bottom: 0;
+  font-size: 95%;
+}
+
+#content-tabs ul.secondary li {
+  margin: 2px;
+  padding: 2px 4px;
+}
+
+#content-tabs ul.primary li.active,
+#content-tabs ul.secondary li.active {
+  background-color: #e3e3e3;
+}
+
+#content-tabs ul.primary li a:link,
+#content-tabs ul.primary li a:visited,
+#content-tabs ul.secondary li a:link,
+#content-tabs ul.secondary li a:visited {
+  background-color: transparent;
+  border: none;
+  color: #555;
+  float: left; /* LTR */
+  margin: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#content-tabs ul.primary li a:hover,
+#content-tabs ul.primary li a:focus,
+#content-tabs ul.secondary li a:hover,
+#content-tabs ul.secondary li a:focus {
+  color: #222;
+}
+
+body.page-user #content-tabs .primary {
+  display: none;
+}
+
+/* ---------------------------- PAGERS ------------------------------------- */
+
+ul.pager a,
+ul.pager li.pager-current {
+  border-color: #333;
+}
+
+ul.pager li.pager-current {
+  background-color: #777;
+  color: #fff;
+}
+
+ul.pager a:hover,
+ul.pager a:active,
+ul.pager a:focus {
+  background-color: #777;
+  border-color: #333;
+  color: #fff;
+}
+
+/* ----------------------------- FORMS ------------------------------------- */
+
+form input.form-submit {
+  border: 1px solid #ccc;
+  padding: 1px 5px;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+/* Typography, background, borders, padding for form fields */
+.form-item input,
+.form-item select,
+.form-item textarea {
+  padding: 1px 5px;
+  border: 1px solid #ccc;
+}
+
+/* Remove backgrounds and border on radios and checkboxes */
+.form-item .form-radio,
+.form-item .form-checkbox {
+  background: none;
+  border: none !important;
+}
+
+/* Fieldset wrapper around groups of form elements */
+fieldset {
+  border: 1px solid #ccc;
+}
+
+/* ----------------------------- TABLES ------------------------------------ */
+
+table {
+  margin-bottom: 15px;
+}
+
+/* Body of tables */
+tbody {
+  border-top: 1px solid #ccc;
+}
+
+/* Header of tables */
+thead th,
+th {
+  border-bottom: 3px solid #ccc;
+}
+
+tbody th {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Alternating row background styles */
+tr.even,
+tr.even td {
+  border-bottom: 1px solid #ccc;
+  background-color: inherit;
+}
+
+tr.odd,
+tr.odd td {
+  border-bottom: 1px solid #ccc;
+  background-color: inherit;
+}
+
+tr.drag td,
+tr.drag-previous td {
+  color: #000;
+}
+
+/* -------------------------- ROUND CORNERS --------------------------------- */
+
+ form input.form-submit,
+.form-item input,
+.form-item select,
+.form-item textarea {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+#content-tabs ul.primary li {
+  -moz-border-radius: 3px 3px 0px 0px;
+  -webkit-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}
+
+/* Different radii from theme config settings */
+.round-corners-3 .primary-menu,
+.round-corners-3 h2.block-title {
+  -moz-border-radius: 3px 3px 0px 0px;
+  -webkit-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.round-corners-3 .main-wrapper .block .inner,
+.round-corners-3 .preface-top-wrapper .block .inner,
+.round-corners-3 .postscript-bottom-wrapper .block .inner,
+.round-corners-3 .footer-wrapper .block .inner,
+.round-corners-3 div.comment,
+.round-corners-3 .node div.links {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.round-corners-3 #footer {
+  -moz-border-radius: 0px 0px 3px 3px;
+  -webkit-border-radius: 0px 0px 3px 3px;
+  border-radius: 0px 0px 3px 3px;
+}
+
+.round-corners-7 .primary-menu,
+.round-corners-7 h2.block-title {
+  -moz-border-radius: 7px 7px 0px 0px;
+  -webkit-border-radius: 7px 7px 0px 0px;
+  border-radius: 7px 7px 0px 0px;
+}
+
+.round-corners-7 .main-wrapper .block .inner,
+.round-corners-7 .preface-top-wrapper .block .inner,
+.round-corners-7 .postscript-bottom-wrapper .block .inner,
+.round-corners-7 .footer-wrapper .block .inner,
+.round-corners-7 div.comment,
+.round-corners-7 .node div.links {
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.round-corners-7 #footer {
+  -moz-border-radius: 0px 0px 7px 7px;
+  -webkit-border-radius: 0px 0px 7px 7px;
+  border-radius: 0px 0px 7px 7px;
+}
+
+.round-corners-11 .primary-menu,
+.round-corners-11 h2.block-title {
+  -moz-border-radius: 11px 11px 0px 0px;
+  -webkit-border-radius: 11px 11px 0px 0px;
+  border-radius: 11px 11px 0px 0px;
+}
+
+.round-corners-11 .main-wrapper .block .inner,
+.round-corners-11 .preface-top-wrapper .block .inner,
+.round-corners-11 .postscript-bottom-wrapper .block .inner,
+.round-corners-11 .footer-wrapper .block .inner,
+.round-corners-11 div.comment,
+.round-corners-11 .node div.links {
+  -moz-border-radius: 11px;
+  -webkit-border-radius: 11px;
+  border-radius: 11px;
+}
+
+.round-corners-11 #footer {
+  -moz-border-radius: 0px 0px 11px 11px;
+  -webkit-border-radius: 0px 0px 11px 11px;
+  border-radius: 0px 0px 11px 11px;
+}
+
+/*----------------------------------------------------------------------------*/
+/* CORE MODULES
+/---------------------------------------------------------------------------- */
+
+/* ---------------------------- BOOKS --------------------------------------- */
+
+.book-navigation .menu {
+  border-top: 0;
+}
+
+.book-navigation .page-links {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+/* ---------------------------- COMMENTS ------------------------------------ */
+
+h2.comments-header {
+  margin-left: 10px; /* LTR */
+}
+
+/* Style for each individual comment */
+div.comment {
+  margin: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+/* Subject (title) of each comment */
+div.comment h3.title {
+  font-size: 130%;
+}
+
+/* Links (edit, reply, delete) for each comment */
+div.comment div.links  {
+  margin: 0 10px;
+}
+
+div.comment div.links a,
+div.comment ul.links a {
+  font-weight: bold;
+}
+
+div.comment ul.links li {
+  margin-right: 10px; /* LTR */
+}
+
+/* Comment signatures */
+.signature {
+  border-top: 1px solid #d6ddb9;
+}
+
+/* User avatars in comments */
+.comments div.picture {
+  float: left; /* LTR */
+  margin: 5px 15px 10px 10px; /* LTR */
+}
+
+/* ----------------------------------- FORUMS ------------------------------- */
+
+.forum-topic-navigation {
+  border-top: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+/* ---------------------------------- POLLS --------------------------------- */
+
+div.poll div.bar {
+  background-color: #ddd;
+}
+
+div.poll div.bar div.foreground {
+  background-color: #999;
+}
+
+/* ------------------------------- PROFILES --------------------------------- */
+
+.profile .picture {
+  float: left; /* LTR */
+  margin: 0 15px 15px 0; /* LTR */
+}
+
+/* Styles for sub-headings on user profiles */
+.profile dt {
+  background: none;
+}
+
+#block-addtoany-0 .block-title,#block-menu-menu-footer-links .block-title, #block-menu-secondary-links .block-title,#block-menu-menu-diabetes-external-links .block-title, #block-menu-menu-external-links .block-title{
+	display: none;
+}
+
+#block-addtoany-0 li,
+#block-menu-menu-footer-links li,
+#block-menu-menu-diabetes-external-links li,
+#block-menu-secondary-links li,
+#block-menu-menu-external-links li {
+	display: inline-block;
+  float:left;
+}
+
+#block-addtoany-0 li {
+  padding-left: 10px;
+}
+
+#block-addtoany-0 {
+	width: 85px;
+	float: right;
+}
+
+#block-addtoany-0 .inner {
+  margin-left:4px;
+}
+#block-menu-menu-external-links, #block-menu-menu-diabetes-external-links{
+	width: 100%;
+}
+#block-menu-secondary-links{
+	float: right;
+}
+#secondary-menu{
+	display: none;
+}
+#block-menu-menu-external-links ul,
+#block-menu-menu-diabetes-external-links ul{
+	float: right;
+	padding-right: 10px;
+}
+#block-menu-secondary-links ul{
+	float: right;
+}
+#header-site-info{
+	width: 220px;
+}
+#block-block-4{
+	width: 800px !important;
+	float: right;
+}
+#block-menu-secondary-links .clearfix{
+	padding-bottom: 0px;
+	padding-right: 0px
+}
+#block-addtoany-0 .clearfix{
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+#block-menu-menu-external-links .clearfix{
+	padding-top: 0px;
+}
+#superfish-3 li{list-style: none;}
+#superfish-3 li a{margin-left: 10px; padding: 2px;}
+
+#block-menu-menu-footer-links ul{
+	width: 230px;
+	margin: 0 auto;
+	text-align: center;
+}
+#block-block-59{
+	width: 270px !important;
+}
+#block-block-5{
+	width: 600px !important;
+	float: right;
+}
+/*#content-top{*/
+	/*padding-left: 60px !important;*/
+/*}*/
+
+#content-region{
+	width: 95%;
+	padding-left: 50px !important;
+}
+#content-bottom{
+	padding-left: 60px !important;
+  width: 705px;
+}
+#block-block-61{
+	float: right;
+}
+.breadcrumb{
+	display: none;
+}
+.block-block{
+	width: 100% !important;
+}
+#sidebar-last{
+	width: 230px !important;
+	float: right;
+}
+#content-group{
+	min-width: 75%;
+}
+/*
+#widgetbox_widget_flash_0{
+	width: 100% !important;
+	height: 100% !important;
+}
+#widgetbox_widget_flash_1{
+	width: 100% !important;
+	height: 100% !important;
+} */
+#page{
+	width: 1100px;
+}
+#main-group{
+	width: 920px;
+}
+#primary-menu-inner{
+	float: right;
+}
+.grid16-16 {width: 100% !important;}
+.sf-menu.sf-style-space-orange li:hover, 
+.sf-menu.sf-style-space-orange li.sfHover, 
+.sf-menu.sf-style-space-orange li.active a, 
+.sf-menu.sf-style-space-orange a:focus, 
+.sf-menu.sf-style-space-orange a:hover, 
+.sf-menu.sf-style-space-orange a:active, 
+.sf-navbar.sf-style-space-orange li li {
+	background: #BCBCBC;
+	color: black !important;
+	text-decoration: none;
+}
+.sf-menu.sf-style-space-orange li, 
+.sf-menu.sf-style-space-orange li, 
+.sf-menu.sf-style-space-orange li a, 
+.sf-menu.sf-style-space-orange a, 
+.sf-menu.sf-style-space-orange a, 
+.sf-menu.sf-style-space-orange a, 
+.sf-navbar.sf-style-space-orange li li {
+	background: #DCDCDC;
+	color: black !important;
+	text-decoration: none !important;
+}
+.lt-blue-background .inner, 
+.lt-blue-background .comment, 
+.node-top .lt-blue-background .inner, 
+.node-bottom .lt-blue-background .inner {
+	background-color: #FFFFFF !important;
+}
+.sf-menu.sf-style-space-orange a {
+	border: none !important;
+	border-bottom: 1px solid #CCC;
+}
+ul.sf-vertical li a:link, 
+ul.sf-vertical li a:visited, 
+ul.sf-vertical li .nolink {
+	margin-left: 0px;
+	padding: 2px;
+	padding-left: 10px;
+}
+#footer-message-text{
+	padding: 0px;
+}
+#block-menu-menu-footer-links .clearfix{padding: 0px; margin: 0px;}
+#block-block-5 {width: 678px !important; height: 88px !important;}
+#block-block-5 img{width: 678px !important; height: 88px !important;}
+body.page-user #block-print-0{
+  float: right;
+  position: relative;
+  right: 86px;
+  width: 50px;
+}
+body.page-user #content-region{
+  position: relative;
+}
+.status {
+  color: #264409;
+  background: url(/sites/all/modules/custom/cacure_mgmt/css/images/finish.png) no-repeat;
+  padding-top: 0px;
+  padding-left: 20px;
+}
+div#block-cacure_mgmt-1 div.element-header div.module-name {
+	color: #999 !important;
+}
+div#block-cacure_mgmt-4 h2{
+	color: #999 !important;
+}
+#block-notes-0 h4{
+	color: #999 !important;
+}
+.pane-content p{
+	float: left;
+	width: 100%;
+}
+.panel-col-top .pane-content img{
+	float: left;
+}
+.block-superfish{
+	width: 230px !important;
+}
+
+.sidebar-last #widgetbox_widget_parent_0{
+	float: right;
+	padding-right: 5px;
+}
+.sidebar-last #widgetbox_widget_parent_1{
+	float: right;
+	padding-right: 5px;
+}
+.sidebar-last #widgetbox_widget_parent_2{
+	float: right;
+	padding-right: 5px;
+}
+.sidebar-last #widgetbox_widget_parent_3{
+	float: right;
+	padding-right: 5px;
+}
+#edit-captcha-response-wrapper{
+	width: 100%;
+	float: left;
+}
+#edit-submit{
+	float: left;
+}
+#edit-delete{
+	display: none;
+}
+#xf-output-0 {
+  font-size: 14px;
+  font-weight: bold;
+  background: #ccccca;
+  padding: 0 0 0 20px;
+  line-height: 30px;
+  width: 675px;
+  display: block;
+  z-index: 999;
+  top: 0;
+}
+#two-steps {
+  height: 50px;
+  margin: 17px 0 20px;
+}
+
+#two-steps .one, #two-steps .two {
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 0 0 34px;
+  width: 165px;
+}
+
+#two-steps .two {
+  margin-left: 24px;
+  width: 275px;
+}
+#two-steps .one {
+	background: url(../images/one.png) no-repeat 0px 0px;
+}
+#two-steps .two {
+	background: url(../images/two.png) no-repeat 0px 0px;
+}
+
+#two-steps h4.steps {
+  float: left;
+  font-size: 24px;
+  line-height: 28px;
+  padding: 0;
+  width: 125px;
+}
+
+#two-steps p span {
+  color: #333;
+  float: left;
+  width: 545px;
+}
+#consent-submit{
+	background: url("../images/nav-bg-gray.gif") repeat-x scroll left top #CCCCCA;
+    border-color: #E1E1E1 #B5B5B4 #B5B5B4 #E1E1E1;
+    border-style: solid;
+    border-width: 1px;
+    color: #000000;
+    font-size: 100%;
+    font-weight: bold;
+    padding: 1px 5px;
+    text-decoration: none;
+}
+
+body div#block-cacure_mgmt-1 .sub-head .status {
+	right: 65px;
+}
+div.warning, tr.warning {
+  border: 1px solid #F0C020;
+  background: #FFD url(large-alert.png) no-repeat 12px center;
+  margin: 0 0 1em;
+  padding: 1em 0 1em 5em !important;
+}
+body #block-cacure_mgmt-3 #submit_questionnaire #button-wrap{
+  width: 632px;
+}
+
+#block-menu-secondary-links a,
+#block-menu-menu-external-links ul a,
+#block-menu-menu-diabetes-external-links ul a {
+  display: block;
+  padding: 0 8px;
+  border-right: 1px #323232 solid;
+  line-height: 12px;
+  margin:4px 0 0 0;
+}
+
+#block-menu-menu-footer-links ul a {
+  display: block;
+  padding: 0 8px;
+  border-right: 1px #323232 solid;
+  line-height: 10px;
+  margin:4px 0 0 0;
+}
+
+#block-menu-menu-external-links ul li.last a,
+#block-menu-menu-diabetes-external-links ul li.last a,
+#block-menu-menu-footer-links ul li.last a {
+  border:none;
+}
+
+#block-menu-secondary-links ul.menu li,
+#block-menu-menu-external-links ul.menu li,
+#block-menu-menu-diabetes-external-links ul.menu li,
+#block-menu-menu-footer-links ul.menu li {
+  margin: 0;
+}
+
+#pid-user-register #content-top {
+  height:100%;
+  width: 90%;
+}
+
+div#username_validation_error {
+  color:red;
+}
+
+.error ul {
+  margin:0; 
+}
+
+#block-cacure_change_role-0 fieldset,
+#block-switchtheme-0 fieldset {
+  display: none;
+}
+
+#switchtheme-switch-form div.form-item {
+  float: none;
+  margin-bottom: 10px;
+}
+
+#pid-primary-links-about-healthcare-it-inc h1.title {
+  display: none;
+
+}
+
+div#panels-divider-hor {
+    background: url("../images/panel-divider.jpg") no-repeat scroll center top transparent;
+    float: left;
+    height: 4px;
+    margin: 15px auto;
+    width: 694px;
+}
+
+/*=-Correction Styles For Theme-=*/
+
+/*-----------------------Layout corrections to full screen width for pages with forms------------------------------*/
+#page.page-forms {width: 100%;} /* Full screen width layout */ 
+#page.page-forms #header-top-inner {width: 1100px; margin: 0 auto;} /* Fixed width for header and centered content part */
+#page.page-forms .header-group-container {width: 1100px; margin: 0 auto;} /* Fixed width for header and centered content part */
+#page.page-forms #main  #main-inner {margin: 0 auto;} /* Centered layout for pages  */
+/*-----------------------Full screen width primary menu-------------------------*/
+#page.page-forms #primary-menu.block {width: 100%; } /*  */
+#page.page-forms #primary-menu.block ul.menu {margin-left: -5px;}
+/*-----------------------Styles and fixed width for left menu-------------------------*/
+#page.page-forms #sidebar-first {width: 190px;}
+#page.page-forms #sidebar-first #sidebar-first-inner .form-element-list {}
+#page.page-forms #sidebar-first #sidebar-first-inner .form-element-list .form-element {}
+#page.page-forms #sidebar-first #sidebar-first-inner .form-element-list .form-element a {border-bottom: 1px dotted #ccc;}
+/*-----------------------Fix for stretching forms layout-------------------------*/
+#page.page-forms #main  #main-inner #main-group {width: 100%; float: left; margin-left: -190px;} 
+#page.page-forms #main  #main-inner #main-group-inner {margin-left: 210px;} 
+/*-----------------------Forms Layout-------------------------*/
+#page.page-forms #main  #main-inner #content-group {width: 100%;} 
+#page.page-forms #main  #main-inner #content-group #block-print-0 {left: auto; top: 8px;} 
+#page.page-forms #main  #main-inner #content-group #xform-block {left: auto;} 
+/*-----------------------Forms Inner Items-------------------------*/
+#page.page-forms #xform-block {}
+#page.page-forms #xform-block.auto-width {background: url("../images/xforms/full-width-box-border.png") left top no-repeat}
+#page.page-forms #xform-block.auto-width .xform-block-inner { background: url("../images/xforms/full-width-box-border.png") right top no-repeat; width: 100%; overflow: hidden;}
+#page.page-forms #xform-block #xf-output-0 {width: auto; margin-left: 0;}
+#page.page-forms #xform-block .xforms-group {padding: 0 10px;}

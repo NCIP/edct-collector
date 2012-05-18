@@ -1,0 +1,10 @@
+; $Id $
+name = "CaCure XForms new"
+description = "CaCure integration XForms to Drupal"
+dependencies[] = "cacure_api"
+core = 6.x
+version = "6.x-1.1"
+core = "6.x"
+project = "tXFormsest"
+package = CaCure custom modules
+datestamp = "1223218820"

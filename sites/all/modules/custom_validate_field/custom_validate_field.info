@@ -1,0 +1,4 @@
+name = Custom Validate
+description = Validate form fields
+package = Hammertech
+core = 6.x

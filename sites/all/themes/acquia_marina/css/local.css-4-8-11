@@ -1,0 +1,1485 @@
+@charset "utf-8";
+@import "forms.css";
+@import "blocks.css";
+
+/* CSSTidy 1.3: Sat, 12 Feb 2011 06:29:28 -0700 */
+#block-addtoany-0 {
+  float: right;
+  font-size: 12px;
+  height: 20px;
+  left: 358px;
+  position: relative;
+  right: 0;
+  top: -2px;
+  width: 70px;
+}
+
+#block-block-17 /* add to any in footer */
+{
+  font-size: 12px;
+  left: 290px;
+  position: relative;
+  right: 0;
+  width: 70px;
+}
+
+#block-block-17 p /* add to any in footer */
+{
+  margin: .5em 0 0;
+}
+
+#block-block-19 {
+  margin-bottom: 1em;
+  margin-top: 25px;
+  padding: 0 20px;
+  width: 95%;
+}
+
+#block-block-19 h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+}
+
+#block-block-19 p {
+  font-size: .857em;
+  padding: 0;
+}
+
+#block-block-4, #block-block-5 {
+  float: right;
+  margin-bottom: 0;
+  margin-top: -15px;
+  overflow: hidden;
+  position: relative;
+  right: -15px;
+  width: 75%;
+}
+
+#block-cacure_mgmt-3 {
+  width: 628px;
+}
+
+#block-cacure_t-13 {
+  margin-bottom: 0;
+  width: 60px;
+}
+
+#block-menu-menu-about-study li.active, #block-menu-menu-about-study li.active-trail-0, #block-menu-menu-research-team li.active, #block-menu-menu-research-team li.active-trail-0, #block-menu-menu-join-now li.active, #block-menu-menu-join-now li.active-trail-0, #block-menu-menu-account-links li.active, #block-menu-menu-account-links li.active-trail-0, #block-menu-menu-pvt-account li.active, #block-menu-menu-pvt-account li.active-trail-0 {
+  display: list-item;
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: -20px;
+  padding-left: 20px;
+}
+
+#block-menu-menu-external-links /* External Links position in the header region*/
+{
+  float: right;
+  margin: 0;
+  position: relative;
+  right: -18px;
+  top: -45px;
+  width: 500px;
+}
+
+#block-menu-menu-footer-links {
+  margin-bottom: 0;
+  width: 250px;
+}
+
+#block-menu-menu-footer-links li {
+  display: inline-block;
+  float: left;
+  height: 12px;
+  margin: 0;
+}
+
+#block-menu-menu-footer-links ul.menu li.last {
+  border-right: none;
+}
+
+#block-menu-menu-my-account-quicklinks h2 {
+  font-size: 14.5px;
+}
+
+#block-menu-secondary-links /*Position for Secondary Links in Header Region */
+{
+  float: right;
+  height: 20px;
+  margin-bottom: .5em;
+  position: relative;
+  right: 50px;
+  top: 3px;
+}
+
+#block-menu-secondary-links h2, #block-addtoany-0 h2, #block-menu-primary-links h2, #block-menu-menu-terms-and-privacy h2, #block-menu-menu-footer-links h2, #block-menu-menu-external-links h2 {
+  display: none;
+  visibility: collapse;
+}
+
+#block-menu-secondary-links li a, ul.secondary-links li a, #block-menu-menu-external-links li a, div[ id$=terms-and-privacy] li a, #block-menu-menu-footer-links li a {
+  display: block;
+  line-height: 12px;
+  padding: 0 8px;
+}
+
+#block-menu-secondary-links li, ul.secondary-links li, #block-menu-menu-external-links li, div[ id$=terms-and-privacy] li, div[ id$=terms-and-privacy] li {
+  display: inline-block;
+  float: right;
+  height: 12px;
+  margin: 0;
+}
+
+#block-menu-secondary-links ul, ul.secondary-links, #block-menu-menu-external-links ul, div[ id$=terms-and-privacy] ul, #block-menu-menu-footer-links ul {
+  display: inline;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+
+#block-notes-0 h4 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-print-0 {
+  width: 55px;
+}
+
+#block-user-0 p.case-msg {
+  font-size: .8em;
+  line-height: 12px;
+  padding: 0;
+}
+
+#block-views-Member_Comments-block_1 .small {
+  padding: 0 0 0 20px;
+}
+
+#block-views-Member_Comments-block_1 .views-row .field-content {
+  padding: 0;
+  width: 200px;
+}
+
+#browser {
+  margin-top: 20px;
+}
+
+#browser img {
+  height: 75px;
+  margin-right: 20px;
+  width: 75px;
+}
+
+#clear-block {
+  clear: both;
+}
+
+#content-group .view-rows-even {
+  min-height: 50px;
+  padding: 20px 0;
+}
+
+#content-top-left {
+  float: right;
+  position: relative;
+  /*right: 2px;
+  top: 11px;
+  z-index:20;*/
+  height:0;
+
+}
+
+#counter {
+  font-size: 19px;
+  letter-spacing: 9px;
+  line-height: 26px;
+  margin-top: 10px;
+  padding-left: 5px;
+}
+
+#footer {
+  font-size: 10px;
+  line-height: 24px;
+  text-align: right;
+  padding:5px;
+}
+
+#footer p, .how-news div.view-content {
+  padding-right: 20px;
+}
+
+#footer-message {
+  border-top: none !important;
+  /*margin-right: 10px;*/
+  width: 300px !important;
+}
+
+#footer-message-wrapper {
+  height: 60px;
+  padding: 0;
+}
+
+#footer_inner {
+  font-size: 12px;
+  height: 48px;
+  line-height: 48px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+#footer_inner ul {
+  margin: 0;
+  padding: 0;
+}
+
+#general-instructions {
+  margin-top: 20px;
+  padding: 20px;
+  width: 655px;
+}
+
+#general-instructions #left {
+  margin-right: 40px;
+}
+
+#general-instructions #left, #general-instructions #right {
+  float: left;
+  font-size: 12px;
+  width: 307px;
+}
+
+#general-instructions h4 {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+#general-instructions p {
+  line-height: 16px;
+  padding: 0 0 20px;
+}
+
+#header-group-inner-inner {
+  margin: 30px 0 20px;
+  padding: 10px 0 0;
+}
+
+#header-site-info, #header-site-info-inner {
+  width: 75%;
+}
+
+#header-site-info.block {
+  margin-bottom: 0;
+  width: 25%;
+}
+
+#header-top-wrapper {
+  height: 20px;
+  padding-top: 7px;
+}
+
+#large {
+  font-size: 17px;
+}
+
+#logo {
+  float: left;
+  margin: -10px 15px 0 0;
+  position: relative;
+  top: 20px;
+}
+
+#medium, #remember h4 {
+  font-size: 14px;
+}
+
+#my-how-overview .content p {
+  line-height: 18px;
+}
+
+#page-inner #block-menu-secondary-links {
+  top: 1px;
+}
+
+#page-inner h2.user-name {
+  height: 12px;
+  margin: 0 auto;
+  top: -22px;
+  width: 450px;
+}
+#content-content {z-index: 10;}
+#pid-autologout-logout #content-inner-inner {
+  text-align: center;
+}
+
+#pid-hhs-resources #content-content {
+  width: 720px;
+}
+
+#pid-hhs-resources #content-top-left {
+  right: 63px;
+  top: 12px;
+}
+
+#pid-home #content-top-left {
+  right: -29px;
+  top: 6px;
+  z-index: 100;
+}
+
+#pid-join-consent #content-top-left {
+  right: -14px;
+  top: -27px;
+}
+
+#pid-my-account-submit-questionnaire #block-cacure_mgmt-3 {
+  width: 627px;
+}
+
+#pid-refer-a-friend #content-top-left {
+  right: -21px;
+}
+
+#pid-refer-a-friend #main, #pid-refer-a-friend #main-group, #pid-refer-a-friend #content-group {
+  width: 696px;
+}
+
+#pid-user-login #content-top-left, #pid-user-password #content-top-left {
+  right: 20px;
+  top: 48px;
+}
+#pid-primary-links-about-healthcare-it-inc #content-top-left{
+  /* right: -10px;
+  top: -5px; */
+}
+#pid-primary-links-about-hosting #content-top-left{
+  /*right: -20px; */
+}
+
+#pid-user-register #content-messages {
+  float: none;
+}
+
+#pid-user-register #content-messages #content-messages-inner div.messages {
+  margin: 0 auto;
+  width: 400px;
+  height: 100%;
+}
+
+#pid-user-register #content-top-left {
+  right: 53px;
+  top: 0;
+}
+
+#pid-user-register #user-register #edit-submit {
+  width: 137px;
+  margin: 146px 0;
+}
+
+#pid-user-register .password-description {
+  width: 325px;
+}
+
+#pid-user-register form#user-register #edit-name-wrapper .description, #pid-user-register form#user-register #edit-pass-wrapper .description {
+  color: #333;
+  display: block;
+  font-size: .8em;
+}
+
+#pid-user-register form#user-register #edit-name-wrapper, #pid-user-register form#user-profile-form #edit-name-wrapper {
+  height: 48px;
+}
+
+#pid-user-register form#user-register .captcha {
+  float: left;
+  margin: 20px 0 0 20px;
+  position: relative;
+  right: 1px;
+  top: 5px;
+}
+
+#pid-user-register form#user-register .password-description, #pid-user-register form#user-register #username_validation_error {
+  line-height: 107%;
+}
+
+#pid-va-forms #content-top-left, #pid-fema-forms #content-top-left, #pid-hhs-forms #content-top-left, #pid-af-forms #content-top-left {
+  right: -18px;
+  top: 12px;
+}
+
+#pid-va-home-main #content-top-left, #pid-fema-home-main #content-top-left, #pid-hhs-home-main #content-top-left, #pid-af-home-main #content-top-left {
+  right: -8px;
+  top: 14px;
+}
+
+#pid-va-resources #content-top-left, #pid-fema-resources #content-top-left, #pid-af-resources #content-top-left {
+  right: -10px;
+  top: 12px;
+  z-index: 1000;
+}
+
+#primary-menu ul.menu {
+  font-size: 100%;
+  margin: 0;
+}
+
+#primary-menu ul.menu li {
+  display: block;
+  float: left;
+  margin: 0 4px 0 0;
+  padding: 0 0 0 10px;
+  position: relative;
+}
+
+#primary-menu ul.menu li a:hover, #primary-menu ul.menu li:hover a:link, #primary-menu ul.menu li:hover a:visited, #primary-menu ul.menu li.hover a:link, #primary-menu ul.menu li.hover a:visited, #primary-menu ul.menu li.active-trail a:link, #primary-menu ul.menu li.active-trail a:visited {
+  background-position: 100% -29px;
+}
+
+#primary-menu ul.menu li a:link, #primary-menu ul.menu li a:visited, #primary-menu ul.menu li span.nolink {
+  display: block;
+  padding: 5px 10px 1px 0;
+}
+
+#primary-menu ul.menu li span.nolink:hover, #primary-menu ul.menu li span.nolink.hover, #primary-menu ul.menu li:hover span.nolink, #primary-menu ul.menu li.hover span.nolink, #primary-menu ul.menu li.active-trail span.nolink {
+  background-position: right -46px;
+}
+
+#primary-menu ul.menu li ul.menu li a:link, #primary-menu ul.menu li ul.menu li a:visited, #primary-menu ul.sf-menu li.sfHover ul.menu li span.nolink, #primary-menu ul.menu li:hover ul.menu li span.nolink, #primary-menu ul.menu li.hover ul.menu li span.nolink {
+  padding-left: 10px;
+}
+
+#primary-menu ul.menu li:hover ul.menu li ul.menu, #primary-menu ul.menu li.hover ul.menu li ul.menu, #primary-menu ul.menu li ul.menu li ul.menu {
+  font-size: 100%;
+  margin-left: 34px;
+  margin-top: -2px;
+}
+
+#primary-menu ul.menu li:hover ul.menu li, #primary-menu ul.menu li.hover ul.menu li, #primary-menu ul.menu li.sfHover ul.menu li {
+/*  background: #476E30; */
+  padding-left: 0;
+}
+
+#primary-menu ul.menu li:hover ul.menu li.last, #primary-menu ul.menu li.hover ul.menu li.last, #primary-menu ul.menu li.sfHover ul.menu li.last {
+  border-bottom: 0;
+}
+
+#primary-menu ul.menu li:hover ul.menu, #primary-menu ul.menu li.hover ul.menu, #primary-menu ul.menu li.sfHover ul.menu {
+  font-size: 91.7%;
+  margin-top: -5px;
+  padding: 2px 0 4px;
+  position: absolute;
+  text-align: left;
+  width: 144px;
+  z-index: 2;
+}
+
+#primary-menu ul.menu li:hover, #primary-menu ul.menu li.hover, #primary-menu ul.menu li.active-trail {
+  background-position: 0 -29px;
+}
+
+#primary-menu, #primary-menu.block .inner {
+  float: right;
+  margin: 0;
+}
+
+#primary-menu-inner li, #primary-menu-inner a {
+  position: relative;
+  z-index: 1002;
+}
+
+#primary-menu.block {
+  overflow: visible;
+  position: relative;
+  z-index: 101;
+}
+
+#remember {
+  margin-top: 20px;
+  padding: 20px 0;
+  width: 100%;
+}
+
+#remember li {
+  font-size: 12px;
+  line-height: 22px;
+  list-style-position: outside;
+}
+
+#remember ul {
+  margin: 0;
+  padding: 0 0 0 14px;
+}
+
+#remember.last {
+  margin-top: 60px;
+  padding-top: 10px;
+}
+
+#remember.last ul {
+  width: 655px;
+}
+#sidebar-first
+{
+   position: relative;
+   /* top: -12px; */
+}
+#sidebar-last
+{
+   position: relative;
+   /* top: -14px; */
+}
+
+#sidebar-first .block p {
+  font-size: 1em;
+  line-height: 16px;
+}
+
+#site-name {
+  font-size: 250%;
+  left: 100px;
+  position: relative;
+}
+
+#site-name-wrapper {
+  float: left;
+  left: 150px;
+  position: absolute;
+  top: 0;
+  width: 500px;
+}
+
+#small {
+  font-size: 11px;
+}
+
+#text_change {
+  font-size: 14px;
+  line-height: 13px;
+  z-index: 100;
+}
+
+#text_change a, .faq-answer, .page-user ul.secondary li:first-child a {
+  padding-left: 0;
+}
+
+#two-steps {
+  height: 50px;
+  margin: 17px 0 20px;
+}
+
+#two-steps .one, #two-steps .two {
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 0 0 34px;
+  width: 165px;
+}
+
+#two-steps .two {
+  margin-left: 24px;
+  width: 275px;
+}
+
+#two-steps h4.steps {
+  float: left;
+  font-size: 24px;
+  line-height: 28px;
+  padding: 0;
+  width: 125px;
+}
+
+#two-steps p span {
+  color: #333;
+  float: left;
+  width: 545px;
+}
+
+#user-login-form {
+  padding: 0 0 0 10px;
+}
+
+#user-login-form input.form-submit {
+  margin-top: 15px;
+  padding: 3px;
+}
+
+#user-login-form label {
+  padding: 7px 0 7px 10px;
+}
+
+#user-login-form label .form-required /* The required asterix */
+{
+  font-size: 2em;
+  padding: 8px 0 3px;
+}
+
+#xform-block .xforms-item-label {
+  margin-left: 5px;
+}
+
+.Chrome8 #block-block-5, .Safari5 #block-block-5 {
+  margin-bottom: 30px;
+}
+
+.Chrome8 #header-group-inner-inner, .Safari5 #header-group-inner-inner {
+  position: relative;
+  top: 20px;
+}
+
+.IE .user-register #content-region {
+  margin-top: -15px;
+  padding: 0;
+}
+
+.block h2 /* Headers for block have less padding */
+{
+  font-size: 14.5px;
+  padding: 0 0 5px;
+}
+
+.block p {
+  line-height: 20px;
+  padding: 0 10px 0 0;
+}
+
+.browserOpera .node-73 #text_change /*current questionnaire*/
+{
+  top: 43px;
+}
+
+.clear-block p {
+  max-width: 675px;
+  padding-bottom: 10px;
+}
+
+.content-inner-inner .content-content .inner .content ul li {
+  list-style: none outside none;
+  margin-bottom: 5px;
+  padding: 0 0 0 15px;
+}
+
+.date, .small {
+  font-size: .786em;
+}
+
+.editform #content-region, .node-71 #content-region, /* This is the Overview page */
+.faq #content-region, .how-news #content-region, .contact-us #content-region, .privacy-consent #content-region, .join-now #content-region,
+.front #content-region, .about #content-region, .primary-links-why-important #content-region, .how-do-i-participate #content-region,
+.primary-links-how-do-you-use-my-data #content-region, .research-team-overview #content-region {
+ /* margin-top: -20px; */
+}
+
+.editform #text_change, .node-71 #text_change, /* this is the Overview page */
+.faq #text_change, .how-news #text_change, .privacy-consent #text_change, .join-now #text_change, .about #text_change, .primary-links-why-important #text_change, .how-do-i-participate #text_change, .primary-links-how-do-you-use-my-data #text_change, .research-team-overview #text_change, .user-login #text_change {
+  top: 8px;
+}
+
+.faq-content {
+  margin: 10px 0;
+}
+
+.faq-description, .main-note .views-row, .note p {
+  margin-bottom: 10px;
+}
+
+.font-size-12 {
+  font-size: 75%;
+}
+
+.footer-message {
+  font-size: 91.7%;
+  padding: 0;
+  text-align: center;
+}
+
+.xform-page #block-menu-menu-external-links /* External Links position in the header region-front page*/
+{
+  position: relative;
+  top: -30px;
+}
+
+.home h1 {
+  padding: 10px 0 0;
+}
+
+.how-news #content-group .views-row .views-field-body p, .how-news #content-group .views-row .views-field-description p {
+  font-size: 1em;
+  line-height: 20px;
+  margin: .5em;
+}
+
+.how-news .views-field-title {
+  font-size: 1.1em;
+  line-height: 20px;
+  width: 90%;
+}
+
+.how-news div.panel-col-top {
+  margin: 0 0 10px;
+}
+
+.how-news div.views-row {
+  margin: 10px 0 20px;
+}
+
+.how-news div[class^=panel-col-] {
+  margin-top: 15px;
+}
+
+.how-news h1 {
+  padding: 3px 0 0;
+}
+
+.how-news-archive .views-row, .how-blog-archive .views-row, .faq-question {
+  padding: 10px 0;
+}
+
+.join-consent #block-print-0, .user-register #block-print-0 {
+  top: -20px;
+}
+
+.join-consent #content-region, .IE .join-consent #content-region, .IE .node-73 #content-region {
+  margin-top: 0;
+}
+
+.join-consent #node-46 {
+  padding: 5px;
+}
+
+.join-consent h1.title {
+  font-size: 125%;
+  margin-bottom: 0;
+  padding: 5px;
+  width: 97.9%;
+}
+
+.logged-in #logged-in, .not-logged-in #logged-out {
+  display: block;
+}
+
+.main-note .date, .note-created, #my-submitted-questionnaires {
+  font-size: .857em;
+}
+
+.main-note .views-field-edit-node, .note-edit {
+  float: left;
+  margin-right: 50px;
+}
+
+.main-note .views-field-teaser, .note-body {
+  width: 300px;
+}
+
+.main-note a .note-title {
+  font-size: 16px;
+}
+
+.main-wrapper {
+  margin-bottom: 40px;
+  min-height: 350px;
+  padding-top: 25px;
+}
+
+.messages.error, messages.warning {
+  width: 250px;
+}
+
+.node p {
+  padding-bottom: 10px;
+}
+
+.node-73 #block-print-0 {
+  top: -275px;
+}
+
+.not-logged-in #logged-in, .logged-in #logged-out, .page-user #edit-delete /* Remoces Default User Delete Button */, .page-user div[id^=edit-status-], .xform-page #block-addtoany-0 {
+  display: none;
+}
+
+.page-home #text_change {
+  right: -200px;
+  top: 0;
+  position: relative;
+}
+
+.page-home .block.left p {
+  font-size: .786em;
+  line-height: 14px;
+}
+
+.page-home .block.right p {
+  line-height: 14px;
+}
+
+.page-home .sidebar-first div[id^=block] img, .page-home .sidebar-last div[id^=block] img /* For any side modules with the gray bar fade*/
+{
+  padding: 5px 0;
+}
+
+.page-home .sidebar-first div[id^=block], .page-home .sidebar-last div[id^=block] /* For any side modules with the gray bar fade*/
+{
+  min-height: 90px;
+  padding: 0;
+  width: 100%;
+}
+
+.page-home .sidebar-last div[id^=block], .print-page #block-print-0 {
+  float: right;
+}
+
+.page-home .views-row-even, .page-home .views-row-odd {
+  margin: 10px 1px;
+  padding-bottom: 0;
+}
+
+.page-home .views-row-last {
+  border-bottom: none;
+}
+
+.page-home .views-row.views-row-first {
+  margin-top: 5px;
+}
+
+.page-home .views-row.views-row-first .field-content /*HP Main Content Area */
+{
+  padding-bottom: 15px;
+  width: 475px;
+}
+
+.page-home .views-row.views-row-first h1, .main-note p {
+  padding-top: 0;
+}
+
+.page-home .views-row.views-row-first p {
+  font-size: 1.1em;
+  line-height: 20px;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.page-home div.views-row-2 p {
+  line-height: 20px;
+  width: 475px;
+}
+
+.page-home div.views-row-2 p img, .Chrome8 #block-addtoany-0 {
+  top: 0;
+}
+
+.page-home div[class^=views-row] .field-content, #block-menu-secondary-links {
+  width: 350px;
+}
+
+.page-home div[class^=views-row] .views-field-body, #content-group .page-user {
+  position: relative;
+}
+
+.page-home div[class^=views-row] p {
+  font-size: 1em;
+  line-height: 17px;
+  padding: 0 8px 0 0;
+}
+
+.page-home div[class^=views-row] p h6 {
+  padding-bottom: 5px;
+  padding-top: 0;
+  width: 310px;
+}
+
+.page-home div[class^=views-row] p img {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.page-user ul.secondary {
+  font-size: 12px;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.page-user ul.secondary a {
+  font-size: 12px;
+  height: 10px;
+  line-height: 10px;
+  padding: 0 10px;
+}
+
+.postscript-bottom-wrapper {
+  margin-bottom: 20px;
+  min-height: 24px;
+  padding-top: 30px;
+}
+
+.preface-top-wrapper {
+  height: 0;
+  min-height: 0;
+  padding-top: 15px;
+}
+
+.rteright a:last-child /*Makes the right arrow after link smaller */
+{
+  font-size: 11px;
+  padding-left: 3px;
+}
+
+.sidebar-first #block-block-8 {
+  width: 90%;
+}
+
+.sidebar-first #block-block-8 .title {
+  padding-top: 8px;
+}
+
+.sidebar-first #block-menu-menu-my-account-quicklinks {
+  font-size: 1.1em;
+}
+
+.sidebar-first #block-menu-menu-my-account-quicklinks ul {
+  margin: 0;
+}
+
+.sidebar-first #block-user-0 /* Home Page Login w/ Deep Red BG */
+{
+  font-size: 12px;
+  margin-bottom: 20px;
+  padding: 19px 0 8px 8px;
+}
+
+.sidebar-first #block-user-0 h2 /* HP Login Header */
+{
+  display: block;
+  font-size: 13.5px;
+  margin-bottom: 0;
+  padding: 0 0 2px;
+}
+
+.sidebar-last #block-views-Member_Comments-block_1 {
+  float: right;
+  margin-top: 0;
+  min-height: 250px;
+  padding: 8px 8px 0 0;
+  width: 90%;
+}
+
+.sidebar-last #block-views-Member_Comments-block_1 .content {
+  font-style: italic;
+  padding: 0 0 0 20px;
+}
+
+.sidebar-last #block-views-Member_Comments-block_1 .rteright {
+  margin-right: 20px;
+  padding-top: 0;
+}
+
+.sidebar-last #block-views-Member_Comments-block_1 h2 /* Changes Header Color to Green */
+{
+  font-size: 14.5px;
+  padding: 0 0 0 20px;
+}
+
+.square {
+  list-style-image: none;
+  list-style-type: none;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  marker-offset: 5px;
+  padding-left: 40px;
+}
+
+.user-register #content-region {
+  margin-top: -10px;
+  padding: 0;
+}
+
+.view p {
+  line-height: 19px;
+  padding: 5px 0;
+}
+
+.view-how-news-news-articles .views-field-title {
+  font-size: 1.3em;
+}
+
+.views-field-field-article-date-value, .views-field-timestamp, .views-field-field-source-value {
+  font-size: .785em;
+}
+
+.xform-page #a2a_dd_fix {
+  float: right;
+  margin-top: -2px;
+}
+
+.xform-page #block-menu-secondary-links .inner {
+  margin-right: 7px;
+}
+
+div#block-management-0 .finish span {
+  float: right;
+  padding-right: 20px;
+}
+
+div[ id$=terms-and-privacy] {
+  float: right;
+  width: 300px;
+}
+
+div[ id$=terms-and-privacy] /* Size and Position for Terms and Policy */
+{
+  margin-bottom: .5em;
+  margin-top: 1em;
+}
+
+div[ id$=terms-and-privacy] ul {
+  font-size: 12px;
+  margin-right: 3px;
+}
+
+h1 /* Reserved for very top of the Page or Node Titles */
+{
+  font-size: 18px;
+  padding: 3px 0 15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 18px;
+}
+
+h1.title {
+  clear: left;
+  font-size: 183.3%;
+  line-height: 120%;
+  margin-bottom: 5px;
+}
+
+h2 /*Reserved for admins */
+{
+  font-size: 16px;
+  line-height: 16px;
+  padding: 5px 0 10px;
+}
+
+h2.user-name {
+  font-size: 14px;
+  padding: 0;
+  position: relative;
+  right: 239px;
+}
+
+h3 /*Gray version of h1 */
+{
+  font-size: 18px;
+  padding: 0;
+}
+
+h4, h2.pane-title /* Green Verison of h1 */
+{
+  font-size: 18px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+h5 /* Smaller Grey Version */
+{
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+h5.no-padding, p.rteright, .page-user ul.secondary li {
+  padding: 0;
+}
+
+h6, h6 a /* Smaller Green Version */
+{
+  font-size: 12px;
+  padding: 5px 0 0;
+}
+
+img.print-icon {
+  height: 0;
+  padding: 8px 20px 10px 8px;
+}
+
+ol {
+  list-style-position: inside;
+}
+
+ol li {
+  margin-bottom: 10px;
+  margin-left: 65px;
+}
+
+p, #sidebar-last .block p, .sidebar-first #block-block-8 p {
+  font-size: 1em;
+}
+
+ul.links.secondary-links /* Fix for IE7,have to float inline li elements,so need to postion uls absolute */
+{
+  left: 325px;
+  position: absolute;
+  top: 20px;
+}
+
+ul.secondary-links li, li.leaf {
+  margin: 0;
+  padding: 0;
+}
+.military .front .nyt-ptsd-widget
+{
+   position:relative;
+   top: -14px;
+}
+.military .front .sidebar-last .tbi-ptsd-video-widget
+{
+   position:relative;
+   top: -15px;
+   float: left;
+}
+.public-health .front .cdc-flu-widget
+{
+   position:relative;
+   top: -15px;
+}
+.public-health .front .sidebar-last .public-health-video-widget
+{
+   position:relative;
+   top: -15px;
+   float: left;
+}
+.public-health .front .sidebar-last .nih-food-widget
+{
+   position:relative;
+   float: left;
+   right:30px;
+}
+.health-risk-assessment .front .american-cancer-society-hra
+{
+   position:relative;
+   top: -15px;
+}
+.disaster-support .front .cdc-emergency-response-widget
+{
+   position:relative;
+   top: -15px;
+}
+.disaster-support .front .sidebar-last .disaster-support-video-widget
+{
+   position:relative;
+   top: -15px;
+   float: right;
+}
+.about-it-professional-services #content-content
+{
+   /*position: relative;
+   top: -50px;*/
+}
+.about-it-professional-services .center-wrapper
+{
+   position: relative;
+   top: -30px;
+}
+.about-it-professional-services .it-ps-diagram
+{
+   position: relative;
+   float: left;
+}
+.about-it-professional-services .it-ps-buildings
+{
+   position: relative;
+   float: left;
+   padding: 0 10px 10px 0;
+}
+.about-it-professional-services  #it-professional-services .panel-col-top .pane-title
+{
+   position: relative;
+   color: #38306E;
+   font-size: 2.2em;
+   
+}
+
+.about-it-professional-services .it-professional-services-slogan
+{
+   position: relative;
+   color: #38306E;
+   font-size: 1em;
+}
+
+.about-it-professional-services .it-professional-services-slogan2
+{
+   position: relative;
+   right: -25px;
+   color: #38306E;
+   font-size: 1em;
+}
+.about-it-professional-services #content-top-left {
+    float: right;
+    position: relative;
+   /*right: -20px;
+    top: -8px;*/
+    height:0;
+}
+.about-bigr #content-content
+{
+   /*position: relative;
+   top: -50px;*/
+}
+.about-bigr .rack-test-tubes
+{
+   position: relative;
+   float: right;
+   right: 20px;
+}
+.about-bigr .test-tubes
+{
+   position: relative;
+   float: right;
+   right: 200px;
+   top: 35px;
+}
+.about-bigr .center-wrapper
+{
+   position: relative;
+   top: -35px;
+}
+.about-bigr .center-wrapper .panel-col-last
+{
+   position: relative;
+   top: 20px;
+}
+/**This code makes the page title invisible and moves the content up **/
+.primary-links-about-healthcare-it-inc h1.title
+{
+   color: #FFFFFF;
+}
+.primary-links-about-healthcare-it-inc #content-content
+{
+   position: relative;
+   top: -54px;
+}
+/** End page title and content code **/
+.diabetes .diabetes-slideshow-widget
+{
+   position: relative;
+   top: -12px;
+}
+#block-menu-menu-diabetes-external-links /* External Links position in the header region*/
+{
+  float: right;
+  margin: 0;
+  position: relative;
+  right: -14px;
+  top: -115px;
+  width: 500px;
+}
+#block-menu-menu-diabetes-external-links h2 {
+  display: none;
+  visibility: collapse;
+}
+#block-menu-menu-diabetes-external-links li a {
+  display: block;
+  line-height: 12px;
+  padding: 0 8px;
+}
+
+#block-menu-menu-diabetes-external-links li {
+  display: inline-block;
+  float: right;
+  height: 12px;
+  margin: 0;
+}
+
+#block-menu-menu-diabetes-external-links ul {
+  display: inline;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+/*.front #block-menu-menu-diabetes-external-links /* External Links position in the header region-front page
+{
+  top: -125px;
+}*/
+ul.sf-vertical li a:link, ul.sf-vertical li a:visited, ul.sf-vertical li .nolink {
+    margin-left: 0;
+    padding: 2px 2px 2px 5px;
+}
+.forms-builder .panel-col-top .form-builder-image
+{
+   position: relative;
+   left: 30px;
+
+}
+.forms-builder .form-builder-text-top
+{
+   max-width: 1000px;
+   width: 950px;
+}
+.forms-builder .panel-col-first
+{
+   width: 45%;
+}
+.forms-builder .panel-col-last
+{
+   float: right;
+}
+.front .sign-in-instructions 
+{
+   position: relative;
+   top: -20px;
+}
+.front .sign-in-instructions .user-sign-in-text
+{
+   position: relative;
+   top: -60px;
+   margin: 0 0 0 15px;
+}
+.front .sign-in-instructions .star
+{
+   position: relative;
+   top: -15px;
+   /*z-index: 1000;*/
+   right: -100px;
+}
+.front .sign-in-instructions .new-user-button
+{
+   position: relative;
+   top: -45px;
+}
+.front .sign-in-instructions .returning-user-button
+{
+   position: relative;
+   top: -45px;
+}
+img.star{
+  z-index: 1;
+}
+body#pid-primary-links-switch-theme #switchtheme-submit{
+  margin-top: 10px;
+}
+.site-news .panel-2col-bricks  .panel-col-first
+{
+   width: 45%;
+}
+.site-news .panel-2col-bricks  .panel-col-last
+{
+   float: right;
+}
+.site-news .news-menu
+{
+   position: relative;
+   /* top:20px; */
+}
+#pid-my-current-questionnaire #main-group{
+  position: relative;
+  top: -50px;
+}
+#pid-my-account-my-submitted-questionnaires #main-group,
+#pid-notes #main-group,
+body.page-submit-questionnaire #main-group,
+#pid-my-account-my-overview #main-group{
+  position: relative;
+  /*top: -18px;   */
+}
+body.page-user .user-edit #main-group{
+  position: relative;
+  /*top: -52px; */
+}
+#pid-user-login #main-group{
+  position: relative;
+  /*top: -16px;*/
+}
+body.page-user .user-edit #content-top-left{
+  /*float: none;*/
+  /*left: 610px;*/
+  /*right: -4px;*/
+  position: relative;
+  /*top: 42px;*/
+  z-index: 20;
+  height:0;
+}
+#pid-my-current-questionnaire h1.title{
+  left: 9px;
+  position: relative;
+  top: 51px;
+}
+#block-block-5 img.sub-header{
+  width: 678px !important;
+  height: 88px !important;
+}
+div.content-messages-inner div.error{
+  height: 100%;
+}
+#user-register .personal-info div.description{
+  /*position: relative;*/
+}
+.front #sidebar-first #block-user-0 {
+   width: 95%;
+}
+body#pid-form-builder-steps .step-1-img,
+body#pid-form-builder-steps .step-2-img,
+body#pid-form-builder-steps .step-3-img,
+body#pid-form-builder-steps .step-4-img {
+   float: right;
+   position: relative;
+   left: 30px;
+}
+body#pid-form-builder-steps #step-2 {
+   margin: 100px 0 0 0;
+}
+body#pid-form-builder-steps #step-3 {
+   margin: 160px 0 0 0;
+}
+
+body#pid-form-builder-steps .step-1-text,
+body#pid-form-builder-steps .step-2-text,
+body#pid-form-builder-steps .step-3-text,
+body#pid-form-builder-steps .step-4-text {
+   width: 100px;
+}
+body#pid-adding-questions #node-176 .form-builder-image {
+   width: 700px !important;
+   height: 353px !important;
+}

@@ -1,0 +1,106 @@
+<?php
+// $Id: auth_attempts.module
+
+define('DEFAULT_ATTEMPS',3);
+$mbase = dirname(__FILE__);
+require_once("{$mbase}/admin.php");
+
+function auth_attempts_token_values($type, $object = NULL, $options = array()) {
+	$tokens = array();
+	if ($type === 'global'){
+    	$tokens['link'] = '<a href="'.base_path().'user/password">';
+        $tokens['/link'] = '</a>';
+        $tokens['attempts'] = variable_get('auth_attempts_tries', DEFAULT_ATTEMPS);
+	}
+    return $tokens;
+}
+
+/**
+ * implementation of hook_user
+ */
+function auth_attempts_user($op, &$edit, &$account, $category) {
+    if ($op == "update") {
+        if (isset($account->name)) {
+            $name = $account->name;
+            $del = "delete from auth_attempts where name = '{$name}'";
+            $q = db_query($del);            
+        }
+    }
+}
+
+/**
+ * implementation of hook_form_alter
+ */
+function auth_attempts_form_alter($form, &$form_state, $form_id) {
+	//echo token_replace(' {unsuccessfully} coso', 'global', NULL, '{','}');
+    $_DO_CHECK = variable_get('do_auth_attempts_check', 0);
+    $_MINUTES_BACK = variable_get('auth_attempts_minutes', 1);
+    $_ATTEMPTS = variable_get('auth_attempts_tries', DEFAULT_ATTEMPS);
+	
+	$_PASSWORD_RESET_WARNING = variable_get('auth_attempts_password_reset_warning','You\'ve tried to login {attempts} times unsuccessfully.<br/>You need to reset your password using this {link}form{/link}.');
+	$_WARNING_MESSAGE = variable_get('auth_attempts_warning_message', 'If you fail the next atempt, you will need to reset your password.');
+	
+    if (!$_DO_CHECK) return;
+
+    if ($form_id == 'user_login' || $form_id == 'user_login_block') {
+        if ($form_state['post']['name']) {
+            $user = $form_state['post'];
+            $name = $user['name'];
+            $pass = trim($user['pass']);
+            $account = user_load(array('name' => $name, 'pass' => $pass, 'status' => 1));
+            if (isset($account->uid)) {
+            } else {
+                $account = user_load(array('name' => $name));
+                if (isset($account->uid)) {
+                    // check if last attempt happened in the period we have to consider
+                    // or if the user was previously blocked
+                    $sel = 
+                        "select * from auth_attempts ".
+                        "where name = '{$name}' AND " .
+                        "(date_last > date_sub(NOW(), interval {$_MINUTES_BACK} minute) OR blocked = 1)";
+                    $q = db_query($sel);
+                    $r = db_fetch_array($q);
+                    if (isset($r['number'])) {
+                        $attempt_number = $r['number'] + 1;
+                        if ($attempt_number >= $_ATTEMPTS || $r['blocked'] == 1) {
+                            drupal_set_message(token_replace($_PASSWORD_RESET_WARNING, 'global', NULL, '{','}'), 'warning');
+                            if ($r['blocked'] == 0) {
+                                // mark as blocked
+                                    $upd =
+                                    "update auth_attempts " .
+                                    "set blocked = 1 " .
+                                    "where name = '{$name}'";
+                                $q = db_query($upd);
+                                // reset passwd (directly against the database so hook_user is not fired)
+                                $t = time();
+                                $upd = "update users set pass = '{$t}' where name = '{$name}'";
+                                $q = db_query($upd);            
+                            } 
+                        }elseif( $attempt_number == ($_ATTEMPTS -1) ){
+                                drupal_set_message(token_replace($_WARNING_MESSAGE, 'global', NULL, '{','}'), 'warning');	
+	                    }
+                        // increase the number of attempts in the database
+                        $upd =
+                            "update auth_attempts " .
+                            "set date_last = now(), number = {$attempt_number} " .
+                            "where name = '{$name}'";
+                        $q = db_query($upd);
+                    } else {
+                        // we don't have a record for the current number of attempts
+                        // in the period we have to consider
+                        // just in case, remove an 'old' row
+                        $del =
+                            "delete from auth_attempts " .
+                            "where name = '{$name}'";
+                        $q = db_query($del);
+                        // and now create the 'first attempt' row
+                        $ins = 
+                            "insert into auth_attempts " .
+                            "set name = '{$name}', date_last = now(), number = 1";
+                        $q = db_query($ins);
+                    }
+                }
+            }
+        }
+    }
+}

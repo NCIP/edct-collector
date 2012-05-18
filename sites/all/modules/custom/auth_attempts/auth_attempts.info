@@ -1,0 +1,6 @@
+; $Id: auth_attempts.info
+
+name = "Authentication Attempts"
+description = "Checks for failed authentication attempts"
+core = "6.x"
+dependencies[] = token

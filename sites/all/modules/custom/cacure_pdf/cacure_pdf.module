@@ -1,0 +1,786 @@
+<?php
+
+function cacure_pdf_init() {
+  //  d('TEst');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function cacure_pdf_menu() {
+  $items = array();
+
+  $items['files/form/%'] = array(
+    'page callback' => 'cacure_pdf_load_callback',
+    'page arguments' => array(2),
+    'access callback' => true,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['files/module/%'] = array(
+    'page callback' => 'cacure_pdf_load_module_callback',
+    'page arguments' => array(2),
+    'access callback' => true,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu callback.
+ */
+function cacure_pdf_load_module_callback($arg) {
+  global $user;
+
+  $user_inf = user_load($user->uid);
+
+  $about = array(
+    'Patient name' => $user_inf->profile_last_name . ', ' . $user_inf->profile_first_name,
+    'Phone number' => $user_inf->profile_phone_number,
+    'Email' => $user_inf->mail,
+//    'Country of Residence' => $user_inf->profile_country,
+//    'Country Born' => $user_inf->profile_country_born,
+//    'Years living in US' => $user_inf->profile_years_living_in_us,
+//    'Province' => $user->profile_province,
+//    'Address' => $user_inf->profile_street_address,
+//    'City, State, Zip' => $user_inf->profile_city . ', ' . $user_inf->profile_state . ', ' . $user_inf->profile_zip_code,
+  );
+
+  $alternate_info = array(
+    'First name' => $user_inf->profile_contact_first_name,
+    'Middle Initial' => $user_inf->profile_contact_middle_name,
+    'Last name' => $user_inf->profile_contact_last_name,
+    'Country' => $user_inf->profile_contact_country,
+    'Address' => $user_inf->profile_contact_street_address,
+    'City' => $user_inf->profile_contact_city,
+    'State' => $user_inf->profile_contact_state,
+    'Province' => $user_inf->profile_contact_province,
+    'ZIP Code' => $user_inf->profile_contact_zip_code,
+    'Phone Number' => $user_inf->profile_contact_phone_number,
+  );
+
+  $pdf = new PDFT();
+  $forms_ar = array();
+  //d($arg);die;
+  //d(arg(2));d($_GET);d($_GET['param']); d($_SERVER); die;
+  $restcall = new RestCall();
+  $xml = $restcall->getAllUserModules($arg);
+  $xmlMap = new MySimpleXMLElement($xml);
+  $modules = $xmlMap->toArray($xmlMap);
+//d($modules); die;
+  
+  if ($user->uid == 0) drupal_goto();
+
+  if(isset($_GET['param']) && $_GET['param'] == 'print')
+    $pdf->script = 'print("true");';
+  //d($modules); die;
+  if (isset($modules['module']['form']['@attributes']['status'])) {
+    $forms[] = $modules['module']['form'];
+  }else{
+    $forms = $modules['module']['form'];
+  }
+//d($forms);
+
+    foreach ($forms as $form) {
+      $xml = $restcall->getFormData($form['@attributes']['id']);
+      //d($form['@attributes']['id']); 
+      //print_r($xml); die;
+      $data = xml2array($xml);
+      if (empty($data['form']['question'])) continue;
+      $forms_ar[] = $data;
+    }
+//d($forms_ar);die;
+    if (empty($forms_ar)) drupal_goto('<front>');
+
+    $pdf->setCount(sizeOf($forms_ar) + 1);
+
+    $pdf->SetFont('Arial', '', 6);
+
+    $pdf->AddPage();
+    $pdf->setSimpleTitle('Personal Information');
+    $pdf->aboutTable($about, array());
+
+    foreach ($forms_ar as $data) {
+
+      $pdf->loadData($data);
+      $pdf->SetFont('Arial', '', 6);
+
+      $pdf->AddPage();
+
+      $pdf->setFormTitle();
+      $pdf->showData();
+    }
+  
+  $pdf->AutoPrint(true);
+  header("Content-type: application/pdf");
+  $pdf->Output();
+}
+
+include_once('fpdf/fpdf.php');
+
+class PDFT extends FPDF {
+
+  //data node types
+  const TYPE_QUESTIONS       = 'question';
+  const TYPE_QUESTIONS_TABLE = 'question-table';
+  const TYPE_COMPLEX_TABLE   = 'complex-table';
+  
+  private $xml, $data, $count;
+
+  public $javascript;
+  public $n_js;
+  
+  public function setCount($c) {
+    $this->count = $c;
+  }
+
+//Simple table
+  public function BasicTable() {
+    $max = 0;
+    $ss = '  :';
+
+    foreach($this->data as $row){
+
+      $is_array = is_array($row['answer']) && !empty($row['answer']);
+      $is_line =  !empty($row['answer']) &&  !is_array($row['answer']);
+
+      if($is_line || $is_array){
+        $answer = '';  
+        $question = split_string(cacure_pdf_prepare_string($row['text']), 70);
+        //get question and answer
+        if($is_line){
+          $answer = (isset($row['answer_attr']['text']) && !empty($row['answer_attr']['text'])) ? $row['answer_attr']['text'] : $row['answer'];
+          $count = count($question);
+
+          $first_line = array_shift($question);
+            
+          //render
+
+          if($count == 1){
+            $this->Cell(92, 6, $first_line . $ss);
+            $this->Cell(130, 6, $answer);
+            $this->Ln();
+            continue;
+          }else{
+            $this->Cell(92, 6, $first_line);
+            $this->Ln();
+          }
+          $ss = '';
+          if(!empty($question)){
+
+
+            for($i=0; $i < count($question); $i++){
+
+              $last = false;
+              $ss = '';
+
+              if(!isset($question[$i+1]) || empty($question[$i+1])){
+                $last = true;
+                $ss = '  :';
+              }
+
+              $this->Cell(92, 6, $question[$i] . $ss);
+              if($last) $this->Cell(130, 6, $answer);
+              $this->Ln();
+            }
+          }
+
+        }else{
+          $answer = $row['answer'];
+        }
+      }
+    }
+  }
+
+  public function aboutTable($data, $alternate_info) {
+    $max = 0;
+    while (list($key) = each($data)) {
+      $current = strlen($key);
+      if ($current > $max) {
+        $max = $current;
+      }
+    }
+
+    $max += 5;
+    foreach ($data as $title => $val) {
+      $this->SetFont('Arial', 'B', 6);
+      $this->Cell($max + 2, 6, $title . '  :');
+      $this->SetFont('Arial', '', 6);
+      $this->Cell(100, 6, $val);
+      $this->Ln();
+    }
+
+    $this->SetY(30);
+
+    foreach($alternate_info as $title => $val){
+      $this->SetX(100);
+      $this->SetFont('Arial', 'B', 6);
+      $this->Cell($max + 2, 6, $title . '  :');
+      $this->SetFont('Arial', '', 6);
+      $this->Cell(100, 6, $val);
+      $this->Ln();
+    }
+  }
+
+  public function loadData($xml) {
+    $this->xml = $xml;
+    $this->data = $this->xml['form']['question'];
+  }
+
+  public function Header() {
+    $this->SetY(0);
+    if($this->PageNo() === 1){
+		
+      //$this->Image(drupal_get_path('theme', 'acquia_marina') . '/images/pdf-title.jpeg', 8.5, 0, 40, 17, 'JPEG', 'https://' . $_SERVER['SERVER_NAME'] . '/');
+	  $this->Image('sites/default/files/acquia_marina_logo.png', 8.5, 1, 15, 16, 'PNG', 'https://' . $_SERVER['SERVER_NAME'] . '/');
+    }
+    $this->Cell(70);
+    $this->SetFont('Arial', '', 14);
+    $this->Cell(26, 10, 'Submitted Questionnaire', 0, 0);
+    $this->Cell(90);
+    $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/' . $this->count, 0, 0, 'C');
+    $this->Ln(20);
+  }
+
+  public function setFormTitle() {
+    $this->SetFont('Arial', 'B', 14);
+    $this->MultiCell(0, 6, $this->xml['form_attr']['name']);
+    //$this->SetY(-15);
+    $this->SetFont('Arial', 'I', 8);
+    $this->Ln(4);
+  }
+
+  public function setSimpleTitle($title = 'undefined', $title_alt = 'underfined') {
+    $this->SetFont('Arial', 'B', 14);
+    //$this->SetFont('Arial', 'I', 8);
+    if($title_alt == 'underfined'){
+      $this->Cell(0, 6, $title);
+
+    }else{
+      $this->Cell(0, 6, $title);
+      $this->SetX(100);
+      $this->Cell(10, 6, $title_alt);
+    }
+    $this->Ln(10);
+  }
+
+  function Footer() {
+    $this->SetY(-15);
+    $this->SetFont('Arial', '', 14);
+    //$this->Cell(30,10,'http://how.healthcit.com',0,0);
+    $this->Cell(170);
+    $this->Cell(0, 10, date("Y/m/d"), 'C');
+  }
+
+  function IncludeJS($script) {
+    $this->javascript = $script;
+  }
+
+  function _putjavascript() {
+    $this->_newobj();
+    $this->n_js = $this->n;
+    $this->_out('<<');
+    $this->_out('/Names [(EmbeddedJS) ' . ($this->n + 1) . ' 0 R]');
+    $this->_out('>>');
+    $this->_out('endobj');
+    $this->_newobj();
+    $this->_out('<<');
+    $this->_out('/S /JavaScript');
+    $this->_out('/JS ' . $this->_textstring($this->javascript));
+    $this->_out('>>');
+    $this->_out('endobj');
+  }
+
+  function _putresources() {
+    parent::_putresources();
+    if (!empty($this->javascript)) {
+      $this->_putjavascript();
+    }
+  }
+
+  function _putcatalog() {
+    parent::_putcatalog();
+    if (!empty($this->javascript)) {
+      $this->_out('/Names <</JavaScript ' . ($this->n_js) . ' 0 R>>');
+    }
+  }
+
+  function AutoPrint($dialog = false) {
+    //Open the print dialog or start printing immediately on the standard printer
+    $param = ($dialog ? 'true' : 'false');
+   // $script = "print($param);";
+    $script = $this->script;
+    $this->IncludeJS($script);
+  }
+
+  function AutoPrintToPrinter($server, $printer, $dialog = false) {
+    //Print on a shared printer (requires at least Acrobat 6)
+    $script = "var pp = getPrintParams();";
+    if ($dialog)
+      $script .= "pp.interactive = pp.constants.interactionLevel.full;";
+    else
+      $script .= "pp.interactive = pp.constants.interactionLevel.automatic;";
+    $script .= "pp.printerName = '\\\\\\\\" . $server . "\\\\" . $printer . "';";
+    $script .= "print(pp);";
+    $this->IncludeJS($script);
+  }
+
+   /**
+    * Shows data for page
+    */
+    public function showData()
+    {
+        if (empty($this->xml['form'])) return;
+
+        $data = $this->xml['form'];
+        
+        if (!empty($data[self::TYPE_QUESTIONS]))
+        {
+            $this->showQuestions($data[self::TYPE_QUESTIONS], 
+                $this->getAttributes($data, self::TYPE_QUESTIONS));
+        }
+        if (!empty($data[self::TYPE_QUESTIONS_TABLE]))
+        {
+            $this->showQuestionsTable($data[self::TYPE_QUESTIONS_TABLE], 
+                $this->getAttributes($data, self::TYPE_QUESTIONS_TABLE));
+        }
+        if (!empty($data[self::TYPE_COMPLEX_TABLE]))
+        {
+            $this->showComplexTable($data[self::TYPE_COMPLEX_TABLE],
+                $this->getAttributes($data, self::TYPE_COMPLEX_TABLE));
+        }
+    }
+    
+    /**
+     * Shows questions node
+     * @param array $data
+     * @param array $attributes
+     */
+    protected function showQuestions($data, $attributes)
+    {
+        $this->normalizeData($data);
+        
+        foreach ($data as $index => $question)
+        { 
+            if (!$this->checkIndex($index)) continue;
+
+            $this->showQuestionBlock($question, $this->getAttributes($data, $index));
+        }
+    }
+    
+    /**
+     * Shows questions-table node
+     * @param array $data
+     * @param array $attributes
+     */
+    protected function showQuestionsTable($data, $attributes)
+    {
+        $this->normalizeData($data);
+        
+        foreach ($data as $index => $questionsBlock)
+        { 
+            if (!$this->checkIndex($index)) continue;
+            
+            $this->showQuestionsTitle($questionsBlock);
+        
+            if (!empty($questionsBlock[self::TYPE_QUESTIONS]))
+            {
+                $this->showQuestions($questionsBlock[self::TYPE_QUESTIONS], 
+                    $this->getAttributes($questionsBlock, self::TYPE_QUESTIONS));
+            }
+        }
+    }
+    
+    /**
+     * Shows complex-table node
+     * @param array $data
+     * @param array $attributes
+     */
+    protected function showComplexTable($data, $attributes)
+    {
+        $this->normalizeData($data);
+        
+        foreach ($data as $index => $table)
+        {
+            if (!$this->checkIndex($index)) continue;
+            
+            $this->showQuestionsTitle($table);
+            
+            $this->showTableHeader($table['row']);
+            $this->showTableRows($table['row']);
+        }
+    }
+    
+    /**
+     * Shows header for complex table
+     * @param array $rows
+     */
+    protected function showTableHeader($rows)
+    {
+        $this->normalizeData($rows);
+        
+        if (empty($rows[0]['column'])) return;
+
+        $this->SetFont('Arial', 'B', 9);
+        $width = 210 / count($rows[0]['column']);
+        $maxY = $y = $this->GetY();
+        foreach ($rows[0]['column'] as $index => $column)
+        {
+            if (!$this->checkIndex($index)) continue;
+            
+            $this->normalizeData($column);
+            $x = $this->GetX();
+            $this->MultiCell($width, 6, $column[0]['text'], 0, 'L');
+            $maxY = $this->GetY() > $maxY ? $this->GetY() : $maxY;
+            $this->SetXY($x + $width, $y);
+        }
+        
+        $this->SetFont('Arial', 'I', 8);
+        $this->SetY($maxY); 
+    }
+    
+    /**
+     * Shows table rows
+     * @param array $rows
+     */
+    protected function showTableRows($rows)
+    {
+        $this->normalizeData($rows);
+        foreach ($rows as $index => $row)
+        {
+            if (!$this->checkIndex($index)) continue;
+            $this->showTableColumns($row['column']);
+        }
+    }
+    
+    /**
+     * Shows columns for table row
+     * @param array $columns
+     */
+    protected function showTableColumns($columns)
+    {
+        $this->normalizeData($columns);
+        
+        $width = 210 / count($columns);
+        $this->correctTableColumns($columns, $width);
+        $maxY = $y = $this->GetY();
+        
+        foreach ($columns as $index => $column)
+        {
+            if (!$this->checkIndex($index)) continue;
+            $x = $this->GetX() + $width;
+            $this->MultiCell($width, 6, $this->getAnswer($column), 0, 'L');
+            $maxY = $this->GetY() > $maxY ? $this->GetY() : $maxY;
+            $this->SetXY($x, $y);
+        }
+        $this->SetY($maxY);
+    }
+    
+    /**
+     * Adds page break if some of columns will exceed page height
+     * @param array $columns
+     * @param int $width for one column 
+     */
+    protected function correctTableColumns($columns, $width)
+    {
+        if ($this->getMaxColumnsLines($columns, $width) * 6 + $this->GetY() > 260)
+        {
+            $this->addPage();
+        }
+    }
+    
+    /**
+     * Gets max lines that column wraps
+     * @param array $columns
+     * @param int $width
+     * @return int 
+     */
+    protected function getMaxColumnsLines($columns, $width)
+    {
+        $maxHeight = 0;
+        foreach ($columns as $column)
+        {
+            $height = $this->getStringLines($this->getAnswer($column), $width);
+            $maxHeight = $height > $maxHeight ? $height : $maxHeight;
+        }
+        return $maxHeight;
+    }
+    
+    /**
+     * Gets lines number that string value will wraps
+     * @param string $value
+     * @param string $width max width for one line
+     * @return int 
+     */
+    protected function getStringLines($value, $width)
+    {
+        return ceil($this->GetStringWidth($value) / $width);
+    }
+    
+    /**
+     * Shows question-answer block
+     * @param array $question
+     * @param array $attributes
+     */
+    protected function showQuestionBlock($question, $attributes)
+    {
+        //prepare
+        $answer   = $this->getAnswer($question);
+        $question = cacure_pdf_prepare_string($question['text']);
+        
+        $this->correctQuestionBlock($question['text'], 92);
+        $startX = $this->GetX();
+        $startY = $this->GetY();
+        $this->MultiCell(92, 6, $question . ' :');
+        $endY = $this->GetY();
+        $this->SetXY($startX + 94, $startY);
+        $this->MultiCell(92, 6, $answer);
+        
+        if ($endY < $this->GetY())
+        {
+            $endY = $this->GetY();
+        }
+        $this->setXY($startX, $endY);
+        $this->Ln(4);
+    }
+    
+    /**
+     * Adds page break if question exceed page height
+     * @param string $question
+     * @param int $width max width for one line 
+     */
+    protected function correctQuestionBlock($question, $width)
+    {
+        if ($this->getStringLines($question, $width) * 6 + $this->GetY() > 260)
+        {
+            $this->addPage();
+        }
+    }
+    /**
+     * Shows title for questions block
+     * @param array $data
+     */
+    protected function showQuestionsTitle($data)
+    { 
+        $title = !empty($data['text']) ? $data['text'] : '';
+    
+        if (!$title) return;
+        
+        $this->Ln(4);
+        $this->SetFont('Arial', 'B', 11);
+        $this->MultiCell(0, 6, $title);
+        $this->SetFont('Arial', 'I', 8);
+        $this->Ln(4);
+    }
+    
+    /**
+     * Gets answer from question data
+     * @param array $question
+     * @return string $answer
+     */
+    protected function getAnswer($question)
+    {
+        $answer = $this->getAttributes($question, 'answer');
+        
+        if (!is_array($question['answer']))
+        {
+            return !empty($answer['text']) ? $answer['text'] : $question['answer'];
+        }
+        
+        //for multiple answers
+        $result = array();
+        foreach ($question['answer'] as $index => $answer)
+        {
+            if (!is_int($index)) continue;
+            
+            $attributes = $this->getAttributes($question['answer'], $index);
+            $result[] = !empty($attributes['text']) ? $attributes['text'] : $answer;
+        }
+        
+        return implode(', ', $result);
+    }
+    
+    /**
+     * Gets attributes related with some field
+     * @param array $data
+     * @param string $name
+     * @return array|null 
+     */
+    protected function getAttributes($data, $name)
+    {
+        $name .= '_attr';
+        return isset($data[$name]) ? $data[$name] : null;
+    }
+    
+    /**
+     * Formats data to array(0 => entry)
+     * @param array $data
+     */
+    protected function normalizeData(&$data)
+    {
+        if (!isset($data[0]))
+        {
+            $data = array($data);
+        }
+    }
+    
+    /**
+     * Checks if current index not attribute
+     * @param int|string $index
+     * @return bool 
+     */
+    protected function checkIndex($index)
+    {
+        return is_int($index);
+    }
+}
+
+/** 
+ * xml2array() will convert the given XML text to an array in the XML structure. 
+ * Link: http://www.bin-co.com/php/scripts/xml2array/ 
+ * Arguments : $contents - The XML text 
+ *                $get_attributes - 1 or 0. If this is 1 the function will get the attributes as well as the tag values - this results in a different array structure in the return value.
+ *                $priority - Can be 'tag' or 'attribute'. This will change the way the resulting array sturcture. For 'tag', the tags are given more importance.
+ * Return: The parsed XML in an array form. Use print_r() to see the resulting array structure. 
+ * Examples: $array =  xml2array(file_get_contents('feed.xml')); 
+ *              $array =  xml2array(file_get_contents('feed.xml', 1, 'attribute')); 
+ */ 
+function xml2array($contents, $get_attributes=1, $priority = 'tag') { 
+    if(!$contents) return array(); 
+
+    if(!function_exists('xml_parser_create')) { 
+        //print "'xml_parser_create()' function not found!"; 
+        return array(); 
+    } 
+
+    //Get the XML parser of PHP - PHP must have this module for the parser to work 
+    $parser = xml_parser_create(''); 
+    xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8"); # http://minutillo.com/steve/weblog/2004/6/17/php-xml-and-character-encodings-a-tale-of-sadness-rage-and-data-loss 
+    xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0); 
+    xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1); 
+    xml_parse_into_struct($parser, trim($contents), $xml_values); 
+    xml_parser_free($parser); 
+
+    if(!$xml_values) return;//Hmm... 
+
+    //Initializations 
+    $xml_array = array(); 
+    $parents = array(); 
+    $opened_tags = array(); 
+    $arr = array(); 
+
+    $current = &$xml_array; //Refference 
+
+    //Go through the tags. 
+    $repeated_tag_index = array();//Multiple tags with same name will be turned into an array 
+    foreach($xml_values as $data) { 
+        unset($attributes,$value);//Remove existing values, or there will be trouble 
+
+        //This command will extract these variables into the foreach scope 
+        // tag(string), type(string), level(int), attributes(array). 
+        extract($data);//We could use the array by itself, but this cooler. 
+
+        $result = array(); 
+        $attributes_data = array(); 
+         
+        if(isset($value)) { 
+            if($priority == 'tag') $result = $value; 
+            else $result['value'] = $value; //Put the value in a assoc array if we are in the 'Attribute' mode 
+        } 
+
+        //Set the attributes too. 
+        if(isset($attributes) and $get_attributes) { 
+            foreach($attributes as $attr => $val) { 
+                if($priority == 'tag') $attributes_data[$attr] = $val; 
+                else $result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr' 
+            } 
+        } 
+
+        //See tag status and do the needed. 
+        if($type == "open") {//The starting of the tag '<tag>' 
+            $parent[$level-1] = &$current; 
+            if(!is_array($current) or (!in_array($tag, array_keys($current)))) { //Insert New tag 
+                $current[$tag] = $result; 
+                if($attributes_data) $current[$tag. '_attr'] = $attributes_data; 
+                $repeated_tag_index[$tag.'_'.$level] = 1; 
+
+                $current = &$current[$tag]; 
+
+            } else { //There was another element with the same tag name 
+
+                if(isset($current[$tag][0])) {//If there is a 0th element it is already an array 
+                    $current[$tag][$repeated_tag_index[$tag.'_'.$level]] = $result; 
+                    $repeated_tag_index[$tag.'_'.$level]++; 
+                } else {//This section will make the value an array if multiple tags with the same name appear together 
+                    $current[$tag] = array($current[$tag],$result);//This will combine the existing item and the new item together to make an array
+                    $repeated_tag_index[$tag.'_'.$level] = 2; 
+                     
+                    if(isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well 
+                        $current[$tag]['0_attr'] = $current[$tag.'_attr']; 
+                        unset($current[$tag.'_attr']); 
+                    } 
+
+                } 
+                $last_item_index = $repeated_tag_index[$tag.'_'.$level]-1; 
+                $current = &$current[$tag][$last_item_index]; 
+            } 
+
+        } elseif($type == "complete") { //Tags that ends in 1 line '<tag />' 
+            //See if the key is already taken. 
+            if(!isset($current[$tag])) { //New Key 
+                $current[$tag] = $result; 
+                $repeated_tag_index[$tag.'_'.$level] = 1; 
+                if($priority == 'tag' and $attributes_data) $current[$tag. '_attr'] = $attributes_data; 
+
+            } else { //If taken, put all things inside a list(array) 
+                if(isset($current[$tag][0]) and is_array($current[$tag])) {//If it is already an array... 
+
+                    // ...push the new element into that array. 
+                    $current[$tag][$repeated_tag_index[$tag.'_'.$level]] = $result; 
+                     
+                    if($priority == 'tag' and $get_attributes and $attributes_data) { 
+                        $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data; 
+                    } 
+                    $repeated_tag_index[$tag.'_'.$level]++; 
+
+                } else { //If it is not an array... 
+                    $current[$tag] = array($current[$tag],$result); //...Make it an array using using the existing value and the new value
+                    $repeated_tag_index[$tag.'_'.$level] = 1; 
+                    if($priority == 'tag' and $get_attributes) { 
+                        if(isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well 
+                             
+                            $current[$tag]['0_attr'] = $current[$tag.'_attr']; 
+                            unset($current[$tag.'_attr']); 
+                        } 
+                         
+                        if($attributes_data) { 
+                            $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data; 
+                        } 
+                    } 
+                    $repeated_tag_index[$tag.'_'.$level]++; //0 and 1 index is already taken 
+                } 
+            } 
+
+        } elseif($type == 'close') { //End of tag '</tag>' 
+            $current = &$parent[$level-1]; 
+        } 
+    } 
+     
+    return($xml_array); 
+}  
+
+
+/**   
+ * Helper function for strings.
+ * @param  $str
+ * @return mixed
+ */
+function cacure_pdf_prepare_string($str){
+  static $le;
+  if(empty($le)) $le = array(':', '?', '.');
+
+  if(in_array($str[strlen($str)-1], $le))
+   return substr_replace($str,"",-1);
+  return $str;
+}

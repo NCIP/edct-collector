@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * Implementation of hook_perm()
+ */
+function username_validation_perm() {
+    return array('administer username_validation');
+}
+
+/**
+ * Implementation of hook_menu()
+ */
+function username_validation_menu() {
+    $items = array();
+	$items['admin/settings/username_validation'] = array(
+	    'title' => 'Username Validation',
+	    'description' => 'The settings page to edit rules for username validation.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('username_validation_settings_form'),
+	    'access arguments' => array('administer username_validation'),
+	    'file' => 'username_validation.admin.inc',
+		'type' => MENU_NORMAL_ITEM,
+	);
+    return $items;
+}
+
+function username_validation_form_alter(&$form, &$form_state, $form_id) {
+    $isAccount = ($form_id == 'user_profile_form' && $form['_category']['#value'] == 'account');
+    $isUserRegister = ($form_id == 'user_register');
+    if($isUserRegister || $isAccount) {
+        $form['#validate'][] = '_username_validation_validate';
+        drupal_add_js(array('username_validation' => _username_validation_settings()), 'setting');
+        drupal_add_js(drupal_get_path('module', 'username_validation') . '/username_validation.js', 'module');        
+    }
+}
+
+function _username_validation_validate($form, &$form_state) {
+    $username = $form_state['values']['name'];
+    $settings = _username_validation_settings();
+
+    // too short
+    if(strlen($username) < $settings['min']) {
+      form_set_error('name', t(variable_get('username_validation_min_txt', ''), array('!min' => variable_get('username_validation_min', 20))));
+    }
+
+    // too long
+    if(strlen($username) > $settings['max']) { 
+      form_set_error('name', t(variable_get('username_validation_max_txt', ''), array('!max' => variable_get('username_validation_max', 20))));
+    }
+    
+    // capital letter required
+    if($settings['require_letter']) {
+        if(!preg_match("/[A-Za-z]/", $username)) {
+          form_set_error('name', variable_get('username_validation_letter_txt', ''));
+        }
+    }
+
+    // capital letter required
+    if($settings['require_ucase']) {
+        if(!preg_match("/[A-Z]/", $username)) {
+          form_set_error('name', variable_get('username_validation_ucase_txt', ''));
+        }
+    }
+
+    // letter required
+    if($settings['require_lcase']) {
+        if(!preg_match("/[a-z]/", $username)) {
+          form_set_error('name', variable_get('username_validation_lcase_txt', ''));
+        }
+    }
+
+    // number required
+    if($settings['require_num']) {
+        if(!preg_match("/[0-9]/", $username)) {
+          form_set_error('name', variable_get('username_validation_number_txt', ''));
+        }
+    }
+
+    // no illegal characters
+    if($settings['no_illegal']) {
+        if(!username_validation_is_letters_and_numbers($username)) {
+          form_set_error('name', variable_get('username_validation_illegal_txt', ''));
+        }
+    }
+}
+
+function _username_validation_settings() {
+    return array(
+        'min' => variable_get('username_validation_min', 2),
+        'min_txt' => t(variable_get('username_validation_min_txt', 'This username is too short. The minimum size is !min.'), array('!min' => variable_get('username_validation_min', 2))),
+    	'max' => variable_get('username_validation_max', 20),
+    	'max_txt' => t(variable_get('username_validation_max_txt', 'This username is too long. The maximum size is !max.'), array('!max' => variable_get('username_validation_max', 20))),
+    	'require_letter' => variable_get('username_validation_letter', 1),
+    	'require_letter_txt' => t(variable_get('username_validation_letter_txt', 'Username requires at least one letter.')),
+    	'require_ucase' => variable_get('username_validation_ucase', 1),
+    	'require_ucase_txt' => t(variable_get('username_validation_ucase_txt', 'Username requires at least one upper case letter.')),
+    	'require_lcase' => variable_get('username_validation_lcase', 0),
+    	'require_lcase_txt' => t(variable_get('username_validation_lcase_txt', 'Username requires at least one lower case letter.')),
+    	'require_num' => variable_get('username_validation_number', 0),
+    	'require_num_txt' => t(variable_get('username_validation_number_txt', 'Username requires at least one number.')),
+    	'no_illegal' => variable_get('username_validation_illegal', 1),
+    	'no_illegal_txt' => t(variable_get('username_validation_illegal_txt', 'Username must not contain illegal characters.')),
+    	'blank_txt' => t(variable_get('username_validation_blank_txt', 'Username is blank.')),
+    );
+}
+
+
+function username_validation_is_letters_only($test) {
+    if(preg_match("/^[a-zA-Z]+$/", $test) === 0) return false;
+    else return true;
+}
+
+function username_validation_is_numbers_only($test) {
+    if(preg_match("/^[0-9]+$/", $test) === 0) return false;
+    else return true;
+}
+
+function username_validation_is_letters_and_numbers($test) {
+    if(preg_match("/^[a-zA-Z0-9]+$/", $test) === 0) return false;
+    else return true;
+}

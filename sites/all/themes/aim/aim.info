@@ -1,0 +1,86 @@
+
+name = Aim
+description = Aim sub-theme. Requires <a href="http://drupal.org/project/fusion">Fusion Core</a> and the <a href="http://drupal.org/project/skinr">Skinr</a> module to enable easy point-and-click theming.
+base theme = fusion_core
+core = 6.x
+engine = phptemplate
+
+stylesheets[all][] = css/aim-style.css
+
+regions[sidebar_first] = sidebar first
+regions[sidebar_last] = sidebar last
+regions[header_top] = header top
+regions[header] = header
+regions[preface_top] = preface top
+regions[preface_bottom] = preface bottom
+regions[content_top] = content top
+regions[content] = content
+regions[content_bottom] = content bottom
+regions[postscript_top] = postscript top
+regions[postscript_bottom] = postscript bottom
+regions[footer] = footer
+regions[node_top] = node top
+regions[node_bottom] = node bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+; Default theme settings
+settings[theme_grid] = grid16-960
+settings[theme_grid_options][] = grid16-960
+settings[theme_grid_options][] = grid16-fluid
+settings[fluid_grid_width] = fluid-100
+settings[theme_font_size] = font-size-12
+settings[sidebar_layout] = sidebars-split
+settings[sidebar_first_width] = 3
+settings[sidebar_last_width] = 3
+
+; Inherit Skinr styles from Fusion Core
+skinr[options][inherit_skins] = true
+
+; Disable 12 column grid block widths inherited from fusion_core
+skinr[grid12-width] =
+
+skinr[fusion-block-styles][title] = Block styles
+skinr[fusion-block-styles][type] = checkboxes
+skinr[fusion-block-styles][features][] = block
+skinr[fusion-block-styles][options][1][label] = Yellow background block with orange thin border
+skinr[fusion-block-styles][options][1][class] = yellow-background-block
+skinr[fusion-block-styles][options][2][label] = Georgia italic font with a decorative image
+skinr[fusion-block-styles][options][2][class] = blockquote-block
+
+skinr[fusion-title-styles][title] = Title block styles
+skinr[fusion-title-styles][type] = checkboxes
+skinr[fusion-title-styles][features][] = block
+skinr[fusion-title-styles][options][1][label] = Orange background Title
+skinr[fusion-title-styles][options][1][class] = orange-background-title title-common
+skinr[fusion-title-styles][options][2][label] = Dark Green background Title
+skinr[fusion-title-styles][options][2][class] = dark-green-background-title title-common
+skinr[fusion-title-styles][options][3][label] = Salmon background Title
+skinr[fusion-title-styles][options][3][class] = salmon-background-title title-common
+skinr[fusion-title-styles][options][4][label] = Apple green background Title
+skinr[fusion-title-styles][options][4][class] = apple-green-background-title title-common
+
+skinr[fusion-list-styles][title] = List block styles
+skinr[fusion-list-styles][type] = checkboxes
+skinr[fusion-list-styles][features][] = block
+skinr[fusion-list-styles][options][1][label] = Orange List
+skinr[fusion-list-styles][options][1][class] = orange-list
+skinr[fusion-list-styles][options][2][label] = Apple green list
+skinr[fusion-list-styles][options][2][class] = apple-green-list
+
+version = "6.x-1.0"
+core = "6.x"
+; Information added by drupal.org packaging script on 2011-02-25
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "aim"
+datestamp = "1298618821"
+

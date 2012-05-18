@@ -1,0 +1,9 @@
+; $Id: quiz.info,v 1.11.2.2 2009/09/02 14:28:52 falcon Exp $
+name = Team MySQL
+package = Team
+description = "Provide some features to mysql devel."
+core = 6.x
+php = 5.1
+version = "6.x-1b"
+core = "6.x"
+project = "Universal Solution"

@@ -1,0 +1,1602 @@
+BODY {
+  font-size: 75%;
+  /*also set in fusion_starter.info: settings[base-font-size] = font-size-12*/
+  color: #555;
+  line-height: 170%;
+  background: #FBFCEE;;
+}
+
+/*Default link styles - separate a:visited for a different visited link style*/
+A, A:link, A:visited {
+  color: #32B3CD;
+  outline: none;
+}
+
+/*Hover/active link styles. Don't forget :focus for accessibility*/
+A:hover, A:focus, A:active {
+}
+
+/*Specific Typography
+--------------------------------------------------------------*/
+#site-name {
+  font-size: 220%;
+  line-height: 150%;
+  font-family: Arial;
+}
+
+.footer-message {
+  font-size: 90%;
+}
+
+/*HTML Elements
+--------------------------------------------------------------*/
+BODY {
+  font-family: Verdana;
+}
+
+/*Site Info
+--------------------------------------------------------------
+Wrapper around logo, site name, and slogan*/
+#header-site-info {
+  margin-bottom: 15px;
+  margin-top: 8px;
+  margin-left: 26px;
+}
+
+.header-site-info SPAN {
+  display: block;
+}
+
+/*Add float here to put logo and site name side by side, also add margins as
+needed*/
+#logo {
+}
+
+/*Link and hover styles for site name*/
+#site-name A:link, #site-name A:visited, #site-name A:hover, #site-name A:active {
+  color: #F0FFC9;
+  font-family: Arial;
+}
+
+/*Typography for site slogan*/
+#slogan {
+  color: #FEFEFE;
+  font-weight: normal;
+  font-family: Arial;
+  font-size: 11px;
+}
+
+/*Regions
+
+Classes (.region-name) should always be used instead of IDs (#region-name) so
+that Skinr styles can override them with a class later
+--------------------------------------------------------------
+All Regions
+--------------------------------------------------------------
+By default this wrapper is set to 100% width and centered -- override here to
+narrow wrapper or align left or right*/
+.page {
+}
+
+/*The 0 values here remove padding and spacing at the bottom of the page.
+Remove to add a gap at the very bottom of the page*/
+.page-inner {
+  border: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/*Header Regions
+--------------------------------------------------------------
+Header Top region to the bottom of Header region
+For full-width header background, add background image/color here*/
+.header-group-wrapper {
+  background: #106270 url(../images/bg-header.jpg) repeat-x center bottom;
+}
+
+.header-group {
+}
+
+/*Header Top region which sits above the header
+Works well with inline login or inline menu block style*/
+.header-top-wrapper {
+}
+
+.header-top-wrapper {
+  background: #0B444F;
+  color: #279082;
+}
+
+/*Primary Menu   TODO: add default colours
+/--------------------------------------------------------------
+Add general styles for primary menu here, such as typography, borders, floats,
+or spacing above/below*/
+.primary-menu {
+  margin-top: 0;
+  margin-bottom: 0px;
+  border-top: 1px solid #289183;
+}
+
+/*styles for Superfish primary menu*/
+.primary-menu-inner UL.sf-menu {
+  font-weight: bold;
+}
+
+/*Link style for top level menu items, add padding here*/
+.primary-menu-inner UL.sf-menu A, .primary-menu-inner UL.sf-menu A:visited {
+  color: #FFF;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.primary-menu-inner UL.sf-menu A:hover, .primary-menu-inner UL.sf-menu A:active, .primary-menu-inner UL.sf-menu A:focus {
+  color: #FFFFCC;
+}
+
+/*These are the top level menu items, add border-right here for separators*/
+.primary-menu-inner UL.sf-menu LI {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+/*Add border-right: 0; here to remove separator on last menu item*/
+.primary-menu-inner UL.sf-menu LI.last {
+}
+
+/*Style for container of dropdown, add background or border*/
+.primary-menu-inner UL.sf-menu UL {
+  margin-top: 7px;
+}
+
+/*Style for individual dropdown menu items, add border-bottom for separators*/
+.primary-menu-inner UL.sf-menu LI LI {
+  background-color: #277;
+  margin-top: 0px;
+  border-bottom: 1px solid #279082;
+}
+
+.primary-menu-inner UL.sf-menu LI LI.last {
+}
+
+.primary-menu-inner UL.sf-menu LI LI LI {
+}
+
+/*Style for hover of dropdown menu items (add background-color here)*/
+.primary-menu-inner UL.sf-menu LI UL LI:hover, .primary-menu-inner UL.sf-menu LI UL LI.sfHover {
+}
+
+/*Secondary menu
+--------------------------------------------------------------
+This menu usually appears in the header as a set of simple text links*/
+.secondary-menu {
+  height: 30px;
+  margin-top: 10px;
+}
+
+/*Set general style for menu here -- background, alignment, etc.*/
+.secondary-menu-inner UL.links {
+  float: right;
+}
+
+/*Add a border-right here for a separator*/
+.secondary-menu-inner UL.links LI {
+  font-size: 11px;
+  margin-left: 3px;
+}
+
+/*Add border-right: 0; here to remove right separator on last menu item*/
+.secondary-menu-inner UL.links LI.last {
+}
+
+/*Styles for links*/
+.secondary-menu-inner UL.links LI A:link, .secondary-menu-inner UL.links LI A:visited {
+  padding: 3px 12px 5px;
+  color: #FFF;
+  line-height: 25px;
+  background: #0B444F;
+}
+
+.secondary-menu-inner UL.links LI A:hover, .secondary-menu-inner UL.links LI A:focus {
+  text-decoration: none;
+  color: #FCF9D6;
+  background: #268F81;
+}
+
+/*Header - Search
+--------------------------------------------------------------*/
+.search-box {
+  width: auto;
+  float: right;
+}
+
+.search-box-inner {
+}
+
+.search-box-inner FORM#search-theme-form {
+}
+
+.search-box-inner INPUT#edit-search-theme-form-header {
+  background: #0C4550;
+  border: 1px solid #289183;
+  float: left;
+  color: #FFF;
+}
+
+.search_submit {
+  border: none;
+  background: url(../images/bg-button);
+  border: 1px solid #279082;
+  font-size: 12px;
+  font-family: TAhoma;
+  font-weight: bold;
+  color: #FFF;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: -1px;
+  height: 22px;
+  padding-top: 2px;
+  padding-bottom: 8px;
+}
+
+/*Preface Regions
+--------------------------------------------------------------
+The Preface Top region sits between the header and the Main Area
+(columns, sidebars, and main content).  The Preface Bottom region
+is inside the Main Area.*/
+.preface-top-wrapper {
+}
+
+.preface-top-wrapper {
+  background: #0A434E;
+  color: #268F81;
+  padding-top: 15px;
+}
+
+.preface-top-inner {
+}
+
+.preface-bottom {
+}
+
+.preface-bottom-inner {
+}
+
+/*Main Area (content + sidebars + preface bottom + postscript top)
+--------------------------------------------------------------*/
+.main {
+  padding-top: 40px;
+  text-align: left; /*----Correction text-aligned for left menu on pages with forms ------*/
+}
+
+.main-wrapper {
+  background: #FCFDEF url(../images/bg-main-wrapper.jpg) repeat-x;
+}
+
+.terms {
+  background: url(../images/icon-tag.png) no-repeat;
+  padding-left: 30px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.terms UL LI {
+  margin-right: 10px;
+}
+
+.terms UL LI A {
+  color: #DEA779;
+}
+
+/*Sidebar Regions
+--------------------------------------------------------------
+Sidebar widths can be controlled through theme settings*/
+.sidebar-first {
+}
+
+.sidebar-last {
+}
+
+/*Content Regions
+--------------------------------------------------------------*/
+.content-top {
+}
+
+.content {
+}
+
+.content-inner {
+}
+
+.content-bottom {
+}
+
+/*This region only appears on full node pages. It's useful for ads or other
+content between the body of the node and its comments*/
+.node-bottom {
+}
+
+/*Postscript & Footer Regions
+--------------------------------------------------------------*/
+.postscript-top {
+}
+
+.postscript-top-inner {
+}
+
+.postscript-bottom-wrapper {
+}
+
+.postscript-bottom-wrapper {
+  background: #0B444F;
+  color: #279082;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.postscript-bottom-inner {
+}
+
+.footer-wrapper {
+  background: #288C80 url(../images/bg-footer.jpg) repeat-x left bottom;
+  border-top: 1px solid #F0D9C4;
+}
+
+.footer {
+  color: #FFF;
+  padding-top: 20px;
+}
+
+.footer A {
+  color: #FBF8D6;
+}
+
+.footer-inner {
+}
+
+.footer-message-wrapper {
+  background: #176E75 repeat-x left bottom;
+}
+
+.footer-message-wrapper {
+}
+
+.footer-message-wrapper A {
+  color: #FFF;
+}
+
+.footer-message {
+  border-top: 1px solid #279082;
+  color: #FBFCEE;
+  padding-top: 15px;
+  padding-bottom: 20px;
+}
+
+.footer-message-inner {
+}
+
+.footer-message-text {
+}
+
+/*Page titles
+/--------------------------------------------------------------
+Page and full node titles*/
+H1.title {
+  line-height: 100%;
+}
+
+/*Default node styles
+/--------------------------------------------------------------
+Change unpublished and preview colors for dark background themes*/
+.node-unpublished {
+  background-color: #FFF4F4;
+}
+
+.preview .node {
+  background-color: #FFFFEA;
+}
+
+/*Node Links*/
+.node .read-more, .node .more-link, .node .links {
+  font-size: 100%;
+}
+
+.node .read-more, .node .more-link, .node .links {
+}
+
+LI.node_read_more A {
+  background: url(../images/icon-read-more.png) no-repeat 0 8px;
+  color: #33B4CE;
+  font-weight: bold;
+  padding: 10px 0;
+  padding-left: 25px;
+}
+
+LI.comment_comments A {
+  background: url(../images/icon-comments.png) no-repeat 0 12px;
+  color: #DEA779;
+  padding: 10px 0;
+  padding-left: 20px;
+  margin-right: 15px;
+}
+
+/*Typography for node titles*/
+H2.title {
+}
+
+/*Typography for node p*/
+H1.title {
+  font-size: 26px;
+  font-weight: normal;
+}
+
+.node {
+}
+
+/*Colors and styles for linked node titles, ie. teaser listing at /node*/
+H2.title A:link, H2.title A:visited {
+  color: #309886;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+H2.title A:hover, H2.title A:focus, H2.title A:active {
+}
+
+/*Separators and padding for node teasers*/
+.teaser {
+  border-bottom: 2px dotted #CCC;
+  padding-bottom: 20px;
+}
+
+/*.content-group-inner {*/
+  /*padding-right: 30px;*/
+/*}*/
+
+/*Author/date info*/
+.meta {
+  color: #999;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 110%;
+}
+
+.submitted {
+  font-size: 11px;
+}
+
+/*Links for nodes (taxonomy, commenting, read more, etc)*/
+.node UL.links LI {
+  padding: 10px 0;
+}
+
+.node UL.links A {
+}
+
+/*Only more/read more links*/
+DIV.node .read-more A, DIV.node .more-link A {
+}
+
+/*Drupal Messages
+/--------------------------------------------------------------
+General style for all errors/messages (border, padding, etc.)*/
+DIV.content-messages DIV.messages, DIV.content-help DIV.help {
+}
+
+/*Status messages: green*/
+DIV.content-messages-inner DIV.status {
+}
+
+/*Warning messages: yellow*/
+DIV.content-messages-inner DIV.warning {
+}
+
+/*Error messages: red*/
+DIV.content-messages-inner DIV.error {
+}
+
+/*Help messages: blue*/
+DIV.content-help-inner DIV.help {
+}
+
+/*Error that appears when a required form field is not filled out*/
+.form-item INPUT.error, .form-item TEXTAREA.error, .form-item SELECT.error {
+  border: 1px solid #AA1144;
+}
+
+/*"New" text and required form field asterisk (default = red)*/
+.marker, .form-required {
+  color: #AA1144;
+}
+
+/*Default block title styles
+/--------------------------------------------------------------*/
+H2.block-title {
+}
+
+/*Breadcrumbs
+--------------------------------------------------------------*/
+.breadcrumbs {
+}
+
+.breadcrumbs A:link, .breadcrumbs A:visited {
+}
+
+/*Tab Menus   TODO: tab styles?
+/--------------------------------------------------------------*/
+#content-tabs {
+  background-color: transparent;
+  float: left;
+  /*LTR*/
+  margin: 0px 0 20px;
+  padding: 0;
+}
+
+#content-tabs UL.primary, #content-tabs UL.secondary {
+  border-bottom: 1px solid #000;
+  clear: both;
+  float: left;
+  /*LTR*/
+  margin: 0;
+  padding: 0 10px;
+}
+
+#content-tabs UL.secondary {
+  border-bottom: 1px solid #555;
+  margin-top: 10px;
+  text-transform: lowercase;
+}
+
+#content-tabs UL.primary LI, #content-tabs UL.secondary LI {
+  border-style: none;
+  display: inline;
+  float: left;
+  /*LTR*/
+  list-style: none;
+  margin: 0 10px;
+  padding: 0;
+}
+
+#content-tabs UL.primary LI A:link, #content-tabs UL.primary LI A:visited, #content-tabs UL.secondary LI A:link, #content-tabs UL.secondary LI A:visited {
+  background-color: transparent;
+  border: none;
+  color: #000;
+  float: left;
+  /*LTR*/
+  font-weight: bold;
+  margin: 0;
+  padding: 0 0 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#content-tabs UL.secondary LI A:link, #content-tabs UL.secondary LI A:visited {
+  color: #555;
+}
+
+#content-tabs UL.primary LI A.active:link, #content-tabs UL.primary LI A.active:visited {
+  border-bottom: 4px solid #000;
+  color: #555;
+  padding-bottom: 2px;
+}
+
+#content-tabs UL.secondary LI A.active:link, #content-tabs UL.secondary LI A.active:visited {
+  border-bottom: 4px solid #555;
+  color: #777;
+  padding-bottom: 2px;
+}
+
+#content-tabs UL.primary LI A:hover, #content-tabs UL.primary LI A:focus, #content-tabs UL.secondary LI A:hover, #content-tabs UL.secondary LI A:focus {
+  border-bottom: 4px solid #777;
+  color: #777;
+  padding-bottom: 2px;
+}
+
+/*Pagers
+--------------------------------------------------------------*/
+UL.pager {
+}
+
+UL.pager LI {
+}
+
+UL.pager A, UL.pager LI.pager-current {
+  border-color: #333;
+}
+
+UL.pager LI.pager-current {
+  background-color: #777;
+  color: #FFF;
+}
+
+UL.pager A:hover, UL.pager A:active, UL.pager A:focus {
+  background-color: #777;
+  border-color: #333;
+  color: #FFF;
+}
+
+/*Forms
+/--------------------------------------------------------------
+Typography and backgrounds for all form buttons*/
+FORM INPUT.form-submit {
+  margin: 2px;
+  padding: 3px 5px;
+}
+
+/*Hover style for form buttons*/
+FORM INPUT.form-submit:hover, FORM INPUT.form-submit.hover, FORM INPUT.form-submit:focus {
+}
+
+/*Typography, background, borders, padding for form fields*/
+.form-item INPUT, .form-item SELECT, .form-item TEXTAREA {
+}
+
+.form-item TEXTAREA {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 13px;
+}
+
+/*Remove backgrounds and border on radios and checkboxes*/
+.form-item .form-radio, .form-item .form-checkbox {
+  background: none;
+  border: none !important;
+}
+
+/*Fieldset wrapper around groups of form elements -- add border here*/
+FIELDSET {
+}
+
+/*Typography and spacing for legend of fieldsets*/
+FIELDSET LEGEND {
+}
+
+/*Link style for legend of fieldsets*/
+FIELDSET LEGEND, LEGEND.collapse-processed, LEGEND.collapse-processed A:link, LEGEND.collapse-processed A:visited {
+}
+
+/*Custom icons on (open) collapsible fieldsets*/
+HTML.js FIELDSET.collapsible LEGEND A:link, HTML.js FIELDSET.collapsible LEGEND A:visited {
+}
+
+/*Custom icons on (closed) collapsible fieldsets*/
+HTML.js FIELDSET.collapsed LEGEND A:link, HTML.js FIELDSET.collapsed LEGEND A:visited {
+}
+
+/*Tables
+--------------------------------------------------------------*/
+TABLE {
+}
+
+/*Body of tables*/
+TBODY {
+  border-top: 1px solid #CCC;
+}
+
+/*Header of tables*/
+THEAD TH, TH {
+  border-bottom: 3px solid #CCC;
+}
+
+TBODY TH {
+  border-bottom: 1px solid #CCC;
+}
+
+/*Alternating row background styles*/
+TR.even, TR.even TD {
+  background-color: #EEE;
+  border-bottom: 1px solid #CCC;
+}
+
+TR.odd, TR.odd TD {
+  background-color: #FFF;
+  border-bottom: 1px solid #CCC;
+}
+
+TD.active {
+}
+
+TR.drag TD, TR.drag-previous TD {
+  color: #000;
+}
+
+/*Maintenance Page
+/--------------------------------------------------------------
+Maintenance page tpl file in Fusion Core has simplified layout, but you can
+also add specific styles, such as a background, just for your offline page*/
+.in-maintenance {
+}
+
+/*--------------------------------------------------------------
+Module styles
+/--------------------------------------------------------------
+Book
+/--------------------------------------------------------------*/
+.book-navigation .menu {
+  border-top: 1px solid #CCC;
+}
+
+.book-navigation .page-links {
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+}
+
+/*Comments
+/--------------------------------------------------------------
+Style for each individual comment*/
+DIV.comment {
+}
+
+/*Subject (title) of each comment*/
+DIV.comment H3.title {
+}
+
+/*Links (edit, reply, delete) for each comment*/
+DIV.comment DIV.links A, DIV.comment UL.links A {
+}
+
+/*Alternating styles for even/odd comments*/
+.comments DIV.odd, .comments DIV.even {
+  border-bottom: 2px dotted #CCC;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+/*A special highlight style for a comment by the author of the node*/
+.comments DIV.comment-by-author {
+  background-color: #FCF9D7;
+  border: 1px solid #F1DAC5;
+}
+
+/*Comment elements*/
+DIV.comment {
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
+
+.comments .usuario {
+  width: 140px;
+  float: left;
+  margin-right: 40px;
+}
+
+.comments .comentario {
+  overflow: hidden;
+}
+
+.comments .comentario P {
+  margin-top: 0;
+}
+
+.comments UL.links {
+  clear: both;
+  width: 100%;
+  padding-top: 10px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.comments UL.links LI.comment_reply {
+  background: url(../images/icon-comments-reply.png) no-repeat;
+  margin-left: 40px;
+  padding-left: 20px;
+}
+
+.comment-author, .comment-author A {
+  font-size: 11px;
+  font-weight: bold;
+  color: #D6997A;
+  margin-bottom: 10px;
+  line-height: 110%;
+}
+
+.comment-id {
+  font-size: 11px;
+  font-weight: bold;
+  color: #333;
+  line-height: 150%;
+}
+
+.comment-date {
+  font-size: 11px;
+  line-height: 120%;
+  color: #999;
+}
+
+/*User avatars in comments*/
+.comments .picture IMG {
+  width: 55px;
+  height: 55px;
+  float: left;
+  margin-right: 10px;
+}
+
+/*Forum
+/--------------------------------------------------------------*/
+#forum .description {
+}
+
+.forum-topic-navigation {
+  border-top: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+/*Poll
+/--------------------------------------------------------------*/
+DIV.poll DIV.bar {
+  background-color: #DDD;
+}
+
+DIV.poll DIV.bar DIV.foreground {
+  background-color: #999;
+}
+
+/*Profiles
+/--------------------------------------------------------------*/
+.profile .picture {
+  float: none;
+}
+
+/*Styles for sub-headings on user profiles*/
+.profile DT {
+  background-color: #CCC;
+}
+
+/*Blocks*/
+#sidebar-last .block UL LI {
+  margin-bottom: 5px;
+  line-height: normal;
+}
+
+#sidebar-last .block UL LI A {
+  display: block;
+}
+
+#sidebar-last .block UL {
+  margin-left: 5px;
+}
+
+#sidebar-last .block .content A:hover {
+  text-decoration: none;
+  color: #32B3CD;
+}
+
+/*Skinr
+/--------------------------------------------------------------
+This is a sample Skinr style to get you started. See fusion_starter.info*/
+.fusion-example-stylename .inner {
+  /*When setting the background color, also set foreground colors for text and
+links, even if it's similar to the default body style. Remember, this block
+style may be used in regions with other foreground colors, thus making text
+invisible if left unspecified*/
+  background-color: #CCC;
+  color: #000;
+  /*All padding and borders should go on the .inner div, so as not to break
+the widths of the grid*/
+  border: 3px solid #000;
+  padding: 10px;
+}
+
+/*Title block styles
+Title Common*/
+.title-common H2.title {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  font-family: Arial;
+  font-weight: bold;
+  padding-left: 15px;
+  margin-bottom: 0;
+}
+
+/*Orange block title*/
+.orange-background-title H2.title {
+  background: #F7BB87;
+  border-bottom: 2px solid #DEA879;
+  color: #FFF;
+}
+
+.orange-background-title {
+}
+
+.orange-background-title A {
+  color: #DEA879;
+  display: block;
+}
+
+.dark-green-background-title H2.title {
+  background: #309886;
+  color: #FFF;
+  border-bottom: 2px solid #2B8978;
+}
+
+.salmon-background-title H2.title {
+  background: #EEAA88;
+  border-bottom: 2px solid #D6997A;
+  color: #FFF;
+}
+
+.apple-green-background-title H2.title {
+  color: #FFF;
+  background: #A9DA88;
+  border-bottom: 2px solid #98C47A;
+}
+
+.apple-green-background-title A {
+  color: #6FA749;
+}
+
+.apple-green-background-title UL LI {
+  list-style-image: url(../images/apple-green-li.png);
+  border-bottom: 1px solid #F0D9C4;
+  padding-bottom: 10px;
+  padding-top: 5px;
+}
+
+/*Block styles
+Temas del Blog*/
+#block-views-categorias-block_1 .views-field-name {
+  float: left;
+  margin-right: 5px;
+}
+
+#block-views-categorias-block_1 .views-field-node-count {
+  color: #999;
+  font-size: 11px;
+}
+
+/*Yellow block background*/
+.yellow-background-block DIV.inner .content {
+  background: #FCF9D7;
+  border: 1px solid #F1DAC5;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-top: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.yellow-background-block DIV.inner P {
+  margin-top: 0;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*Blockquote Block*/
+.blockquote-block .content {
+  font-style: italic;
+  font-family: Georgia;
+  font-weight: bold;
+  color: #888;
+  font-size: 14px;
+  background: url(../images/misc-1.png) no-repeat;
+  padding-bottom: 10px;
+  padding-top: 0px;
+  padding-left: 30px;
+}
+
+/*Teaser Styles*/
+.teaser .blog_usernames_blog {
+  display: none;
+}
+
+.teaser .field-field-photo IMG {
+  border: 4px solid #CCC;
+  margin-top: 10px;
+}
+
+/*Node Blog Styles*/
+.node-type-blog .field-field-photo IMG {
+  border: 6px solid #CCC;
+  margin-top: 10px;
+}
+
+.node-type-blog .field-field-photo {
+}
+
+ul.sf-menu ul,
+ul.sf-menu ul li,
+ul.sf-menu ul li a {
+  width: 230px;
+}
+
+#primary-menu ul.menu li:hover ul.menu li ul.menu,
+#primary-menu ul.menu li.hover ul.menu li ul.menu,
+#primary-menu ul.menu li ul.menu li ul.menu {
+    font-size: 100%;
+    margin-left: 90px;
+}
+
+#block-block-4,
+#block-block-5 {
+  width: 700px;
+  float: right;
+}
+
+#block-print-0 {
+  height: 0px;
+  margin: 0px;
+}
+
+ul.sf-vertical li ul {
+  padding: 0;
+}
+
+#block-addtoany-0 .block-title,
+#block-menu-menu-footer-links .block-title,
+#block-menu-secondary-links .block-title,
+#block-menu-menu-diabetes-external-links .block-title,
+#block-menu-menu-external-links .block-title {
+  display: none;
+}
+
+#block-menu-menu-footer-links ul {
+  margin: 0 auto;
+  text-align: center;
+  width: 230px;
+}
+
+#block-addtoany-0 li,
+#block-menu-menu-footer-links li,
+#block-menu-menu-diabetes-external-links li,
+#block-menu-secondary-links li,
+#block-menu-menu-external-links li {
+  display: inline-block;
+  float: left;
+}
+
+#block-menu-menu-footer-links ul a {
+  border-right: 1px solid #323232;
+  display: block;
+  line-height: 10px;
+  margin: 4px 0 0;
+  padding: 0 8px;
+}
+
+#block-menu-menu-external-links ul li.last a,
+#block-menu-menu-diabetes-external-links ul li.last a,
+#block-menu-menu-footer-links ul li.last a {
+  border: medium none;
+}
+
+.footer-message-text {
+  text-align: center;
+}
+
+#block-menu-secondary-links {
+  float: right;
+}
+
+#block-menu-secondary-links {
+  width: 400px;
+}
+
+#block-addtoany-0 {
+  float: right;
+  font-size: 12px;
+  position: relative;
+  right: 0;
+  width: 90px;
+}
+
+#block-menu-secondary-links,
+#block-addtoany-0 {
+  margin: 5px 0;
+}
+
+#block-menu-secondary-links .inner,
+#block-menu-menu-external-links .inner,
+#block-menu-menu-diabetes-external-links .inner,
+#block-addtoany-0 .inner {
+  margin: 0;
+}
+
+#block-menu-secondary-links ul {
+  float: right;
+}
+
+#block-menu-secondary-links .content a,
+#block-addtoany-0 .content a {
+  background: none repeat scroll 0 0 #106270;
+  color: #FFFFFF;
+  line-height: 25px;
+  padding: 3px 10px;
+  margin: 0px 5px;
+}
+
+#block-menu-menu-diabetes-external-links,
+#block-menu-menu-external-links {
+  float: right;
+  margin: -25px 0 0 0;
+}
+
+#block-menu-menu-diabetes-external-links  ul,
+#block-menu-menu-external-links  ul {
+  float: right;
+}
+
+#block-menu-menu-diabetes-external-links  .content a,
+#block-menu-menu-external-links  .content a {
+  background: none repeat scroll 0 0 #0B444F;
+  color: #FFFFFF;
+  line-height: 25px;
+  padding: 3px 10px;
+  margin: 0px 10px 0 0;
+}
+
+#page-inner h2.user-name {
+  height: 0px;
+  margin: 0 auto;
+  top: -27px;
+  width: 450px;
+  font-size: 14px;
+  padding: 0;
+  position: relative;
+  right: 239px;
+  color: #fff;
+}
+
+#pid-primary-links-about-healthcare-it-inc h1.title {
+  display: none;
+}
+
+#header-group {
+  padding-top: 35px;
+}
+
+/*.grid16-13 {*/
+/*width: 720px !important;*/
+/*}*/
+
+/*.grid16-3 {*/
+/*width: 240px !important;*/
+/*}*/
+
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+  background: url(../images/grey_box.png) top left no-repeat;
+  color: #333;
+}
+
+#block-notes-0 h4 {
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
+  /*color: #476E30;*/
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+  border-bottom: 1px dotted #CCC;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-notes-0 .note a {
+  font-weight: bold;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+div#block-cacure_mgmt-4 h2 {
+  font-size: 13px;
+  color: #000;
+}
+
+#two-steps .one, #two-steps .two {
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 0 0 34px;
+  width: 165px;
+}
+
+#two-steps .one {
+  background: url(../images/one.png) no-repeat 0px 0px;
+}
+
+#two-steps .two {
+  margin-left: 24px;
+  width: 275px;
+}
+
+#two-steps p span {
+  color: #333;
+  float: left;
+  width: 545px;
+}
+
+#two-steps h4.steps {
+  float: left;
+  font-size: 18px;
+  line-height: 28px;
+  padding: 0;
+  width: 125px;
+}
+
+#two-steps .two {
+  background: url(../images/two.png) no-repeat 0px 0px;
+}
+
+#two-steps {
+  height: 50px;
+  margin: 17px 0 20px;
+}
+
+#block-block-19 {
+  margin-bottom: 1em;
+  margin-top: 25px;
+  padding: 0 20px;
+  width: 95%;
+}
+
+#block-block-19 .inner {
+  margin-left: 0px;
+}
+
+#block-block-19 h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+}
+
+#block-block-19 h2 {
+  color: #333;
+  border-bottom: 1px solid #CCC;
+  border-top: 1px solid #CCC;
+}
+
+#block-cacure_mgmt-1 .element-header {
+  padding: 0 0 0 18px;
+}
+
+#general-instructions {
+  margin-top: 20px;
+  padding: 20px;
+  width: 655px;
+}
+
+#general-instructions {
+  background: #FFF;
+  border-top: 1px solid #CCC;
+}
+
+#general-instructions h4 {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+#general-instructions #left, #general-instructions #right {
+  float: left;
+  font-size: 12px;
+  width: 307px;
+}
+
+#general-instructions #left {
+  margin-right: 40px;
+}
+
+general-instructions #left, #general-instructions #right {
+  float: left;
+  font-size: 12px;
+  width: 307px;
+}
+
+#general-instructions p {
+  line-height: 16px;
+  padding: 0 0 20px;
+}
+
+#block-block-18 {
+  width: 100%;
+}
+
+#generic-intro h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#generic-intro h2 {
+  color: white;
+  background-color: #333333;
+}
+
+#generic-intro p {
+  padding: 20px 20px 0;
+}
+
+.hcitHeaderRow {
+  background: none;
+}
+
+body#xform-page .content-group-inner {
+  padding-bottom: 50px;
+}
+
+span#xf-output-0 {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background: #333333;
+}
+
+span#xf-output-0 {
+  padding: 0 0 0 20px;
+  line-height: 30px;
+  width: 675px;
+  display: block;
+  z-index: 999;
+  top: 0;
+}
+
+#xform-block span#xf-output-0{
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 10px;
+}
+
+#xform-block .xforms-item-label {
+  margin-left: 5px;
+}
+
+body#pid-cure-suite #main-group .title {
+  display: none;
+}
+
+body#pid-form-builder-steps .step-1-img,
+body#pid-form-builder-steps .step-2-img,
+body#pid-form-builder-steps .step-3-img,
+body#pid-form-builder-steps .step-4-img {
+  float: right;
+  left: 10px;
+  position: relative;
+}
+
+body#pid-form-builder-steps #step-1,
+body#pid-form-builder-steps #step-2,
+body#pid-form-builder-steps #step-3,
+body#pid-form-builder-steps #step-4 {
+  float: right;
+  margin: 0 0 50px 0;
+}
+
+body#pid-form-builder-steps #step-1 h1,
+body#pid-form-builder-steps #step-2 h1,
+body#pid-form-builder-steps #step-3 h1,
+body#pid-form-builder-steps #step-4 h1 {
+  margin: 20px 0;
+}
+
+.node p {
+  padding-bottom: 10px;
+}
+
+#pid-about-it-professional-services .it-ps-buildings {
+  float: left;
+  padding: 0 10px 10px 0;
+  position: relative;
+}
+
+#consent_options label {
+  margin-right: 20px;
+}
+
+.primary-menu-inner ul.sf-menu ul ul {
+    margin-top: 0px;
+}
+
+.sf-menu.sf-style-space-orange li,
+.sf-menu.sf-style-space-orange li li,
+.sf-menu.sf-style-space-orange li li li,
+.sf-navbar.sf-style-space-orange {
+  background: #0b444f;
+}
+.sf-menu.sf-style-space-orange li:hover,
+.sf-menu.sf-style-space-orange li.sfHover,
+.sf-menu.sf-style-space-orange li.active a,
+.sf-menu.sf-style-space-orange a:focus,
+.sf-menu.sf-style-space-orange a:hover,
+.sf-menu.sf-style-space-orange a:active,
+.sf-navbar.sf-style-space-orange li li {
+  background: #24837f;
+  color: #ffffff !important;
+}
+.sf-navbar.sf-style-space-orange li ul {
+  background-color: #24837f;
+  width: 100%;
+}
+.sf-navbar.sf-style-space-orange li ul li ul {
+  background-color: transparent;
+}
+
+ul.sf-vertical li.active-trail {
+  background: #24837f;
+}
+ul.sf-vertical li a:link,
+ul.sf-vertical li a:visited,
+ul.sf-vertical li .nolink {
+    margin-left: 0;
+    padding: 0.75em 1em;
+}
+
+#block-cacure_change_role-0 fieldset,
+#block-switchtheme-0 fieldset {
+  display: none;
+}
+
+#switchtheme-switch-form div.form-item {
+  float: none;
+  margin-bottom: 10px;
+}
+
+a#consent-submit {
+  display: block;
+  text-align: center;
+  width: 90px;
+  margin: 20px 0 0 0;
+  padding: 5px;
+  background: #24837f;
+  border-bottom: 2px solid #0b444f;
+  border-right: 2px solid #0b444f;
+  color: #fff;
+  font-weight: bold;
+}
+
+a#consent-submit:active {
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-bottom: none;
+  border-right: none;
+}
+
+#username_validation_error {
+  color: red;
+  font-size: 0.85em;
+  margin-bottom: 5px;
+}
+
+div.password-description {
+  background: none;
+  border: none;
+  color: red;
+}
+
+div.password-description ul {
+  margin: 0 0 5px 20px;
+  padding: 0;
+}
+
+.messages {
+  margin: 10px 0;
+}
+
+div.note {
+  margin: 20px 0;
+}
+
+span.status #st-def-form {
+background: url("/sites/all/modules/custom/cacure_mgmt/css/images/box_checked.png");
+height: 14px;
+width: 13px;
+}
+
+span.status .st-text, span.status #st-def-form {
+float: left;
+}
+
+div#block-cacure_mgmt-1 .content {
+    width: 100%;
+}
+
+div#block-cacure_mgmt-1 div.element-header div.module-name {
+  color: #555;
+}
+
+
+#block-block-73 h2,
+#block-user-0 h2 {
+  padding-left: 0px;
+  text-align: center;
+}
+
+body.page-user #content-inner-inner ul.secondary {
+  margin-left: 0px;
+}
+
+div#panels-divider-hor {
+  background:  url("../images/panel-divider.png") no-repeat scroll center top transparent;
+  width: 694px;
+  height: 4px;
+  margin: 15px auto;
+  float: left;
+}
+
+.not-logged-in #logged-in,
+.logged-in #logged-out, 
+.page-user #edit-delete,
+.page-user div[id^="edit-status-"] {
+display: none;
+}
+
+h1 {
+  width: 95%;
+}
+
+img.test-tubes {
+  padding: 0 20px 0 0;
+}
+
+body#pid-primary-links-about-healthcare-it-inc #content-inner-inner {
+  margin-top: -15px;
+}
+
+body#pid-about-bigr #content-inner-inner {
+  margin-top: -22px;
+}
+
+
+.it-professional-services-slogan {
+  position: relative;
+  color: #38306E;
+  font-size: 1em;
+}
+
+.it-professional-services-slogan2 {
+  position: relative;
+  padding-left: 50px;
+  color: #38306E;
+  font-size: 1em;
+}
+
+
+#xform-block .hcit-save-for-later-button button {
+    background: url("../images/xforms/save_for_later.png") repeat scroll 0 0 transparent;
+}
+
+#xform-block .hcit-save-button-next button {
+    background: url("../images/xforms/submit-right.png") repeat scroll 0 0 transparent;
+}
+
+#xform-block .hcit-save-button-back  button {
+    background: url("../images/xforms/submit-left.png") repeat scroll 0 0 transparent;
+}
+
+div#block-cacure_mgmt-1 div.form-element div.text.active {
+    background: url("../images/list_image.png") no-repeat scroll 0 6px transparent;
+}
+
+div#block-cacure_mgmt-1 .finish span, div#block-cacure_mgmt-2 .finish span {
+  padding: 0 0 0 295px;
+}

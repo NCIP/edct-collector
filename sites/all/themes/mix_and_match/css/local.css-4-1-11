@@ -1,0 +1,281 @@
+#block-block-18, #block-block-14, #block-block-19, #block-cacure_mgmt-3{
+  width: 665px !important;
+}
+#pid-my-current-questionnaire #content-region,
+#pid-node-71 #content-region,
+#pid-my-account-my-submitted-questionnaires #content-region,
+body#xform-page #content-region{
+  padding-left: 0;
+}
+#pid-my-current-questionnaire div#block-cacure_mgmt-1,
+#pid-node-71 div#block-cacure_mgmt-1,
+body#xform-page div#block-cacure_mgmt-1{
+  padding-left: 14px;
+}
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+  background: url('../../acquia_marina/images/grey_box.png') top left no-repeat;
+  color: #333;
+}
+
+#block-notes-0 h4 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 h4 {
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
+  color: #476E30;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+  height: 20px;
+}
+
+#block-notes-0 p.line {
+  border-bottom: 1px dotted #CCC;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+body div#block-cacure_mgmt-4 .content{
+  padding: 0;
+}
+div#block-cacure_mgmt-4 div.inner{
+  margin: 0;
+}
+div#block-notes-0 h4 {
+  line-height: 27px;
+}
+body div#block-cacure_mgmt-1 .finish span,
+body div#block-cacure_mgmt-2 .finish span{
+  padding: 0 0 0 306px;
+}
+#content-tabs-inner ul.tabs.primary{
+  display: none;
+}
+body#xform-page #xform-block{
+  overflow: visible;
+  position: relative;
+  left: 75px;
+}
+body#xform-page  #content-group{
+  width: 700px;
+}
+body#xform-page .hcit-save-for-later-button button,
+body#xform-page .hcit-save-button-next button{
+  width: 155px;
+}
+#content-tabs ul.secondary{
+  z-index: 1000;
+}
+#block-print-0>div.inner{
+  z-index: 2;
+}
+#content-tabs-inner{
+  z-index: 2000;
+}
+#xform-block {
+  background: url("../images/xforms/pink_box_big.png") no-repeat scroll left top transparent;
+  color: #333333;
+}
+#xform-page #main-group {
+  width: 857px;
+  padding-left: 52px !important;
+}
+#content-region {
+    padding-left: 60px !important;
+    width: 90%;
+}
+.front #block-print-0 {
+    position: absolute;
+    width: 625px;
+    z-index: 1;
+}
+#block-menu-menu-diabetes-external-links {
+    position: relative;
+	top: -15px;
+	left: 15px;
+}
+#block-addtoany-0 {
+    position: relative;
+	float: right;
+    width: 85px;
+	left: 20px;
+	top: 1px;
+}
+#block-menu-secondary-links {
+    float: right;
+	position: relative;
+	left: 30px;
+}
+#header-group-wrapper {
+    position: relative;
+	top: -25px;
+}
+body#pid-primary-links-about-healthcare-it-inc #content-content {
+    position: relative;
+	top: -40px;
+}
+body#pid-primary-links-about-hosting #content-region {
+    position: relative;
+	top: -45px;
+}
+body#pid-primary-links-about-hosting .panel-col-top .slogan {
+    font-size: 1.5em;
+    line-height: 1;
+}
+body#pid-primary-links-about-hosting .panel-col-top .slogan2 {
+    font-size: 1.5em;
+    left: 70px;
+    line-height: 1.5;
+    position: relative;
+}
+body#pid-primary-links-about-hosting .panel-col-top .first-text {
+   position: relative;
+   top: 20px;
+}
+body#pid-about-it-professional-services #content-region {
+   position: relative;
+   top: -55px;
+}
+body#pid-about-it-professional-services .it-professional-services-slogan {
+   font-size: 1.5em;
+}
+body#pid-about-it-professional-services .it-professional-services-slogan2 {
+   font-size: 1.5em;
+   position: relative;
+   left: 30px;
+   line-height: 1.5;
+}
+body#pid-about-it-professional-services .it-professional-services-text {
+   position: relative;
+   top: 10px;
+}
+body#pid-about-it-professional-services .panel-2col-stacked .panel-col-last {
+    float: right;
+    left: 10px;
+    position: relative;
+    width: 48%;
+}
+body#pid-about-it-professional-services .panel-2col-stacked .panel-col-first {
+    float: left;
+    width: 48%;
+}
+body#pid-about-bigr #content-inner {
+   position: relative;
+   top: -55px;
+}
+#block-menu-menu-external-links {
+   position: relative;
+   top: -18px;
+   left: 10px;
+}
+body.page-user .user-edit #main-group{
+  position: relative;
+  top: -52px; 
+}
+/* Login block on home page */
+.sidebar-first #block-user-0 /* Home Page Login w/ Deep Red BG */
+{
+  background: #38205B;
+  padding: 5px 15px 35px 10px;
+}
+
+.sidebar-first #block-user-0 h2 /* HP Login Header */
+{
+  color: #ffffff;
+}
+
+#user-login-form label {
+  color: #FFFFFF;
+}
+
+#user-login-form label .form-required /* The required asterix */
+{
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+#user-login-form a {
+  color: #FFFFFF;
+}
+
+
+#user-login-form .item-list ul {
+    margin-left: 0;
+    position: relative;
+    top: 30px;
+}
+#user-login-form .item-list .first {
+    position: relative;
+    right: 60px;
+	width:250px;
+}
+#user-login-form .item-list .last {
+    position: relative;
+    right: 60px;
+	width:250px;
+}
+#sidebar-last .demo-site-overview .inner{
+   border: 1px solid #38205B;
+}
+.demo-site-overview h2 {
+   background: #38205B;
+   color: white;
+   padding: 10px;
+   font-size: 1.3em;
+   font-weight: bold;
+}
+.demo-site-overview p {
+   width: 90%;
+   text-align: right;
+   float: right;
+   padding: 0 5px 0 0;
+   font-size: 1.15em;
+}
+.not-logged-in #header-group {
+   margin-top: 1.5em;
+}
+body#pid-join-now #main-group,
+body#pid-join-consent #main-group {
+   position: relative;
+   top: -15px;
+}
+body#pid-join-now h1 {
+   font-size: 2em;
+   margin-bottom: 1em;
+}
+body#pid-join-now .stepper {
+   font-size: 1.5em;
+}

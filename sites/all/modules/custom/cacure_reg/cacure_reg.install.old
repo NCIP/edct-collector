@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function cacure_reg_install(){
+  variable_set('cc_reg_varsion', '001a');
+  drupal_install_schema('cc_reg');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function cacure_reg_uninstall() {
+  drupal_uninstall_schema('cc_reg');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function cacure_reg_schema($caller_function = FALSE) {
+  $schema = array();
+
+  $schema['cc_user'] = array(
+    'description' => 'Stores the users identifier.',
+    'fields' => array(
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "User's {users}.uid.",
+      ),
+      'identifier' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Users CAcure identifier.',
+      ),
+    ),
+    'primary key' => array('uid'),
+  );
+  
+  return $schema;
+}
