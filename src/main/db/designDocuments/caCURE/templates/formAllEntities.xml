@@ -1,0 +1,50 @@
+<form xmlns="" name="{{name}}" id="{{formId}}" revision="{{revision}}"> 
+ {{#owners}}
+    <owner id="{{ownerId}}" >
+    <questions>
+    {{#questions}}
+	<question id="{{questionId}}" sn="{{questionSn}}">
+        <text>{{questionText}}</text>
+        {{#answerValues}}
+		<answer id="{{ansId}}" text="{{ansText}}">{{ansValue}}</answer>
+		{{/answerValues}}
+    </question>
+	{{/questions}}
+	</questions>
+	<complex-tables>
+	{{#complexTables}}
+	<complex-table id="{{uuid}}" sn="{{sn}}" >
+		<text>{{tableText}}</text>
+		{{#rows}}
+		<row>
+			{{#columns}}
+			<column id="{{questionId}}" sn="{{questionSn}}" isIdentifying="{{identifying}}">
+				<text>{{questionText}}</text>
+        		{{#answerValues}}
+				<answer id="{{ansId}}" text="{{ansText}}">{{ansValue}}</answer>
+				{{/answerValues}}
+			</column>
+			{{/columns}}
+		</row>
+		{{/rows}}
+	</complex-table>
+	{{/complexTables}}
+	</complex-tables>
+	<tables>
+	{{#simpleTables}}
+	<question-table id="{{uuid}}" sn="{{sn}}">
+		<text>{{tableText}}</text>
+		{{#questions}}
+		<question id="{{questionId}}" sn="{{questionSn}}">
+        	<text>{{questionText}}</text>
+        	{{#answerValues}}
+			<answer id="{{ansId}}" text="{{ansText}}">{{ansValue}}</answer>
+			{{/answerValues}}
+    	</question>
+		{{/questions}}
+	</question-table>
+	{{/simpleTables}}
+	</tables>
+	</owner>
+  {{/owners}}
+</form>

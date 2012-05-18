@@ -1,0 +1,13 @@
+#uploadStatus
+{
+	display: none;
+}
+
+.middle-div
+{
+	height:200;
+	background: url("../images/07.jpg") repeat-y scroll 0 0 transparent;
+	width:890px;
+	padding:30px;
+	
+}

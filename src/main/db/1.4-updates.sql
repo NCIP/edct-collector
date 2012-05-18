@@ -1,0 +1,1 @@
+ALTER TABLE form_skip ADD COLUMN question_owner_form_id character varying(150) NOT NULL;
