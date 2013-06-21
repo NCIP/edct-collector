@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+
+<!--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L-->
+
 <project name="Cure Collector" default="all">
 
 	<!-- Allows for local developer to override settings in a non-versioned file -->

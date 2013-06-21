@@ -1,3 +1,10 @@
+<!--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L-->
+
 <xform:group class="hcit-submit-action-group">
 <xform:submit submission="SendDataElement" class="hcit-submit-action-button">
   <xform:label>Submit for PI Approval</xform:label>

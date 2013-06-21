@@ -1,3 +1,10 @@
+<%--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L--%>
+
 <%@ include file="/WEB-INF/includes/taglibs.jsp"%>
 <c:set var="appPath" value="${pageContext.request.contextPath}" scope="request"/>
 <?xml-stylesheet href="${appPath}/xsltforms/regular-html.xsl" type="text/xsl"?>

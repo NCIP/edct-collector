@@ -1,3 +1,10 @@
+<%--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L--%>
+
 <%@page import="com.healthcit.how.api.FormActionsProvider"%>
 <%@ include file="/WEB-INF/includes/taglibs.jsp"%>
 <script src="${appPath}/scripts/configureWorkflow.js" type="text/javascript"></script>

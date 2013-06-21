@@ -1,3 +1,10 @@
+<!--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L-->
+
 <xform:group class="hcit-save-next-group">
 <xform:submit submission="SendDataElement" class="hcit-save-button-next">
   <xform:label>Save and Continue</xform:label>

@@ -1,3 +1,10 @@
+/*L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L*/
+
 CREATE TABLE entity_tag_permission (entity_id character varying(40), tag_id character varying(500), permission character varying(10));
 
 CREATE TABLE TAG (tag_id character varying(500));

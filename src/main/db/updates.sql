@@ -1,3 +1,10 @@
+/*L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L*/
+
 -- New sequence added for form_skip_id
 
 CREATE SEQUENCE cacure.form_skip_id_seq

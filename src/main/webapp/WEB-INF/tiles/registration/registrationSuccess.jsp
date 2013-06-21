@@ -1,3 +1,10 @@
+<%--L
+  Copyright HealthCare IT, Inc.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/edct-collector/LICENSE.txt for details.
+L--%>
+
 <table width="550" border="0" cellspacing="0" cellpadding="0" height="106">
   <tr>
     <td width="30" align="center"><font size="2"></font></td>
