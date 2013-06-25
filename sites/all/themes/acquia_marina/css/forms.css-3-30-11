@@ -1,0 +1,1030 @@
+@charset
+"utf-8"
+;
+/* CSSTidy 1.3: Sat, 12 Feb 2011 06:07:42 -0700 */
+#consent-form {
+  padding-bottom: 50px;
+  position: relative;
+}
+
+#consent-form .content, #user-profile-form .content, #make-a-difference-now .content {
+  padding: 20px;
+}
+
+#consent-form h2.userform, #form-wrap h1, #generic-intro h2 /* Creates Bar Header*/
+{
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  max-width: 675px;
+  padding: 0 0 0 20px;
+  width: 675px;
+}
+
+#consent-form input[type=button] {
+  bottom: 0;
+  left: 20px;
+  position: absolute;
+}
+
+#consent-form, #form-wrap, #generic-intro {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+#consent_options {
+  font-size: 12px;
+  margin: -4px -24px -24px;
+  padding: 0;
+  text-transform: capitalize;
+}
+
+#edit-reason-wrapper label, #withdraw-form label.radio {
+  width: 100%;
+}
+
+#edit-submitted-are-you-a-member-of-the-army-of-women-Yes-wrapper label {
+  margin-bottom: 5px;
+}
+
+#edit-title-wrapper, #edit-field-url-0-value-wrapper, img#siimage {
+  margin-bottom: 10px;
+}
+
+#form-wrap {
+  min-height: 250px;
+  position: relative;
+}
+
+#form-wrap .form-req {
+  position: absolute;
+  right: 20px;
+  top: 40px;
+}
+
+#form-wrap>form>div>br {
+  height: 0;
+  line-height: 0;
+}
+
+#generic-intro {
+  margin: 0;
+  padding: 0 0 40px;
+}
+
+#generic-intro h4 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  max-width: 675px;
+  padding: 0 0 0 20px;
+  width: 675px;
+}
+
+#generic-intro p {
+  font-size: .857em;
+  padding: 20px 20px 0;
+}
+
+#join-now .space-one {
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 23px;
+  line-height: 23px;
+  text-align: right;
+  width: 30px;
+}
+
+#join-now .space-two, #join-now .space-three {
+  display: block;
+  float: left;
+  height: 23px;
+  line-height: 23px;
+  text-align: right;
+  width: 30px;
+}
+
+#join-now .stepper {
+  clear: right;
+  height: 30px;
+  width: 659px;
+}
+
+#join-now .stepper p {
+  clear: right;
+}
+
+#join-now h4 {
+  display: block;
+  float: left;
+  font-size: 20px;
+  padding: 0;
+  width: 50px;
+}
+
+#join-now p {
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+#make-a-difference-now p.last {
+  margin-top: 40px;
+  padding-top: 20px;
+}
+
+#node-52 .form-item label, #refer-a-friend-form .form-item label, #my-health-notes .form-item label, #withdraw-form label {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+#node-52 .form-item label .edit-message {
+  clear: both;
+}
+
+#node-52 .form-radios div[id^=edit-submitted-are] {
+  height: 15px;
+  margin-bottom: 5px;
+  margin-left: 170px;
+  margin-top: 0;
+  position: relative;
+}
+
+#node-52 .form-radios div[id^=edit-submitted-are] label {
+  position: absolute;
+  top: 0;
+}
+
+#node-52 div[id^=webform-component], #refer-a-friend-form div[id^=webform-component], #my-health-notes div[id^=webform-component] {
+  clear: right;
+  margin-top: 15px;
+  min-height: 25px;
+  width: 100%;
+}
+
+#node-52 form, form#refer-a-friend-form, #my-health-notes form, #withdraw-form {
+  margin-top: 10px;
+  padding: 15px 0 0 25px;
+}
+
+#node-52 input[id$=submit] /* Contact Submit Button */
+{
+  float: right;
+  font-size: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
+  padding: 5px;
+  width: 100px;
+}
+
+#node-52 input[type=text], #refer-a-friend-form input[type=text], #my-health-notes input[type=text] {
+  clear: right;
+  float: left;
+  height: 16px;
+  line-height: 16px;
+  width: 230px;
+}
+
+#node-52 p, #refer-a-friend-form p, #my-health-notes p {
+  font-size: .857em;
+  padding: 10px 0;
+}
+
+#node-52, #refer-a-friend, #my-health-notes {
+  width: 676px;
+}
+
+#refer-a-friend-form #edit-message-wrapper {
+  height: 400px;
+}
+
+#refer-a-friend-form .description {
+  clear: both;
+  display: block;
+  margin-left: 170px;
+  width: 100%;
+}
+
+#refer-a-friend-form .textarea-identifier.description {
+  margin-left: 0;
+}
+
+#refer-a-friend-form div[id$=wrapper] {
+  height: 40px;
+}
+
+#refer-a-friend-form label, #refer-a-friend-form input, form#user-profile-form {
+  margin-top: 20px;
+}
+
+#refer-a-friend-form textarea {
+  clear: both;
+  height: 250px;
+  padding: 5px;
+  width: 617px;
+}
+
+#submit_questionnaire .inactive, #submit_questionnaire .active, div.teaser-checkbox, .password-strength .password-title, ul.tabs.primary, fieldset.captcha legend, #edit-captcha-response-wrapper .description, form#user-profile-form fieldset.collapsible, div#block-management-0 .finish .here {
+  display: none;
+}
+
+#submit_questionnaire a.submit {
+  padding-right: 8px;
+}
+
+#submit_questionnaire h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+  width: 600px;
+}
+
+#submit_questionnaire p {
+  margin-bottom: 50px;
+  padding: 20px 0 0 20px;
+}
+
+#submit_questionnaire p.cancel {
+  margin: 0;
+  text-align: center;
+}
+
+#user-login #edit-submit {
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  margin: 20px 20px 20px 0;
+  padding: 4px 20px 9px 8px;
+}
+
+#user-login .description {
+  display: block;
+  padding: 5px 0;
+  width: 100%;
+}
+
+#user-login div[id$=wrapper] {
+  height: 50px;
+  padding: 5px 0;
+}
+
+#user-login input[type=text], #user-login input[type=password] {
+  clear: right;
+  float: left;
+  height: 16px;
+  line-height: 16px;
+  width: 230px;
+}
+
+#user-pass #edit-name {
+  clear: left;
+  float: left;
+  width: 200px;
+}
+
+#user-pass div[id$=wrapper] {
+  height: 50px;
+  padding: 10px 0;
+}
+
+#user-pass label {
+  margin-bottom: 20px;
+}
+
+#user-register fieldset legend, form#user-profile-form fieldset legend {
+  margin-left: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  text-indent: 0;
+  width: 695px;
+  margin-top: 10px;
+}
+
+body.logged-in form#user-profile-form fieldset legend {
+  margin-top: -16px;
+}
+
+#user-register fieldset, #user-profile-form fieldset {
+  position: relative;
+}
+
+#user-register fieldset.fieldset_contact_info,
+#user-register fieldset.group-aq,
+#user-register fieldset.personal-info,
+#user-register fieldset.fieldset_account,
+form#user-profile-form fieldset {
+  padding: 20px;
+}
+
+#user-register fieldset.personal-info>.form-item {
+  margin-left: 24px;
+}
+
+#user-register fieldset.personal-info .form-item {
+  float: left;
+  width: 300px;
+}
+
+#user-register fieldset.personal-info #edit-pass-pass1-wrapper .password-strength {
+/*margin: 20px;*/
+  position: relative;
+  top: 12px;
+}
+
+#user-register fieldset.personal-info #edit-pass-pass2-wrapper span.password-confirm {
+  position: relative;
+  top: 19px;
+}
+
+#user-register fieldset.personal-info .password-description {
+  position: relative;
+  left: 9px;
+  float: left;
+}
+
+#user-register fieldset.personal-info #edit-pass-pass2-wrapper {
+  margin-left: 22px;
+}
+
+#user-register fieldset.personal-info .form-item label {
+  margin: 0 0 4px;
+}
+
+#user-register fieldset.personal-info #edit-pass-wrapper {
+  width: 650px;
+  margin-top: 99px;
+}
+
+#user-register fieldset.personal-info #edit-name-wrapper,
+#user-register fieldset.personal-info #edit-mail-wrapper {
+  margin-top: 45px;
+}
+
+#user-register fieldset.fieldset_personal_info {
+  padding: 20px;
+}
+
+#user-register fieldset.fieldset_personal_info legend span {
+  line-height: 14px;
+  top: 9px;
+}
+
+#webform-component-select_a_topic {
+  padding-top: 10px;
+}
+
+#withdraw-form #edit-block-wrapper, #withdraw-form #edit-remove-wrapper {
+  height: 20px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+#withdraw-form #edit-remove-wrapper, #edit-reason-wrapper {
+  margin-top: 25px;
+}
+
+#withdraw-form #edit-submit {
+  height: 24px;
+  width: 150px;
+}
+
+#withdraw-form>div {
+  width: 90%;
+}
+
+.IE7 form#user-profile-form #edit-name-wrapper input#edit-name {
+  margin-left: -20px;
+}
+
+.body-field-wrapper {
+  margin-top: 10px;
+  min-height: 175px;
+}
+
+.consent-form label {
+  line-height: 17px;
+}
+
+.create-health-notes .form-item label, .create-news .form-item label, #edit-title-wrapper.form-item label {
+  clear: none;
+  float: none;
+  width: auto;
+}
+
+.form-item .description {
+  clear: left;
+  display: none;
+  float: left;
+  font-size: .857em;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.form-item label {
+  clear: left;
+  float: left;
+  font-size: 14px;
+  line-height: 15px;
+  margin: 0;
+  position: relative;
+  width: 170px;
+}
+
+#user-register legend span {
+  top: 0;
+  font-size: 1.3em;
+
+}
+
+.form-radios, .form-item {
+  margin: 0;
+}
+
+.form-req span {
+  font-size: 1.5em;
+  padding-right: 3px;
+  position: relative;
+  top: 3px;
+}
+
+.form-required /* The required asterix */
+{
+  font-size: 1.5em;
+  padding-right: 3px;
+}
+
+.grippie {
+  clear: both;
+  display: none;
+}
+
+.join-consent #content-region {
+  margin-top: -2.5em;
+  padding: 0;
+}
+
+.join-consent #node-46 input[type=button] {
+  cursor: pointer;
+  position: relative;
+  right: 60px;
+  top: 25px;
+}
+
+.notes-delete-26 #notes-form-delete #edit-submit, .notes-delete-26 #notes-form-delete #edit-cancel, .notes-add #notes-form-add #edit-submit, .notes-add #notes-form-add #edit-cancel {
+  margin-top: 2em;
+  padding: 2px 5px 5px 0;
+}
+
+.password-description.warning ul, .password-description.warning li, .error li {
+  list-style-image: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.password-description.warning, .password-description.error, .messages.error, .messages.warning, #username_validation_error {
+  font-size: 9px;
+  margin-left: 0;
+  width: 400px;
+  height: 5px;
+}
+
+.password-result {
+  display: block;
+  filter: alpha(opacity = 70);
+  height: 25px;
+  line-height: 25px;
+  opacity: .7;
+  padding-left: 10px;
+}
+
+.password-result.error {
+  display: block;
+  width: 33%;
+}
+
+.password-result.ok {
+  display: block;
+  width: 115px;
+}
+
+.password-result.warning {
+  display: block;
+  width: 66%;
+}
+
+.password-strength {
+  display: block;
+  float: left;
+  height: 25px;
+  width: 125px;
+}
+
+.refer-a-friend table#webform-components td {
+  width: 150px;
+}
+
+.sidebar-first .ui-widget-overlay, .sidebar-last .ui-widget-overlay {
+  opacity: 0.5;
+}
+
+.submit-questionnaire #remember span.check {
+  display: inline-block;
+  width: 18px;
+}
+
+.submit-questionnaire div#block-management-0 .finish .here {
+  display: inline;
+  float: right;
+  font-size: 12px;
+  padding-right: 20px;
+}
+
+.ui-dialog-content.ui-widget-content {
+  font-size: 12px;
+}
+
+.ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix {
+  padding: 5px 15px;
+}
+
+.user-password #user-pass #edit-submit {
+  background: url(../images/xforms/submit-right.png) no-repeat scroll right top transparent;
+  border: medium none;
+  color: #FFF;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 20px 20px 20px 0;
+  padding: 4px 8px 9px 4px;
+  width: 179px;
+}
+
+.user-register #content-inner {
+  width: 75%;
+}
+
+.user-register #content-inner-inner span.form-req {
+  left: 550px;
+  position: relative;
+}
+
+.user-register #content-tabs {
+  float: left;
+  margin: 20px 0;
+  padding: 0;
+  width: 20%;
+}
+
+.user-register #user-register {
+  margin-top: -20px;
+}
+
+a#consent-submit, a#start, a.notes-add-note-link {
+  padding: 4px 25px 6px 11px;
+}
+
+div#edit-profile-contact-email-wrapper + div.form-item {
+  height: 140px;
+  position: relative;
+}
+
+div.messages.status, .refer-a-friend-success {
+  padding-bottom: 10px;
+}
+
+div.note {
+  margin-top: 10px;
+}
+
+div[id*=phone-number-wrapper] {
+  height: 50px;
+}
+
+div[id*=profile-dob-wrapper] {
+  clear: right;
+  float: left;
+  width: 400px;
+}
+
+div[id^=edit-profile-contact-relationship] {
+  height: 15px;
+  margin-left: 220px;
+  margin-top: 10px;
+  position: relative;
+}
+
+div[id^=edit-profile-dob] {
+  clear: none;
+  width: auto;
+}
+
+div[id^=edit-profile] {
+  clear: both;
+  height: 36px;
+  padding: 0;
+  width: 670px;
+}
+
+fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+form input.form-submit {
+  -moz-border-radius: 0 4px 4px;
+  -moz-outline-radius: 4px 4px 4px 4px;
+  cursor: pointer;
+  font-size: 100%;
+  margin: 0 4px;
+  outline: none;
+  padding: 2px 4px;
+  text-transform: uppercase;
+}
+
+form input[id^=edit-profile-contact-relationship] {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 0;
+  width: 20px;
+}
+
+form label .form-required {
+  left: -12px;
+  padding-right: 6px;
+  position: absolute;
+  top: 0;
+}
+
+form#block-admin-display-form a, form#block-admin-display-form {
+  background-position: center;
+  line-height: 14px;
+  padding: 2px 15px;
+}
+
+form#node-52 p {
+  margin-bottom: 40px;
+}
+
+form#notes-form-edit input.form-submit, #refer-a-friend-form input {
+  font-size: 11px;
+  line-height: 16px;
+  margin: 20px 20px 20px 0;
+  padding: 4px 20px 9px 8px;
+}
+
+form#user-login, form#user-pass {
+  height: 300px;
+  margin-top: 15px;
+  padding: 15px 0 0 25px;
+}
+
+form#user-profile-form .password-description.error{
+  margin-top: 6px;
+}
+
+body.page-user #content-messages-inner div.error{
+  height:100%;
+}
+
+form#user-pass #edit-name-wrapper label {
+  width: 200px;
+}
+
+form#user-profile-form #edit-mail-wrapper {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+form#user-profile-form #edit-name-wrapper .description, form#user-profile-form #edit-pass-wrapper .description {
+  display: block;
+  font-size: 0.8em;
+  right: 28px;
+  top: -59px;
+  width: 250px;
+}
+
+form#user-profile-form #edit-pass-wrapper .description {
+  top: -101px;
+}
+
+form#user-profile-form #edit-pass-wrapper .description b, form#user-register #edit-name-wrapper .description b, form#user-register #edit-pass-wrapper .description b {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+form#user-profile-form #edit-pass-wrapper .description li, form#user-register #edit-name-wrapper .description li, form#user-register #edit-pass-wrapper .description li, form#user-profile-form #edit-name-wrapper .description li {
+  line-height: 14px;
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: -1px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+}
+
+form#user-profile-form .form-submit {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 20px 20px 20px 0;
+  padding: 4px 20px 9px 8px;
+}
+
+form#user-profile-form label.option.checkbox {
+  padding-left: 20px;
+}
+
+form#user-register #edit-captcha-response-wrapper label {
+  margin-left: 0;
+  margin-top: 15px;
+}
+
+form#user-register #edit-name-wrapper .description {
+  display: block;
+  font-size: .7em;
+  top: -119px;
+  width: 250px;
+}
+
+form#user-register #edit-name-wrapper .description, form#user-register #edit-pass-wrapper .description {
+  display: block;
+  margin: 0;
+  position: relative;
+}
+
+form#user-register #edit-name-wrapper input#edit-name, form#user-profile-form #edit-name-wrapper input#edit-name, form#user-register #edit-captcha-response-wrapper input, form#user-register input[id^=edit-pass], form#user-profile-form input[id^=edit-pass], #user-profile-form input#edit-mail {
+  clear: none;
+  float: none;
+  margin-left: 0;
+  margin-top: 0;
+  padding-right: 0;
+}
+
+form#user-register #edit-name-wrapper label, form#user-profile-form #edit-name-wrapper label, form#user-register #edit-pass-wrapper label, form#user-register #edit-captcha-response-wrapper label, form#user-profile-form #edit-mail-wrapper label, form#user-profile-form #edit-pass-wrapper label {
+  float: none;
+  margin: 0 0 4px 0;
+  width: 200px;
+}
+
+form#user-register #edit-name-wrapper, form#user-profile-form #edit-name-wrapper {
+  height: 106px;
+}
+
+form#user-register #edit-pass-pass1, form#user-profile-form #edit-pass-pass1 {
+  float: left;
+}
+
+form#user-register #edit-pass-wrapper .description {
+  display: block;
+  font-size: .8em;
+  top: -137px;
+  width: 250px;
+}
+
+form#user-register #edit-pass-wrapper .description, form#user-profile-form #edit-pass-wrapper .description, form#user-profile-form #edit-name-wrapper .description {
+  font-size: .8em;
+}
+
+form#user-register #edit-profile-middle-initial, form#user-register #edit-profile-zip-code, form#user-register #edit-profile-contact-zip-code, form#user-register #edit-profile-contact-middle-name, form#user-profile-form #edit-profile-middle-initial, form#user-profile-form #edit-profile-zip-code, form#user-profile-form #edit-profile-contact-zip-code, form#user-profile-form #edit-profile-contact-middle-name {
+  padding-right: 15px;
+  width: 60px;
+}
+
+form#user-register .captcha {
+  float: left;
+  margin: 20px 0 0 20px;
+  position: relative;
+  right: 270px;
+  top: 5px;
+}
+
+form#user-register .description h3, form#user-profile-form h3 {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+form#user-register .form-radios, form#user-profile-form .form-radios {
+  left: 0; /*position: absolute;*/
+  top: 18px;
+}
+
+form#user-register div[id$=phone-number-wrapper] .description, form#user-profile-form div[id$=phone-number-wrapper] .description {
+  display: block;
+  margin-left: 20px;
+}
+
+form#user-register input[type=text], form#user-register input[type=password], form#user-profile-form input[type=text], form#user-profile-form input[type=password] {
+  clear: right;
+  float: left;
+  width: 270px;
+}
+
+form#user-register input[value=Cancel] {
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 5px;
+  padding-right: 15px;
+}
+
+form#user-register label .form-required, form#user-profile-form label .form-required {
+  left: -11px;
+  position: absolute;
+  top: 0;
+}
+
+form#user-register label, form#user-profile-form label {
+  float: left;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 20px 0 0 0;
+  position: relative;
+  width: 660px;
+}
+
+form#user-register label.edit-captcha-response {
+  float: none;
+}
+
+form#user-register label.option, form#user-profile-form label.option {
+  margin: 0;
+  padding: 0 0 0 30px;
+  width: 100%;
+}
+
+form#user-register>div>br {
+  display: block;
+  height: 10px;
+  line-height: 10px;
+  margin-top: 15px;
+  width: 659px;
+}
+
+form#withdraw-form .option {
+  width: 600px;
+}
+
+img[title="Image CAPTCHA"] {
+  margin: 0 0 10px 0;
+  width: 200px;
+}
+
+input.hiddenCheckbox {
+  left: -10000px;
+  position: absolute;
+}
+
+input[type=button], form#user-profile-form #edit-profile-other-wrapper label, form#user-register #edit-profile-other-wrapper label, form#user-profile-form #edit-profile-other-wrapper input, form#user-register #edit-profile-other-wrapper input {
+  margin-top: 0;
+}
+
+input[type=submit], input[type=button], #consent-submit, a#start, a.notes-add-note-link, form#block-admin-display-form a, #withdraw-form #edit-submit, form#block-admin-display-form a, a.submit, #withdraw-form #edit-cancel {
+  font-size: 11px;
+  line-height: 16px;
+  margin: 20px 20px 20px 0;
+  padding: 4px 20px 9px 8px;
+}
+
+input[value="Withdraw from Study"] {
+  cursor: pointer;
+  font-size: 12px;
+  height: 15px;
+  line-height: 15px;
+  margin: 0;
+  padding: 0;
+  width: 126px;
+}
+
+label.checkbox span.holder, label.radio span.holder {
+  height: 61px;
+}
+
+label.checkbox:hover span.holder, label.radio:hover span.holder {
+  top: -21px !important;
+}
+
+label.checked span.holder, label.checked span.holder, label.checked:hover span.holder, label.checked:hover span.holder {
+  top: -42px !important;
+}
+
+label.inline {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+label.list {
+  clear: left;
+  float: left;
+  margin: 0 0 5px;
+}
+
+label.prettyCheckbox span.holder {
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+label.prettyCheckbox span.holderWrap {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+textarea {
+  float: left;
+  height: 150px;
+  margin: 10px 0;
+  width: 636px;
+}
+
+tr.odd .form-item, tr.even .form-item {
+  white-space: normal;
+  width: 200px;
+}
+
+ui.health-element li /* Prevents resizing of Forms from Text Size Change */, .form-item /* Prevents resizing of Forms from Text Size Change */, #consent-form p {
+  font-size: 14px;
+}
+
+form#user-register .fieldset_personal_info .form-item {
+  float: left;
+  width: 290px;
+  height: 53px;
+  clear: none;
+  margin: 3px 20px;
+}
+
+form#user-register .fieldset_personal_info input,
+form#user-register  #edit-user-roles {
+  width: 272px;
+}
+
+form#user-register .fieldset_personal_info label {
+  width: 200px;
+  margin: 0 0 4px 0;
+}
+
+form#user-register .fieldset_personal_info input {
+  margin: 0px;
+}
+
+form#user-register .fieldset_personal_info .description {
+  width: 246px;
+  margin-left: 0 !important;
+}
+
+form#user-register .fieldset_account legend,
+form#user-register .group-aq legend {
+  position: absolute;
+  top: -13px;
+}
+
+form#user-register .group-aq legend {
+/*display: none;*/
+}
+
+form#user-register .group-aq>fieldset {
+  margin: 40px 0 0 20px;
+}
+
+form#user-register fieldset.group-aq>fieldset,
+form#user-register fieldset.group-aq #edit-profile-first-name-wrapper,
+form#user-register fieldset.group-aq #edit-profile-last-name-wrapper,
+form#user-register fieldset.group-aq #edit-profile-phone-number-wrapper {
+  margin: 10px 20px;
+  float: left;
+  width: 282px;
+  clear: none;
+}
+
+body form#user-register fieldset.group-aq #edit-profile-first-name-wrapper,
+body form#user-register fieldset.group-aq #edit-profile-last-name-wrapper {
+  margin-top: 34px;
+}
+
+body form#user-register fieldset.group-aq>fieldset,
+body form#user-register fieldset.group-aq #edit-profile-phone-number-wrapper {
+  margin-top: 69px;
+}
+
+form#user-register fieldset.group-aq #edit-profile-phone-number-wrapper .description {
+  font-size: 0.8em;
+  margin: 0;
+  position: relative;
+  top: -112px;
+  width: 260px;
+  color: #333333;
+}
+
+form#user-register fieldset.group-aq>fieldset>div {
+  width: 288px;
+}
+
+form#user-register .group-aq label {
+  margin: 0 0 4px 0;
+}

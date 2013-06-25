@@ -1,0 +1,6 @@
+; $Id $
+name = "CURE tag permissions"
+description = "Administrative screen to assign permissions on tag (per user)."
+version = "6.x-1.0"
+core = 6.x
+package = CURE custom modules

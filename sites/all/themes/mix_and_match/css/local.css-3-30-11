@@ -1,0 +1,112 @@
+#block-block-18, #block-block-14, #block-block-19, #block-cacure_mgmt-3{
+  width: 665px !important;
+}
+#pid-my-current-questionnaire #content-region,
+#pid-node-71 #content-region,
+#pid-my-account-my-submitted-questionnaires #content-region,
+body#xform-page #content-region{
+  padding-left: 0;
+}
+#pid-my-current-questionnaire div#block-cacure_mgmt-1,
+#pid-node-71 div#block-cacure_mgmt-1,
+body#xform-page div#block-cacure_mgmt-1{
+  padding-left: 14px;
+}
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+  background: url('../../acquia_marina/images/grey_box.png') top left no-repeat;
+  color: #333;
+}
+
+#block-notes-0 h4 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 h4 {
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
+  color: #476E30;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+  height: 20px;
+}
+
+#block-notes-0 p.line {
+  border-bottom: 1px dotted #CCC;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+body div#block-cacure_mgmt-4 .content{
+  padding: 0;
+}
+div#block-cacure_mgmt-4 div.inner{
+  margin: 0;
+}
+div#block-notes-0 h4 {
+  line-height: 27px;
+}
+body div#block-cacure_mgmt-1 .finish span,
+body div#block-cacure_mgmt-2 .finish span{
+  padding: 0 0 0 306px;
+}
+#content-tabs-inner ul.tabs.primary{
+  display: none;
+}
+body#xform-page #xform-block{
+  overflow: visible;
+}
+body#xform-page  #content-group{
+  width: 700px;
+}
+body#xform-page .hcit-save-for-later-button button,
+body#xform-page .hcit-save-button-next button{
+  width: 155px;
+}
+#content-tabs ul.secondary{
+  z-index: 1000;
+}
+#block-print-0>div.inner{
+  z-index: 2;
+}
+#content-tabs-inner{
+  z-index: 2000;
+}
+#xform-block {
+  background: url("../images/xforms/pink_box_big.png") no-repeat scroll left top transparent;
+  color: #333333;
+}
+#xform-page #main-group {
+  width: 857px;
+  padding-left: 52px !important;
+}

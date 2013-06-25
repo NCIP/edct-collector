@@ -1,0 +1,1365 @@
+/**
+ * Main styles
+ */
+
+body {
+  background-color: #ffffff;
+  color: #4F4E4E;
+  font: normal 13px/1.5 Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: normal;
+  margin: 5px 0;
+  color: #3d5454;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 5px 0;
+  color: #3d5454;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 5px 0;
+  color: #3d5454;
+}
+
+h4 {
+  font-size: 13px;
+  margin: 5px 0;
+  color: #3d5454;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a,
+h1 a:visited,
+h2 a:visited,
+h3 a:visited,
+h4 a:visited,
+h5 a:visited,
+h6 a:visited {
+  color: #4F4E4E;
+  text-decoration: none;
+}
+
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
+  color: #4F4E4E;
+  text-decoration: underline;
+}
+
+blockquote {
+  background: transparent url(../images/bq-tl.png) no-repeat left top;
+  padding-left: 30px;
+  margin-left: 10px;
+  font-style: italic;
+  min-height: 0px;
+}
+
+ol {
+  margin-left: 25px;
+}
+
+#main ul {
+
+}
+
+#main ul li {
+  margin-left: 20px;
+  list-style: disc;
+}
+
+ul.links.inline {
+  display: block;
+  margin-bottom: 20px;
+  background-color: #F6F6F6;
+}
+
+.sidebar ul li {
+  margin-left: 0;
+  list-style: none;
+}
+
+.form-submit,
+.form-button {
+  background-color: #102624;
+  border: 0;
+  color: #FFF;
+  cursor: pointer;
+  overflow: visible;
+  padding: 3px 5px;
+}
+
+#forum table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+a {
+  color: #CF710C;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #CF710C;
+  text-decoration: underline;
+}
+
+/* Page Styles
+-------------------------------------------------------------- */
+
+#page {
+  overflow: hidden;
+}
+
+#header-wrap {
+  background: url(../images/header-bg.gif) repeat-x #193f3b;
+  height: 190px;
+  width: 100%;
+}
+
+#header {
+  height: 190px;
+  position: relative;
+  z-index: 100;
+}
+
+#site-header {
+  padding-top: 20px;
+}
+
+#site-name {
+  position: absolute;
+  text-indent: -9999px;
+}
+
+#site-slogan {
+  color: #ffffff;
+}
+
+#user-links {
+  margin-bottom: 10px;
+}
+
+#user-links ul.links {
+  float: right;
+}
+
+#user-links ul.links li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Search
+-------------------------------------------------------------- */
+#search {
+  float: right;
+}
+
+#search label {
+  display: none;
+}
+
+/* Primary Navigation
+-------------------------------------------------------------- */
+#site-menu {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll left top;
+  bottom: 0;
+  clear: both;
+  position: absolute;
+  height: 45px;
+  left: 10px;
+  width: 940px;
+}
+
+#site-menu li {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll left top;
+  float: left;
+  height: 45px;
+}
+
+#site-menu li.active,
+#site-menu li:hover {
+  background-position: left -45px;
+}
+
+#site-menu a {
+  color: #FFF;
+  display: block;
+  font-size: 16px;
+  padding: 10px 25px;
+  text-decoration: none;
+}
+
+#site-menu a:hover,
+#site-menu a:visited {
+  color: #FFF;
+  text-decoration: none;
+}
+
+/* Superfish
+-------------------------------------------------------------- */
+#superfish {
+  height: 44px;
+  float: left;
+}
+
+#superfish h2 {
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+#superfish .menu, #superfish .menu * {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#superfish .menu {
+  line-height: 1.0;
+}
+
+#superfish .menu ul {
+  position: absolute;
+  top: -999em;
+  width: 18em;
+}
+
+#superfish .menu ul li {
+  width: 100%;
+}
+
+#superfish .menu li:hover {
+  visibility: inherit;
+}
+
+#superfish .menu li {
+  float: left;
+  position: relative;
+}
+
+#superfish .menu a {
+  display: block;
+  position: relative;
+}
+
+#superfish .menu li:hover ul,
+#superfish .menu li.sfHover ul {
+  left: 0;
+  top: 45px;
+}
+
+#superfish ul.menu li:hover li ul,
+#superfish ul.menu li.sfHover li ul {
+  top: -999em;
+}
+
+#superfish ul.menu li li:hover ul,
+#superfish ul.menu li li.sfHover ul {
+  left: 18em;
+  top: 0;
+}
+
+#superfish ul.menu li li:hover li ul,
+#superfish ul.menu li li.sfHover li ul {
+  top: -999em;
+}
+
+#superfish ul.menu li li li:hover ul,
+#superfish ul.menu li li li.sfHover ul {
+  left: 18em;
+  top: 0;
+}
+
+#superfish .menu {
+  float: left;
+  margin-bottom: 1em;
+}
+
+#superfish .menu a {
+  padding: .75em 1em 1em 1em;
+  text-decoration: none;
+}
+
+#superfish .menu a.sf-with-ul {
+  padding-right: 2.25em;
+  min-width: 1px;
+}
+
+#superfish .menu a, #superfish .menu a:visited {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+#superfish .menu li {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll left top;
+}
+
+#superfish .menu li li {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll left top;
+}
+
+#superfish .menu li li li {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll left top;
+  top: 0px;
+}
+
+#superfish .menu li:hover, #superfish .menu li.sfHover,
+#superfish .menu a:focus, #superfish .menu a:hover, #superfish .menu a:active {
+  outline: 0;
+}
+
+#superfish .menu li:hover {
+  background-position: left -45px;
+}
+
+#superfish .menu li.active-trail {
+  background-position: left -45px;
+}
+
+#superfish .menu li.active-trail li {
+  background-position: left 0px;
+}
+
+#superfish .menu li li:hover {
+  background-position: left -45px;
+}
+
+#superfish .menu li li li:hover {
+  background-position: left -45px;
+}
+
+.sf-sub-indicator {
+  position: absolute;
+  display: block;
+  right: .75em;
+  top: 1.05em;
+  width: 10px;
+  height: 10px;
+  text-indent: -999em;
+  overflow: hidden;
+  background: url(../images/arrows-ffffff.png) no-repeat -10px -100px;
+}
+
+a > .sf-sub-indicator {
+  top: .8em;
+  background-position: 0 -100px;
+}
+
+a:focus > .sf-sub-indicator,
+a:hover > .sf-sub-indicator,
+a:active > .sf-sub-indicator,
+li:hover > a > .sf-sub-indicator,
+li.sfHover > a > .sf-sub-indicator {
+  background-position: -10px -100px;
+}
+
+#superfish .menu ul .sf-sub-indicator {
+  background-position: -10px 0;
+}
+
+#superfish .menu ul a > .sf-sub-indicator {
+  background-position: 0 0;
+}
+
+#superfish .menu ul a:focus > .sf-sub-indicator,
+#superfish .menu ul a:hover > .sf-sub-indicator,
+#superfish .menu ul a:active > .sf-sub-indicator,
+#superfish .menu ul li:hover > a > .sf-sub-indicator,
+#superfish .menu ul li.sfHover > a > .sf-sub-indicator {
+  background-position: -10px 0;
+}
+
+/* Slide Wrapper
+-------------------------------------------------------------- */
+#slider-wrap {
+  background: transparent url(../images/main-sprite.png) repeat-x scroll center -90px;
+  height: 333px;
+  overflow: hidden;
+  width: 100%;
+}
+
+* html #slider-wrap {
+  position: relative;
+}
+
+#slider-wrap.empty {
+  height: 30px;
+}
+
+#slider-wrap .content {
+  margin-top: 15px;
+}
+
+/* Page Content
+-------------------------------------------------------------- */
+#preface,
+#sidebar-left .border,
+#sidebar-right .border {
+  background-color: #FFF;
+  border: 2px solid #DCDADA;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin-top: 15px;
+  min-height: 0;
+}
+
+* html #sidebar-left .border,
+* html #sidebar-right .border {
+  height: 1%;
+}
+
+#content-wrap-background {
+  background: transparent url(../images/content-bg.gif) repeat-x scroll;
+  width: 100%;
+  padding-top: 5px;
+}
+
+#content-wrap {
+  min-height: 400px;
+}
+
+#preface {
+  height: 235px;
+}
+
+#preface .block-block {
+  padding-top: 5px;
+}
+
+#preface h2,
+#preface h3 {
+  color: #D7E6E6;
+  background-color: #3d5454;
+  padding-left: 5px;
+}
+
+#sidebar-left h2,
+#sidebar-right h2 {
+  background-color: #CF710C;
+  color: #ffffff;
+  /*margin: 5px;*/
+  padding: 0 5px;
+}
+
+#sidebar-left .content,
+#sidebar-right .content {
+  padding: 15px;
+}
+
+#bottom {
+  background-color: #102624;
+  color: #ffffff;
+  padding: 10px 0 25px;
+}
+
+#bottom h2 {
+  color: #CF710C;
+}
+
+#bottom a,
+#bottom a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#bottom a:hover {
+  color: #CF710C;
+}
+
+#footer-wrap {
+  background-color: #ffffff;
+  color: #666666;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+#footer-wrap ul,
+#footer-wrap li {
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+
+#footer h2 {
+  display: none;
+}
+
+#footer ul {
+  list-style: none;
+  text-align: center;
+  margin: 10px 0;
+}
+
+#footer ul li {
+  list-style-type: none;
+  display: inline;
+  padding: 10px;
+}
+
+#footer a {
+  color: #cf710c;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  text-decoration: underline;
+}
+
+#levelten {
+  text-align: center;
+}
+
+/* Forum Styles
+-------------------------------------------------------------- */
+#forum tr.even, tr.odd {
+  background: url(../images/forum-row-bg.gif) repeat-x scroll;
+  border-bottom: 1px solid #CCCCCC;
+  padding: 0.5em 1em;
+}
+
+/* Comment Styles
+-------------------------------------------------------------- */
+#comments .comment {
+  background: #F6F6F6;
+  padding: 0.5em 1em;
+}
+
+/* Helper Icon Styles
+-------------------------------------------------------------- */
+ul.links a {
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  padding-bottom: 5px;
+}
+
+ul.links li.comment_add a {
+  background-image: url(../images/commentadd.gif);
+}
+
+ul.links li.comment_comments a {
+  background-image: url(../images/comments.gif);
+}
+
+ul.links li.comment_edit a {
+  background-image: url(../images/commentedit.gif);
+}
+
+ul.links li.comment_delete a {
+  background-image: url(../images/commentdelete.gif);
+}
+
+ul.links li.comment_reply a {
+  background-image: url(../images/commentadd.gif);
+}
+
+ul.links li.node_read_more a {
+  background-image: url(../images/readmore.gif);
+}
+
+ul.links li.blog_usernames_blog a {
+  background-image: url(../images/user.gif);
+}
+
+ul.links li.comment_forbidden a {
+  background-image: url(../images/lock.gif);
+}
+
+ul.links li.upload_attachments a {
+  background-image: url(../images/photo.gif);
+}
+
+ul.links li.book_printer a {
+  background-image: url(../images/print.gif);
+}
+
+ul.links li.book_add_child a {
+  background-image: url(../images/add.gif);
+}
+
+/* header customisations
+-------------------------------------------------------------- */
+new thigns about it tex
+#top-menu li a.active{
+  color: #fff;
+}
+
+#top-menu-wrap {
+  background: url("../images/main-sprite.png") repeat-x scroll center -90px transparent;
+  height: 30px;
+  width: 100%;
+  padding-top: 10px;
+}
+
+#top-menu {
+  height: 30px;
+  position: relative;
+  z-index: 100;
+  width: 960px;
+  margin: auto;
+}
+
+#top-menu .top-user-name {
+  color: #B3B3B7;
+  float: left;
+  width: 300px;
+  padding-left: 10px;
+}
+
+a#context-block-region-superfish_menu,
+#block-addtoany-0 h2,
+#block-menu-secondary-links h2,
+#block-menu-menu-external-links h2,
+#block-menu-menu-diabetes-external-links h2 {
+  display: none;
+}
+
+#block-menu-secondary-links ul.menu {
+  float: right;
+}
+
+#block-menu-secondary-links ul.menu li {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+#block-menu-secondary-links ul.menu li a {
+  border-left: medium none;
+  border-right: 1px solid #B3B3B7;
+  padding: 0 10px;
+  height: 10px;
+}
+
+#block-addtoany-0 {
+  float: right;
+  font-size: 12px;
+  position: relative;
+}
+
+#block-addtoany-0 a {
+  padding: 0 10px;
+}
+
+#block-menu-menu-external-links,
+#block-menu-menu-diabetes-external-links {
+  margin: -20px 0 0 0;
+}
+
+#block-menu-menu-diabetes-external-links ul.menu,
+#block-menu-menu-external-links ul.menu {
+  float: right;
+  padding: 10px 0;
+}
+
+#block-menu-menu-external-links ul.menu li,
+#block-menu-menu-diabetes-external-links ul.menu li {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+#block-menu-menu-external-links ul.menu li a,
+#block-menu-menu-diabetes-external-links  ul.menu li a {
+  border-left: medium none;
+  border-right: 1px solid #B3B3B7;
+  padding: 0 10px;
+  height: 10px;
+}
+
+#block-menu-menu-external-links ul.menu li.last,
+#block-menu-menu-diabetes-external-links ul.menu li.last,
+#block-menu-menu-external-links ul.menu li.last a,
+#block-menu-menu-diabetes-external-links ul.menu li.last a {
+  border: none;
+  padding-right: 0;
+}
+
+#branding {
+  width: 220px;
+  padding-top: 10px;
+}
+
+#user-links {
+  width: 700px;
+  float: left;
+}
+
+/* general customisation
+-------------------------------------------------------------- */
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 5px;
+}
+
+ul.sf-vertical {
+  padding:0;
+}
+
+ul.sf-vertical li {
+  width: 220px;
+}
+
+#sidebar-left .border,
+#sidebar-right .border {
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+#sidebar-left .content,
+#sidebar-right .content {
+    padding: 0;
+}
+
+.container-12 .push-4 {
+    left: 240px;
+}
+
+.container-12 .grid-8 {
+    width: 700px;
+}
+
+.container-12 .pull-8 {
+    left: -720px;
+}
+
+.container-12 .grid-4 {
+    width: 220px;
+}
+
+
+body.page-cure-suite #main .title {
+    display: none;
+}
+
+body.page-primary-links-about-healthcare-it-inc .title {
+    display: none;
+}
+body.page-primary-links-about-healthcare-it-inc img.hcit-logo {
+    margin-top: 15px;
+}
+
+body.page-about-it-professional-services img.it-ps-buildings {
+    float: left;
+    padding: 0 10px 10px 0;
+    position: relative;
+}
+
+.node p {
+    padding-bottom: 10px;
+}
+
+/* pages customisation
+-------------------------------------------------------------- */
+
+body.page-form-builder-steps .step-1-img,
+body.page-form-builder-steps .step-2-img,
+body.page-form-builder-steps .step-3-img,
+body.page-form-builder-steps .step-4-img {
+    float: right;
+    left: 10px;
+    position: relative;
+}
+
+body.page-form-builder-steps #step-1 h1,
+body.page-form-builder-steps #step-2 h1,
+body.page-form-builder-steps #step-3 h1,
+body.page-form-builder-steps #step-4 h1 {
+    margin: 20px 0;
+}
+
+body.page-form-builder-steps #step-1,
+body.page-form-builder-steps #step-2,
+body.page-form-builder-steps #step-3,
+body.page-form-builder-steps #step-4 {
+    float: right;
+    margin: 0 0 50px;
+}
+
+#main-top {
+  height: 0px;
+  z-index: 10;
+}
+
+.sf-menu.sf-style-space-orange li,
+.sf-menu.sf-style-space-orange li li,
+.sf-menu.sf-style-space-orange li li li,
+.sf-navbar.sf-style-space-orange {
+  background: #1a403c;
+}
+.sf-menu.sf-style-space-orange li:hover,
+.sf-menu.sf-style-space-orange li.sfHover,
+.sf-menu.sf-style-space-orange li.active a,
+.sf-menu.sf-style-space-orange a:focus,
+.sf-menu.sf-style-space-orange a:hover,
+.sf-menu.sf-style-space-orange a:active,
+.sf-navbar.sf-style-space-orange li li {
+  background: #cf710c;
+  color: #ffffff !important;
+}
+.sf-navbar.sf-style-space-orange li ul {
+  background-color: #cf710c;
+  width: 100%;
+}
+.sf-navbar.sf-style-space-orange li ul li ul {
+  background-color: transparent;
+}
+
+ul.sf-vertical li.active-trail {
+  background: #cf710c;
+}
+
+#block-cacure_change_role-0 fieldset,
+#block-switchtheme-0 fieldset {
+  display: none;
+}
+
+#switchtheme-switch-form div.form-item {
+  float: none;
+  margin-bottom: 10px;
+}
+
+body.page-primary-links-about-hosting .slogan2 {
+  padding-bottom: 10px;
+  display: block;
+}
+
+.panel-col-bottom  {
+  padding-top: 20px;
+}
+
+.panel-2col-stacked .panel-col-top {
+  margin-bottom: 25px;
+  float: left;
+}
+
+a#consent-submit {
+  display: block;
+  text-align: center;
+  width: 90px;
+  margin: 20px 0 0 0;
+  padding: 5px;
+  background: #cf710c;
+  border-bottom: 2px solid #1a403c;
+  border-right: 2px solid #1a403c;
+  color: #fff;
+  font-weight: bold;
+}
+
+a#consent-submit:active {
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-bottom: none;
+  border-right: none;
+}
+
+#username_validation_error {
+  color: red;
+  font-size: 0.85em;
+  margin-bottom: 5px;
+}
+
+div.password-description {
+  background: none;
+  border: none;
+  color: red;
+}
+
+div.password-description ul {
+  margin: 0 0 5px 20px;
+  padding: 0;
+}
+
+.messages {
+  margin: 10px 0;
+}
+
+div.note{
+  margin: 20px 0;
+}
+
+#block-user-0,
+#block-switchtheme-0,
+#block-cacure_change_role-0,
+#block-block-73 {
+padding: 0px 5px 5px 5px;
+background-color: white;
+border: 2px solid #DCDADA;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+margin-top: 15px;
+min-height: 0;
+}
+
+body.page-switch-theme #main img {
+  border: 1px solid #ccc;
+}
+
+ul.sf-vertical {
+  padding-bottom: 15px;
+}
+
+#superfish #block-menu-primary-links ul li ul li {
+  width: 250px;
+}
+
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+  background: url(../images/grey_box.png) top left no-repeat;
+  color: #333;
+}
+
+#block-notes-0 h4 {
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
+  /*color: #476E30;*/
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+  border-bottom: 1px dotted #CCC;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-notes-0 .note a {
+  font-weight: bold;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+div#block-cacure_mgmt-4 h2 {
+  font-size: 13px;
+  color: #000;
+}
+
+#two-steps .one, #two-steps .two {
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 0 0 34px;
+  width: 165px;
+}
+
+#two-steps .one {
+  background: url(../images/one.png) no-repeat 0px 0px;
+}
+
+#two-steps .two {
+  margin-left: 24px;
+  width: 275px;
+}
+
+#two-steps p span {
+  color: #333;
+  float: left;
+  width: 545px;
+}
+
+#two-steps h4.steps {
+  float: left;
+  font-size: 18px;
+  line-height: 28px;
+  padding: 0;
+  width: 125px;
+}
+
+#two-steps .two {
+  background: url(../images/two.png) no-repeat 0px 0px;
+}
+
+#two-steps {
+  height: 50px;
+  margin: 17px 0 20px;
+}
+
+#block-block-19 {
+  margin-bottom: 1em;
+  margin-top: 25px;
+  padding: 0 20px;
+  width: 95%;
+}
+
+#block-block-19 .inner {
+  margin-left: 0px;
+}
+
+#block-block-19 h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+}
+
+#block-block-19 h2 {
+  color: #333;
+  border-bottom: 1px solid #CCC;
+  border-top: 1px solid #CCC;
+}
+
+#block-cacure_mgmt-1 .element-header {
+  padding: 0 0 0 18px;
+}
+
+#general-instructions {
+  margin-top: 20px;
+  padding: 20px;
+  width: 655px;
+}
+
+#general-instructions {
+  background: #FFF;
+  border-top: 1px solid #CCC;
+}
+
+#general-instructions h4 {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+#general-instructions #left, #general-instructions #right {
+  float: left;
+  font-size: 12px;
+  width: 307px;
+}
+
+#general-instructions #left {
+  margin-right: 40px;
+}
+
+general-instructions #left, #general-instructions #right {
+  float: left;
+  font-size: 12px;
+  width: 307px;
+}
+
+#general-instructions p {
+  line-height: 16px;
+  padding: 0 0 20px;
+}
+
+#block-block-18 {
+  width: 100%;
+}
+
+#generic-intro h2 {
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#generic-intro h2 {
+  color: white;
+  background-color: #333333;
+}
+
+#generic-intro p {
+  padding: 20px 20px 0;
+}
+
+.hcitHeaderRow {
+  background: none;
+}
+
+body#xform-page .content-group-inner {
+  padding-bottom: 50px;
+}
+
+span#xf-output-0 {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background: #333333;
+}
+
+span#xf-output-0 {
+  padding: 0 0 0 20px;
+  line-height: 30px;
+  display: block;
+  z-index: 999;
+  top: 0;
+}
+
+#xform-block .xforms-item-label {
+  margin-left: 5px;
+}
+
+body#pid-cure-suite .title {
+  display: none;
+}
+
+body#pid-form-builder-steps .step-1-img,
+body#pid-form-builder-steps .step-2-img,
+body#pid-form-builder-steps .step-3-img,
+body#pid-form-builder-steps .step-4-img {
+  float: right;
+  left: 10px;
+  position: relative;
+}
+
+body#pid-form-builder-steps #step-1,
+body#pid-form-builder-steps #step-2,
+body#pid-form-builder-steps #step-3,
+body#pid-form-builder-steps #step-4 {
+  float: right;
+  margin: 0 0 50px 0;
+}
+
+body#pid-form-builder-steps #step-1 h1,
+body#pid-form-builder-steps #step-2 h1,
+body#pid-form-builder-steps #step-3 h1,
+body#pid-form-builder-steps #step-4 h1 {
+  margin: 20px 0;
+}
+
+.node p {
+  padding-bottom: 10px;
+}
+
+#pid-about-it-professional-services .it-ps-buildings {
+  float: left;
+  padding: 0 10px 10px 0;
+  position: relative;
+}
+
+#consent_options label {
+  margin-right: 20px;
+}
+
+.primary-menu-inner ul.sf-menu ul ul {
+    margin-top: 0px;
+}
+
+
+#block-switchtheme-0 fieldset {
+  display: none;
+}
+
+#switchtheme-switch-form div.form-item {
+  float: none;
+  margin-bottom: 10px;
+}
+
+div.password-description ul {
+  margin: 0 0 5px 20px;
+  padding: 0;
+}
+
+.messages {
+  margin: 10px 0;
+}
+
+div.note {
+  margin: 20px 0;
+}
+
+div#block-cacure_mgmt-1 div.element-header div.module-name {
+    color: #3D5454;
+}
+
+span.status #st-def-form {
+background: url("/sites/all/modules/custom/cacure_mgmt/css/images/box_checked.png");
+height: 14px;
+width: 13px;
+}
+
+span.status .st-text, span.status #st-def-form {
+float: left;
+}
+
+div#block-cacure_mgmt-1 .content {
+    width: 100%;
+}
+
+body#xform-page a {
+  color: #CF710C;
+  text-decoration: none;
+}
+
+#xform-block .xforms-required .xforms-required-icon {
+    margin-left: 12px;
+}
+
+.xforms-required-icon {
+    margin-left: 12px;
+}
+
+body.page-user form > div> fieldset {
+  border: 1px solid #3D5454;
+}
+
+
+div#panels-divider-hor {
+  background:  url("../images/panel-divider.png") no-repeat scroll center top transparent;
+  width: 694px;
+  height: 4px;
+  margin: 15px auto;
+  float: left;
+}
+
+.it-professional-services-slogan {
+  position: relative;
+  color: #38306E;
+  font-size: 1em;
+}
+
+.it-professional-services-slogan2 {
+  position: relative;
+  padding-left: 50px;
+  color: #38306E;
+  font-size: 1em;
+}
+
+img.test-tubes {
+  padding: 0 20px 0 0;
+}
+
+li a.active {
+    color: #CF710C;
+}
+
+.not-logged-in #logged-in,
+.logged-in #logged-out,
+.page-user #edit-delete,
+.page-user div[id^="edit-status-"] {
+display: none;
+}
+
+
+#xform-block .hcit-save-for-later-button button {
+    background: url("../images/xforms/save_for_later.png") repeat scroll 0 0 transparent;
+}
+
+#xform-block .hcit-save-button-next button {
+    background: url("../images/xforms/submit-right.png") repeat scroll 0 0 transparent;
+}
+
+
+#xform-block .hcit-save-button-back  button {
+    background: url("../images/xforms/submit-left.png") repeat scroll 0 0 transparent;
+}
+
+.hcit-form-title {
+  width: auto;
+  margin: 0;
+}
+
+div#xform-block {
+  width: 650px;
+}
+
+.hcit-save-for-later-group {
+/*   margin-left: 220px; */
+}
+
+body#xform-page #main {
+  top: 5px;
+}
+
+div#block-cacure_mgmt-1 div.form-element div.text.active {
+    background: url("../images/list_image.png") no-repeat scroll 0 6px transparent;
+}
+
+#sidebar-left .block,
+#sidebar-right .block {
+  clear: both;
+  margin-bottom: 15px;
+}
+
+div#block-cacure_mgmt-1 .finish span, div#block-cacure_mgmt-2 .finish span {
+  padding: 0 0 0 295px;
+}
+
+/*=-Correction Styles For Theme-=*/
+    /*=-Correction Styles For Theme Without Forms-=*/
+    
+/*-----------------------Layout styles correction for general block------------------------------*/
+#page {} /* Fix width for layout */
+#generic-intro p {padding: 0}
+
+#block-cacure_mgmt-1 {}
+#block-cacure_mgmt-1 .health-element{}
+#block-cacure_mgmt-1 .health-element .element-header {padding: 0;}
+#block-cacure_mgmt-1 .health-element .form-element-list {width: 100%; overflow: hidden; padding: 0;}
+#block-cacure_mgmt-1 .health-element .form-element-list .form-element{width: 100%; overflow: hidden; padding: 0; font-weight: normal; border-bottom: 1px solid #dcdada;}
+#block-cacure_mgmt-1 .health-element .form-element-list .form-element span.hcit-questionnaire-part-number{width: 60px; padding: 0;  font-weight: normal;}
+#block-cacure_mgmt-1 .health-element .form-element-list .form-element .text {width: 100%; overflow: hidden; padding: 0;}
+#block-cacure_mgmt-1 .health-element .form-element-list .form-element .edit {width: 100%; overflow: hidden; font-weight: normal; padding: 0;}
+#block-cacure_mgmt-1 .health-element .form-element-list .form-element .edit a{color: #1a403c; text-decoration: underline;}
+#block-cacure_mgmt-1 .health-element .form-element-list .finish{margin: 0;}
+#block-cacure_mgmt-1 .health-element .form-element-list .finish span {padding: 0; width: 100%; overflow: hidden;}
+#block-cacure_mgmt-1 .health-element .form-element-list .finish span.part {width: 60px; overflow: hidden; float: left;}
+   
+/*=-Layout corrections to full screen width for pages with forms-=*/
+/*-----------------------Layout styles correction for general blocks------------------------------*/
+#page.page-forms {width: 100%; max-width: 100%;} /* Full screen width layout */ 
+#page.page-forms #content-wrap {width: 99%; padding: 0; text-align: left; margin: 0 auto;} /* Correction styles for main container*/
+#page.page-forms #content-wrap #main-top{width: 100%; left: 0;} 
+#page.page-forms #content-wrap #main-top span.print_html{margin-right: 10px;} 
+#page.page-forms #content-wrap #main{width: 100%; padding: 0; left: 0; margin: 0 0 0 -235px; position: static; float: left;}
+#page.page-forms #content-wrap #main #main-content{margin-left: 250px;} 
+#page.page-forms #content-wrap #main #main-content #xform-block {width: auto;} 
+/*-----------------------Styles and fixed width for left menu-------------------------*/
+#page.page-forms #sidebar-left  {width: 220px; overflow: hidden; position: static; margin: 0 0 0 15px; float: left;}
+#page.page-forms #sidebar-left .form-element-list {width: 220px; overflow: hidden}
+#page.page-forms #sidebar-left .form-element-list .form-element{width: 220px; overflow: hidden; margin: 5px 0; }

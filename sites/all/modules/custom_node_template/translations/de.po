@@ -1,0 +1,64 @@
+# $Id$
+#
+# German translation of Drupal (general)
+# Copyright 2009 Tekl <rumborak.de@gmail.com>
+# Generated from files:
+#  custom_node_template.module,v 1.1.2.6 2009/11/28 10:38:58 WebNewCastle
+#  custom_node_template.info,v 1.1.2.4 2009/11/28 10:38:58 WebNewCastle
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: German translation of Custom Node Template v0.1\n"
+"POT-Creation-Date: 2009-12-22 17:34+0100\n"
+"PO-Revision-Date: 2009-12-22 17:34+0100\n"
+"Last-Translator: Tekl <rumborak.de@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: custom_node_template.module:15
+msgid "<p>Custom Node Template allows one to specify different node templates to be used on a node by node basis or by content type.</p>  \n\t\t  <p>Please note that depending on the status of this module and the version you are using, you may\n\t\t  also found additional information in the <a href='http://drupal.org/node/639580'>Custom Node Template\n\t\t  Handbook Page on Drupal.org</a>.</p>                \n\t\t  <h2>Settings</h2>\n                  <p>You can specify the use of a specific node template (node.tpl) file when you are creating or \n\t\t  editing a node.  Under Node Template Settings, you will find a select list of the node templates\n\t\t  in your current theme.  Simply the select the one you wish to have used when the node is displayed.\n\t\t  You can also specify the node template to be used by default in the Content Type settings.  Nodes\n\t\t  you create will use this setting as the default unless you choose a different node template when \n\t\t  you create a new node.  <b>Please Note</b> that this does not mean that specifying a node template\n\t\t  in a content type will affect existing nodes of that content type.  It simply means that the node\n\t\t  template will be listed as the default template to be used when you create a new node.</p>\n\t\t  <p>When using this module, it is not necessary to specify the use of a particular node template. \n\t\t  If one is not specified, the default node template will be loaded.  If you have more than one\n\t\t  node template in your theme, then Drupal will load a specific node template based on existing\n\t\t  template suggestions and available node templates.  If you do specify a node template, then your\n\t\t  selection will override default node templates and template suggestions.</p>\n                  <h2>Custom Templates</h2>\n\t\t  <p>To add a custom Node Template, simply create an additional node.tpl file and add it to your\n\t\t  theme.  The format for naming the file should be node-XXXXXX.tpl where XXXXXX is a custom name\n\t\t  that you specify.  See the Tips section below on some suggestions for naming schemes.</p>\n                  <h2>Tips</h2>\n                  <p>If you are only using one node template per content type, you do not need to specify the node\n\t\t  template in the Content Type settings.  By default, Drupal will load the appropriate node template \n\t\t  for the content type if one exists in your theme.  For such usage, you actually don't need to use \n\t\t  this module at all.</p>\n\t\t  <p>There are some naming schemes you will probably wish to avoid when adding custom node templates \n\t\t  to your theme.  For example, unless you are doing so deliberately, you will probably not want to \n\t\t  name a custom node template file node-4.tpl.  Depending on your theme, you may have a preprocess\n\t\t  function that adds the Node ID as a template suggestion for Drupal.  If this is the case with the\n\t\t  theme you are using, Drupal will load the node-4.tpl file for Node/4.  If you name your custom node\n\t\t  template with this same name, it would work when you choose the node template for a particular node,\n\t\t  but it will also cause the same node template to be loaded for Node/4 which you may or may not wish\n\t\t  to have happen.  As another example, you could include a node template that has a content type in \n\t\t  the name of the node template.  But if you don't want to have that node template loaded as the default\n\t\t  for that content type, the another name would probably be better.</p>"
+msgstr ""
+
+#: custom_node_template.module:138;142;168;171
+msgid "Node template settings"
+msgstr "Inhaltsvorlagen-Einstellung"
+
+#: custom_node_template.module:141;153;60
+msgid "administer custom node templates"
+msgstr "Inhaltsvorlagen verwalten"
+
+#: custom_node_template.module:149;178
+msgid "Node template"
+msgstr "Inhaltsvorlage"
+
+#: custom_node_template.module:150
+msgid "Select the node template to be used for displaying this node.  If \"default\" is selected, then your node will be displayed per existing rules (node template suggestions) for your theme.  All applicable node templates (node-XXX.tpl.php files) are listed here.  Your main node.tpl.php file is listed as \"Main Node Template\". See Online Help (/admin/help) for more information on this setting."
+msgstr "Wählen Sie die Vorlage, welche für diesen Beitrag (Node) verwendet werden soll.  Falls \"Standard\" ausgewählt wurde, wird der Beitrag nach den Standard-Regeln (Node Template) des Themes dargestellt.  Hier werden alle passenden Vorlagedateien angezeigt (node-XXX.tpl.php).  Die node.tpl.php wird als \"Hauptvorlage\" angezeigt. Weitere Infos in der Online-Hilfe (/admin/help)."
+
+#: custom_node_template.module:179
+msgid "Select the default node template to be used when adding NEW nodes of this content type.  Changing this setting will not change the display of nodes you created previously.  If \"default\" is selected, then your node will be displayed per existing rules (node template suggestions) for your theme.  All applicable node templates (node-XXX.tpl.php files) are listed here.  Your main node.tpl.php file is listed as \"Main Node Template\". See Online Help (/admin/help) for more information on this setting."
+msgstr "Wählen Sie die Standard-Vorlage für NEUE Inhalte. Diese Einstellung beeinflusst keine bereits existierenden Inhalte.  Falls \"Standard\" ausgewählt wurde, wird der Beitrag nach den Standard-Regeln (Node Template) des Themes dargestellt.  Hier werden alle passenden Vorlagedateien angezeigt (node-XXX.tpl.php).  Die node.tpl.php wird als \"Hauptvorlage\" angezeigt. Weitere Infos in der Online-Hilfe (/admin/help)."
+
+#: custom_node_template.module:191
+msgid "default"
+msgstr "Standard"
+
+#: custom_node_template.module:200
+msgid "Main Node Template"
+msgstr "Hauptvorlage"
+
+#: custom_node_template.module:60
+msgid "administer custom node templates"
+msgstr "Inhaltsvorlagen verwalten"
+
+#: custom_node_template.info:0
+msgid "Custom Node Template"
+msgstr "Inhaltsvorlagen"
+
+#: custom_node_template.info:0
+msgid "Allows selection of node templates on a per node basis to override and customize the display of a node."
+msgstr "Ermöglicht die Auswahl einer Inhaltsvorlage (Node Template), und somit mehrere Darstellungen für einen Inhaltstyp."
+

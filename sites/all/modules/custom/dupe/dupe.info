@@ -1,0 +1,5 @@
+; $Id: dupe.info
+
+name = "Dupe"
+description = "Checks for duplicated users in the registration process"
+core = "6.x"

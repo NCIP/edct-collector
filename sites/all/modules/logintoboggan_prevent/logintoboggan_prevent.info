@@ -1,0 +1,13 @@
+; $Id: logintoboggan_prevent.info,v 1.1 2010/05/24 11:31:40 mirodietiker Exp $
+name = LoginToboggan Prevent preauth
+description = Prevent users in preauth role of LoginToboggan from login.
+core = 6.x
+
+dependencies[] = logintoboggan
+
+; Information added by drupal.org packaging script on 2010-07-11
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "logintoboggan_prevent"
+datestamp = "1278834784"
+

@@ -1,0 +1,96 @@
+.d-main{
+  margin-bottom: 10px;
+}
+.d-main .d-header{
+  /*width: 100%;*/
+  /*float: left;*/
+  background: #b1cfd6;
+  border: 1px solid #84A3AA;
+  height: 26px;
+  border-radius: 3px 3px 0 0;
+  -moz-border-radius : 3px 3px 0 0;
+  -webkit-border-radius : 3px 3px 0 0;
+  font-size: 14px;
+  color: #242419;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.d-header .d-type{
+  font-size: 14px;
+}
+.clear{
+  clear:both;
+}
+.d-header .d-type .d-type-view{
+  color: #d10707;
+}
+.d-render{
+  background: #e7f0f7;
+  border: 1px solid #84A3AA;
+  border-top: none;
+  padding: 4px 5px;
+  overflow-x: auto;
+  border-radius: 0 0 3px 3px;
+  -moz-border-radius : 0 0 3px 3px;
+  -webkit-border-radius : 0 0 3px 3px;
+}
+.d-file {
+  float:left;
+  width:100%;
+}
+.d-line {
+  float:left;
+  margin-left:-100%;
+  width: 120px;
+}
+.d-type {
+  float:left;
+  margin-left: -300px;
+  width: 300px;
+}
+.d-file .clear-box{
+  margin: 3px 300px 3px 123px;
+  padding-left: 8px;
+  border-radius: 8px 0px 0px 8px;
+  -moz-border-radius : 8px 0px 0px 8px;
+  -webkit-border-radius : 8px 0px 0px 8px;
+  background: -moz-linear-gradient(right, #b1cfd6 0%, #D1E1E5 100%);
+  background: -webkit-gradient(linear, left top, right bottom, from(#D1E1E5), to(#b1cfd6));
+}
+.d-file .clear-box:hover, .d-line .clear-box:hover{
+  background: -moz-linear-gradient(right, #b1cfd6 0%, #e2f2f6 100%);
+  background: -webkit-gradient(linear, left top, right bottom, from(#e2f2f6), to(#b1cfd6));  
+}
+.d-type .clear-box * {
+  float: right;
+}
+.d-file, .d-line, .d-type{
+  height: 100%;
+}
+.d-line .clear-box{
+  margin: 3px 0 3px 4px;
+  padding-left: 8px;
+  border-radius: 8px 0px 0px 8px;
+  -moz-border-radius : 8px 0px 0px 8px;
+  -webkit-border-radius : 8px 0px 0px 8px;
+  background: -moz-linear-gradient(right, #b1cfd6 0%, #D1E1E5 100%);
+  background: -webkit-gradient(linear, left top, right bottom, from(#D1E1E5), to(#b1cfd6));
+}
+.d-type .clear-box>div{
+  background: #D1E1E5;
+  padding:1px 14px;
+  margin:3px 4px;
+  border-radius: 10px;
+  -moz-border-radius : 10px;
+  -webkit-border-radius : 10px;
+}
+.d-type .clear-box>div:hover{
+  background-color: #e2f2f6;
+}

@@ -1,0 +1,10 @@
+; $Id: cacure_change_role.info
+name = "CURE change role"
+description = "Add block with change role form"
+core = 6.x
+dependencies[] = autoassignrole
+version = "6.x-1.0"
+project = "tXFormsest"
+package = CURE custom modules
+datestamp = "1273588503"
+

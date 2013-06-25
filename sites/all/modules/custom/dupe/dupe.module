@@ -1,0 +1,152 @@
+<?php
+// $Id: dupe.module
+
+/**
+ * @file
+ * Custom functions for this site.
+ */
+
+$dupe_base = dirname(__FILE__);
+require_once("{$dupe_base}/inc/admin.php");
+require_once("{$dupe_base}/inc/common.php");
+require_once("{$dupe_base}/inc/checks.php");
+
+/**
+ * implementation of hook_user
+ */
+function dupe_user($op, &$edit, &$account, $category) {
+
+
+    if ($op == 'validate' && $category == 'account') {
+
+        if (user_is_logged_in()) return;
+
+        $errors = form_get_errors();
+
+        $checks = array();
+        $checks[] = _check_email($edit['profile_contact_email']);
+        $checks[] = _check_passwd($edit['pass']);
+        $checks[] = _check_username($edit['name']);
+        $extra_checks_passed = array_product($checks);
+
+        // on any step, at any time, if the user says he's not a dupe, save it to the session
+        if (isset($_POST['i_am_dupe']) && $_POST['i_am_dupe'] == 0) {
+            $_SESSION['dupe_checked'] = 1;
+        }
+
+        // on any step, at any time, if the user says he's a dupe, take him out
+        if (isset($_POST['i_am_dupe']) && $_POST['i_am_dupe'] == 1) {
+            unset($_SESSION['messages']);
+            drupal_goto('user');
+        }
+
+        // all step1 fields are valid?
+        if (_check_if_all_valid($errors, _get_step(1)) && $extra_checks_passed) {
+
+            $dupe_user_id = 0;
+            if (variable_get('do_dupe_check', 0) && $_SESSION['dupe_checked'] == 0) $dupe_user_id = _check_dupe($edit);
+            if ($dupe_user_id > 0) {
+                // stay in step 1, _check_dupe has the 'duplicated user' message to show
+                _show_step1($errors);
+            } else {
+                // all checks are valid
+                // get away from here !
+            }
+        } else {
+            _show_step1($errors);
+        }
+    }
+}
+
+/**
+ * implementation of hook_init
+ */
+function dupe_init() {
+    if (user_is_logged_in()) return;
+    drupal_add_js('sites/all/modules/custom/dupe/dupe.js', 'module');
+}
+
+/**
+ * implementation of hook_form_alter
+ */
+function dupe_form_alter(&$form, &$form_state, $form_id) {
+
+    if ($form_id == 'user_login') {
+        $form['name']['#description'] .= " This field is case sensitive.";
+        $form['pass']['#description'] .= " This field is case sensitive.";
+    }
+
+    //if ($form_id == 'user_profile_form') {
+        // 'Withdraw from Study'
+        //$form['delete']['#value'] = variable_get('user_delete_button_text', 'Delete Account');
+    //}
+
+    if ($form_id == 'user_profile_form') {
+        $form['account']['#title'] = 'Username and Password';
+        _set_legends($form);
+    }
+
+    if ($form_id == 'user_register') {
+
+        if (user_is_logged_in()) return;
+
+        // we need to hide the three blocks in the join page
+        // "account" is the default drupal block
+        // then also hide the 1rst and 2nd category set in the admin
+        $form['account']['#attributes'] = array('style' => 'display: none;');
+        $form['Personal Info']['#attributes'] = array('style' => 'display: none;');
+        $form['Alternate Contact Info']['#attributes'] = array('style' => 'display: none;');
+
+        $form['account']['#title'] = 'Username and Password';
+
+
+        // add distinct css classes to each fieldset
+        $form['account']['#attributes'] = array('class' => 'fieldset_account');
+        $form['Personal Info']['#attributes'] = array('class' => 'fieldset_personal_info');
+        $form['Alternate Contact Info']['#attributes'] = array('class' => 'fieldset_contact_info');
+
+        // order categories
+        $form['Personal Info']['#weight'] = 7;
+        $form['Alternate Contact Info']['#weight']  = 8;
+        $form['account']['#weight']  = 9;
+        
+        // add the cancel button
+        $form['submit']['#prefix'] = '<input type="button" value="Cancel" onclick="Drupal.dupe.cancel()">';
+
+        _set_legends($form);
+
+        // move the email to the first category
+        // (it's a default field, and cannot be moved using the Profile module)
+        $email_field = $form['account']['mail'];
+        unset($form['account']['mail']);
+        $form['Personal Info']['mail'] = $email_field;
+
+        // move the captcha to the second category
+        if (isset($form['captcha'])) {
+            $captcha = $form['captcha'];
+            unset($form['captcha']);
+            $form['account']['captcha'] = $captcha;
+            $form['account']['captcha']['#weight'] = 50;
+        }
+
+        // this is to check if this is the first load of the register page
+        if (count($form_state['post']) == 0) {
+
+            // check if we have to send the user to the redirect_to page
+            $redirect_to_path = variable_get('redirect_to_path', '');
+            if (!empty($redirect_to_path)) {
+                if (!isset($_GET['c'])) drupal_goto($redirect_to_path);
+            }
+
+            // load the names of the fields of every step
+            _load_step_fields(1, array_merge($form['Personal Info'], $form['Alternate Contact Info'], $form['account']));
+            _load_step_fields(2, array());
+
+            // reset session
+            $_SESSION['dupe_checked'] = 0;
+
+            _show_step1();
+        }
+    }
+}
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<module id="Module1" name="Health of Women Study - General" status="submitted">
+	  <form id="Form11" name="About Me" status="in-progress" question-count="12">
+		<description>This form asks general questions</description>
+	  </form>
+	  <description>Module to elicit general information</description>
+	</module>
+
+	<module id="Module2" name="Health of Women Study - Health" status="in-progress">
+	  <form id="Form22" name="Reproductive Health" status="new" question-count="16">
+		<description>Question about your reproductive health</description>
+	  </form>
+	  <form id="Form23" name="Family History" status="new" question-count="24">
+		<description>This form asks questions about your family medical history</description>
+	  </form>
+	  <description>Module designed for HOW epidemiological study</description>
+	</module>
+
+	<module id="Module3" name="Post Treatment Module" status="new">
+	  <form id="Form31" name="Pre-Treatment stuff" status="new" question-count="11">
+		<description>Questions regarding your well-being before the treatment</description>
+	  </form>
+	  <form id="Form32" name="Doctors and staff" status="new" question-count="9">
+		<description>Questions about doctors and other medical staff</description>
+	  </form>
+	  <form id="Form33" name="Facility" status="new" question-count="18">
+		<description>Express your opinion about our facility</description>
+	  </form>
+	  <form id="Form34" name="Improvements" status="new" question-count="3">
+		<description>This form is designed to collect information about the results of the treatment</description>
+	  </form>
+	  <description>Module designed to elicit treatment process opinion</description>
+	</module>
+
+	<module id="Module4" name="A Year After Module" status="new">
+	  <form id="Form41" name="Disease questions" status="new" question-count="15">
+		<description>Questions regarding your disease</description>
+	  </form>
+	  <form id="Form42" name="Treatment questions" status="new" question-count="23">
+		<description>Questions regarding the treatment</description>
+	  </form>
+	  <form id="Form43" name="Outcome" status="new" question-count="10">
+		<description>Questions about changes in your condition since the treatment</description>
+	  </form>
+	  <description>Module designed to elicit treatment outcome</description>
+	</module>
+
+</modules>

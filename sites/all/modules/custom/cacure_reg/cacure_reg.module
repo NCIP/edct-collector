@@ -1,0 +1,29 @@
+<?php
+// Main module file.
+// Load inc file.
+
+module_load_include('inc', 'cacure_reg', 'cacure_reg');
+error_reporting(E_ALL);
+/**
+ * Implementation of hook_init().
+ */
+function cacure_reg_init(){
+  global $user;
+  if(!isset($user->identifier)){
+    $account =& $user;
+    cacure_reg_load_identifier($account);
+  }
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function cacure_reg_user($op, &$edit, &$account){
+  if($op === 'insert'){
+    // Get custom identifier.
+    $identifier =  cacure_reg_get_identifier();
+    // Save identifier
+    cacure_reg_save_identifier($identifier, $account);
+  }
+}
+

@@ -1,0 +1,48 @@
+/* $Id: print.css,v 1.3 2007/09/06 21:23:32 goba Exp $ */
+
+
+body, input, textarea, select {
+  color: #000;
+  background: #fff;
+}
+
+ul.primary-links, ul.secondary-links,
+#header-top-wrapper, #header-group-wrapper
+{
+  display: none;
+}
+
+body.sideber-first, body.sidebar-last, body 
+{
+  width: 640px;
+}
+
+body.sidebar-first #content-group, body.sidebar-last #content-group, 
+body.sidebar-first #content-content, body.sidebar-last #content-content
+ {
+  margin: 0;
+}
+
+#main-wrapper,
+#main-wrapper #main .breadcrumb,
+#main-wrapper #main #content-group,
+#main-wrapper #main #footer,
+#main-wrapper #main #content-group #content-content {
+  position: static;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  float: none;
+  clear: both;
+  background: none;
+}
+
+#main-wrapper #main #header {
+  height: 130px;
+}
+
+#main-wrapper #main #header h1, #main-wrapper #main #header h1 a:link, #main-wrapper #main #header h1 a:visited {
+  text-shadow: none;
+  color: #000;
+}

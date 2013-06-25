@@ -1,0 +1,174 @@
+<?php
+
+/**
+ * Implementation of hook_menu()
+ */
+function ipost_menu() {
+    
+    $items = array();
+    $items['admin/settings/ipost'] = array(
+        'title' => 'IPost Settings',
+        'description' => 'The IPost Module settings form.',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('ipost_settings_form'),
+        'access arguments' => array('administer site configuration'),
+        'file' => 'ipost.admin.inc',
+    );
+    $items['ipost/log/%'] = array(
+        'title' => 'IPost Log',
+        'description' => 'A page to log ipost sync results.',
+        'page callback' => 'ipost_result_log',
+        'page arguments' => array('success' => 2),
+        'access callback' => TRUE,
+    );
+    return $items;
+}
+
+function ipost_result_log($success) {
+    global $user;
+    if(variable_get('ipost_log', 0)) {
+        if($success) watchdog('notes', 'Successful ipost sync for user ' . $user->uid);
+        else watchdog('notes', 'Failed ipost sync for user ' . $user->uid);
+    }
+    print $success;
+}
+
+/**
+ * Implementation of hook_user()
+ * 
+ * Ipost has 8 properties currently setup which we can post
+ * 
+ * userID
+ * first_name
+ * last_name
+ * yobirth
+ * address
+ * city
+ * state
+ * zip
+ * 
+ */
+function ipost_user($op, &$edit, &$account, $category = NULL) {    
+    // setting the default properties for the ipost post request
+    $data = array();
+    $data['client_token'] = variable_get('ipost_client_token', '');
+    $data['listName'] = variable_get('ipost_mail_list', '');
+    $data['success_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/ipost/log/1';
+    $data['error_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/ipost/log/0';
+    $data['email_addr'] = $account->mail;
+    $data['submit'] = 'submit';
+    
+    // add debug property if debug enabled is set to 1
+    if (variable_get('ipost_debug_enabled', 0)) $data['debug'] = 1;
+    
+    switch ($op) {
+        case 'insert':
+            // if the user has an ipost account
+            if(!ipost_is_user($account->mail)) {
+                // need to create a new user for ipost with all the user info
+                ipost_create_user(user_load($account->uid), $data);
+            }
+            break;
+        case 'update':
+            // the user has updated user information, we need to update ipost
+            // first we will check if this user has an ipost subscription and if not make a new one instead of updating
+            if(ipost_is_user($account->mail)) {
+                // in order to find the changed profile properties
+                // you must load the user with user_load($user->uid)
+                // then check these values against the $account parameter
+                $updated_user = user_load($account->uid);
+                
+                // add data that has been edited to ipost data object
+                if($updated_user->profile_first_name != $account->profile_first_name) $data['first_name'] = $updated_user->profile_first_name;
+                if($updated_user->profile_last_name != $account->profile_last_name) $data['last_name'] = $updated_user->profile_last_name;
+                if($updated_user->profile_street_address != $account->profile_street_address) $data['address'] = $updated_user->profile_street_address;
+                if($updated_user->profile_city != $account->profile_city) $data['city'] = $updated_user->profile_city;
+                if($updated_user->profile_state != $account->profile_state) $data['state'] = $updated_user->profile_state;
+                if($updated_user->profile_zip_code != $account->profile_zip_code) $data['zip'] = $updated_user->profile_zip_code;
+                if($updated_user->profile_dob['year'] != $account->profile_dob['year']) $data['yobirth'] = $updated_user->profile_dob['year'];
+                
+                // if the email was edited...we need to update ipost with the new email (new_addr)
+                if(!empty($edit['mail'])) {
+                    $data['subscribe '] = 'change';
+                    $data['new_addr'] = $edit['mail']; 
+                }
+                // post the updated user info
+                ipost_post($data);
+                
+            } else {
+                // there was no ipost user so we need to create a new user with all the updated user info
+                ipost_create_user(user_load($account->uid), $data);
+            }
+            break;
+        case 'delete':
+            // if the user has an ipost account this will stop the emails from ipost
+            if(ipost_is_user($account->mail)) {
+                $data['subscribe'] = 'optout';
+                ipost_post($data);
+            }
+            break;
+    }
+}
+
+function ipost_create_user($user, $data) {
+    $data['subscribe '] = 'optin';
+    $data['userID'] = $user->uid;
+    $data['first_name'] = $user->profile_first_name;
+    $data['last_name'] = $user->profile_last_name;
+    $data['address'] = $user->profile_street_address;
+    $data['city'] = $user->profile_city;
+    $data['state'] = $user->profile_state;
+    $data['zip'] = $user->profile_zip_code;
+    $data['yobirth'] = $user->profile_dob['year'];
+    ipost_post($data);
+}
+
+/**
+ * Sends post data to ipost.com
+ */
+function ipost_post($data) {
+    $url = 'https://conduit.ipost.com/forms.cgi';
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    if (variable_get('ipost_debug_output', 0)) {
+        curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1");
+        curl_setopt($ch, CURLOPT_PROXYPORT, 8888);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    }
+    
+    $output = curl_exec($ch);
+    curl_close($ch);
+    
+    if (variable_get('ipost_debug_output', 0)) drupal_set_message('Ipost debug output :: ipost_post :: ' . $output);
+}
+/**
+ * Returns true or false if a user has an ipost subscription with this email
+ */
+function ipost_is_user($email) {
+    $url = 'https://conduit.ipost.com/forms.cgi?fetch='.$email.'&client_token='.variable_get('ipost_client_token', '');
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    if (variable_get('ipost_debug_output', 0)) {
+        curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1");
+        curl_setopt($ch, CURLOPT_PROXYPORT, 8888);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    }
+    
+    $output = curl_exec($ch);
+    $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if (variable_get('ipost_debug_output', 0)) drupal_set_message('Ipost debug output :: ipost_is_user :: ' . $output);
+    
+    if($http_status == "200"){
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}

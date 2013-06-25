@@ -1,0 +1,950 @@
+/* $Id: layout.css,v 1.14 2009/05/07 17:00:40 jmburnz Exp $ */
+/*
+ * LAYOUT STYLES
+ * Define CSS classes to create a table-free, 3-column, 2-column, or single
+ * column layout depending on whether blocks are enabled in the left or right
+ * columns.
+ *
+ * The Pixture Reloaded layout is based on the Holy Grail layout used in the
+ * Zen Theme. http://drupal.org/project/zen
+ *
+ */
+/*-------------------------------------------------------------------*/
+/*                              Reset                                */
+/*-------------------------------------------------------------------*/
+body,
+.comment,
+#logo,
+#branding,
+#site-slogan,
+#content-inner,
+#sidebar-left .block,
+#sidebar-right .block,
+#header-blocks .block,
+#content-top .block,
+#content-bottom .block,
+#footer .block .content,
+#forum td.forum,
+#forum .name a,
+#forum .description,
+div.admin-panel,
+li,
+.item-list ul,
+ul.images li h3,
+div.item-list ul.pager li,
+ul.pager li,
+.tabs ul,
+div.page-links a.page-previous,
+div.page-links a.page-up,
+div.page-links a.page-next,
+ul.images li h3 {
+  padding: 0;
+  margin: 0;
+}
+
+/*-------------------------------------------------------------------*/
+/*                              Page                                 */
+/*-------------------------------------------------------------------*/
+#page {
+  margin: 0 auto;
+  padding: 0px;
+  max-width: 1600px;
+  min-width: 800px;
+}
+
+/*-------------------------------------------------------------------*/
+/*                             Skip to                               */
+/*-------------------------------------------------------------------*/
+#skip-to-content {
+  height: 0;
+  overflow: hidden;
+  font-size: 0.8em;
+}
+
+/*-------------------------------------------------------------------*/
+/*                               Header                              */
+/*-------------------------------------------------------------------*/
+#header {
+  margin: 0 0 15px 0;
+  padding: 0;
+  height: 120px;
+}
+
+#logo {
+  margin: 0 10px 0 0;
+  padding: 0;
+  height: 88px;
+  float: left;
+  overflow: hidden;
+}
+
+.sub-header {
+  width: 678px !important;
+  height: 88px !important;
+}
+
+#superfish-1 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-2 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-3 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-4 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-5 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-6 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-7 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-8 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-9 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-10 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-11 a {
+  display: block;
+  min-height: 30px;
+}
+
+#superfish-1 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-2 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-3 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-4 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-5 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-6 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-7 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-8 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-9 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-10 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-11 li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+#superfish-1 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-2 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-3 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-4 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-5 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-6 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+#superfish-3 a {
+  display: block;
+}
+
+#superfish-11 {
+  padding-right: 50px;
+  padding-left: 30px;
+}
+
+.header-image {
+  width: 478px !important;
+  height: 68px !important;
+  padding-top: 21px;
+}
+
+.block-title {
+
+}
+
+#footer .block {
+  width: 180px;
+  margin: 0 auto;
+}
+
+#footer-message {
+  width: 300px;
+  margin: 0 auto;
+  clear: both;
+}
+
+#block-block-4 {
+  height: 0px;
+}
+
+#block-aggregator-feed-11 {
+  display: none;
+}
+
+/*#block-block-4{
+    position: absolute;
+    left: 590px;
+    top: 10px;
+    width: 578px;
+    height: 68px;
+}*/
+#block-menu-secondary-links {
+  float: right;
+}
+
+#block-addtoany-0 {
+  float: right; /*padding-top: 23px !important;*/
+  color: white !important;
+}
+
+#block-menu-menu-external-links {
+  float: right;
+
+}
+#block-menu-menu-diabetes-external-links {
+  position: relative;
+  left: 70px;
+  width: 300px
+}
+
+#head-elements {
+  height: 88px;
+  margin: 0 0 0 15px;
+  padding: 0;
+}
+
+h1#site-name,
+div#site-name {
+  margin: 0;
+  padding: 10px 0 0 0;
+  font-size: 2.6em;
+  line-height: 1.3em;
+}
+
+#site-slogan em {
+  font-style: normal;
+  margin: 0;
+}
+
+#block-block-5 {
+  height: 0px;
+}
+
+#search-box {
+  float: right;
+  position: relative;
+  margin: 35px 20px 0pt 0pt; /* pull the search box into position */
+  padding: 0;
+}
+
+/*-------------------------------------------------------------------*/
+/*                   Additional Regions & blocks                     */
+/*-------------------------------------------------------------------*/
+#header-blocks,
+#content-top,
+#content-bottom {
+  clear: both; /* Clear the header */
+  text-align: left;
+}
+
+#header-blocks .block-inner,
+#content-top .block-inner,
+#content-bottom .block-inner {
+  margin: 0 auto;
+}
+
+/*-------------------------------------------------------------------*/
+/*                              Main                                 */
+/*-------------------------------------------------------------------*/
+#main {
+  position: relative;
+  padding: 0 15px 10px 15px;
+}
+
+#main-inner {
+}
+
+/*-------------------------------------------------------------------*/
+/*                            Content                                */
+/*-------------------------------------------------------------------*/
+#block-block-5 {
+  display: none;
+}
+
+.block .block-content {
+  padding: 0 0 10px !important;
+}
+
+#content {
+  float: left;
+  width: 95%;
+  margin-left: 25px;
+  margin-right: -100%; /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+.two-sidebars #content-inner {
+  padding-left: 235px; /* The width + left margin of #sidebar-left. */
+  padding-right: 235px; /* The width + right margin of #sidebar-right. */
+}
+
+.sidebar-left #content-inner {
+  padding-left: 235px; /* The width + left margin of #sidebar-left. */
+  padding-right: 0;
+}
+
+.sidebar-right #content-inner {
+  padding-left: 0;
+  padding-right: 235px; /* The width + right margin of #sidebar-right. */
+}
+
+/* Set wider margins in full node view for readability
+This uses the extra body class ".node-full-view", set in pixture_reloaded_preprocess_page  */
+.node-full-view.two-sidebars #content-inner {
+  padding-left: 245px; /* The width + left margin of #sidebar-left. */
+  padding-right: 245px; /* The width + right margin of #sidebar-right. */
+}
+
+.node-full-view.sidebar-left #content-inner {
+  padding-left: 245px; /* The width + left margin of #sidebar-left. */
+  padding-right: 0;
+}
+
+.node-full-view.sidebar-right #content-inner {
+  padding-left: 0;
+  padding-right: 245px; /* The width + right margin of #sidebar-right. */
+}
+
+/*-------------------------------------------------------------------*/
+/*                        Primary, Superfish                         */
+/*-------------------------------------------------------------------*/
+#primary,
+#superfish {
+  padding: 0;
+}
+
+#primary-inner {
+  margin: 6px 0 0 15px;
+}
+
+#superfish-inner {
+  margin: 0 0 0 15px;
+}
+
+/* Zero left margin for centered menus (optional)
+#primary-inner   { margin: 6px 0 0 0;}
+#superfish-inner { margin: 0 0 0 0;}
+*/
+#primary ul {
+  margin: 0;
+}
+
+#primary ul li.first {
+  padding-left: 0;
+}
+
+/*-------------------------------------------------------------------*/
+/*                             Sidebars                              */
+/*-------------------------------------------------------------------*/
+/** sidebar-left **/
+#sidebar-left {
+  float: left;
+  width: 220px;
+  margin-left: 0;
+  margin-right: -220px; /* Negative value of #sidebar-left's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-left-inner. */
+}
+
+/** sidebar-right **/
+#sidebar-right {
+  float: right;
+  width: 260px;
+  margin-left: -220px; /* Negative value of #sidebar-right's width + right margin. */
+  margin-right: 0;
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-right-inner. */
+}
+
+/*-------------------------------------------------------------------*/
+/*                          Footer & Closure                         */
+/*-------------------------------------------------------------------*/
+#footer {
+  min-height: 70px;
+}
+
+#footer-message {
+  padding: 0 0 3px 0;
+}
+
+#closure-blocks {
+}
+
+/*-------------------------------------------------------------------*/
+/*                   Prevent overflowing content                     */
+/*-------------------------------------------------------------------*/
+#header,
+#content,
+#navbar,
+#sidebar-left,
+#sidebar-right,
+#footer,
+#closure-blocks {
+  overflow: visible;
+  word-wrap: break-word; /* A very nice CSS3 property */
+}
+
+/*-------------------------------------------------------------------*/
+/*                             Clearing                              */
+/*-------------------------------------------------------------------*/
+/* Clearing floats without extra markup
+   http://www.positioniseverything.net/easyclearing.html */
+.breadcrumb {
+  display: none;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+.clearfix {
+  display: block;
+}
+
+/* Regular clearing */
+.clear {
+  clear: both;
+}
+#block-menu-menu-diabetes-external-links h2,
+#block-menu-secondary-links h2,
+#block-nice_menus-1 h2,
+#block-menu-menu-footer-links h2,
+#block-addtoany-0 h2,
+#block-menu-menu-external-links h2 {
+  display: none;
+}
+
+.clear-block {
+  display: inline-block;
+}
+
+.sf-menu.sf-style-space-orange li,
+.sf-menu.sf-style-space-orange li li,
+.sf-menu.sf-style-space-orange li li li,
+.sf-navbar.sf-style-space-orange {
+  background: none repeat scroll 0 0 #D7ECF8 !important;
+  color: #000000 !important;
+}
+
+#superfish-3 {
+  border: 1px #ffffff;
+}
+
+#nice-menu-1>li {
+  background: url("images/bg-menu.png") repeat scroll 0 0 transparent !important;
+}
+
+#nice-menu-1 {
+  background: url(images/bg-menu.png);
+}
+
+#2men {
+  background: url("images/bg-menu.png") repeat scroll 0 0 transparent !important;
+}
+
+#5men {
+  background: url("images/bg-menu.png") repeat scroll 0 0 transparent !important;
+}
+
+.sf-menu.sf-style-space-orange li:hover,
+.sf-menu.sf-style-space-orange li.sfHover,
+.sf-menu.sf-style-space-orange li.active a,
+.sf-menu.sf-style-space-orange a:focus,
+.sf-menu.sf-style-space-orange a:hover,
+.sf-menu.sf-style-space-orange a:active,
+.sf-navbar.sf-style-space-orange li li {
+  background: #B7DFF4 !important;
+  color: #000000 !important;
+}
+
+.sf-menu.sf-style-space-orange a {
+  color: #000000 !important;
+  text-decoration: none;
+}
+
+.sf-menu.sf-style-space-orange a {
+  border: none !important;
+  border-bottom: 1px outset #ffffff !important;
+}
+
+#logo {
+  position: absolute;
+}
+
+#block-menu-menu-external-links {
+  float: right;
+  width: 100%;
+}
+#block-menu-menu-diabetes-external-links ul a,
+#block-menu-secondary-links ul a {
+  color: white !important;
+}
+
+#block-menu-menu-external-links ul a {
+  color: white !important;
+}
+
+.da2a_button {
+  color: white !important;
+}
+
+#block-menu-menu-external-links ul {
+  float: right;
+}
+
+#sidebar-left ul.sf-menu, #sidebar-left ul.sf-menu li {
+  width: 14em;
+}
+
+#sidebar-left ul.sf-menu li a {
+  line-height: 32px;
+}
+
+#block-cacure_mgmt-1 .sub-head {
+  display: block;
+}
+
+#page div#block-cacure_mgmt-1 {
+  width: 700px;
+}
+
+span#xf-output-0 {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background: #555252;
+  padding: 0 0 0 20px;
+  line-height: 30px;
+  width: 675px;
+  display: block;
+  z-index: 999;
+  top: 0;
+}
+
+#xform-block {
+  margin: 50px 0 148px;
+  padding-left: 0;
+  padding-right: 10px;
+  width: 685px;
+  background: url(images/big-box-gray.png) no-repeat scroll left top transparent;
+  color: #333;
+}
+
+#header-blocks {
+  /*left: 1041px;*/
+  /*position: absolute;*/
+  width: 355px;
+  margin: 26px;
+  float: right;
+  /*top: 25px;*/
+}
+#block-print-0 h2.block-title{
+  display: none;
+}
+#header-blocks #block-addtoany-0 {
+  margin-top: 2px;
+}
+
+#header-blocks #block-menu-menu-external-links {
+  margin-right: -7px;
+}
+
+#block-nice_menus-1.block-nice_menus {
+  width: 635px;
+}
+#head-grey-block{
+  width: 1250px !important;
+}
+
+#block-nice_menus-1 ul.nice-menu-down li ul li ul {
+  top: 0;
+}
+
+body #sidebar-right .block-content-inner {
+  padding: 10px 18px 5px;
+}
+
+#content {
+  min-width: 500px;
+}
+
+body.no-sidebars div#main {
+  margin: 0 auto;
+  min-height: 500px;
+  min-width: 700px;
+  padding: 0 15px 10px;
+  width: 843px;
+  display: block;
+}
+
+body.section-site-news div.more-link {
+  width: 343px;
+}
+
+body.page-user ul.tabs.primary {
+  display: none;
+}
+
+#content-top #block-print-0 {
+  height: 13px;
+}
+
+#block-notes-0 {
+  float: right;
+  margin-bottom: 5em;
+  margin-top: 30px;
+  min-height: 150px;
+  width: 337px;
+  background: url('../acquia_marina/images/grey_box.png') top left no-repeat;
+  color: #333;
+  position: relative;
+  left: 15px;
+}
+
+#block-notes-0 h4 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  padding: 0 0 0 20px;
+}
+
+#block-notes-0 h4 {
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
+  color: #476E30;
+}
+
+#block-notes-0 p.line {
+  font-size: .786em;
+  padding: 0 20px;
+  text-align: right;
+  height: 20px;
+}
+
+#block-notes-0 p.line {
+  border-bottom: 1px dotted #CCC;
+}
+
+#block-notes-0 p.created {
+  display: table-row-group;
+  float: right;
+  font-size: 11px;
+  padding: 0;
+  width: auto;
+}
+
+#block-notes-0 p.note {
+  display: inline;
+  float: left;
+  line-height: 20px;
+  padding: 0;
+  width: 227px;
+}
+
+#block-notes-0 .content {
+  font-size: 12px;
+  padding: 5px 20px;
+  position: relative;
+}
+div#block-cacure_mgmt-4 h2.block-title,
+div#block-cacure_mgmt-5 h2.block-title,
+div#block-block-19 h2.block-title,
+div#block-block-18 h2.block-title,
+div#block-block-14 h2.block-title{
+  display: none;
+}
+div#block-notes-0 h4{
+  margin: 12px 0 0 2px;
+}
+div#block-notes-0>p{
+  margin: 0;
+  padding-bottom: 2px;
+}
+body #sidebar-left .block{
+  width: 220px;
+}
+body #sidebar-right{
+  width: 259px;
+}
+#block-nice_menus-1 a{
+  font-size: 1em;
+}
+/*
+#pixture-reloaded #widgetbox_widget_div_0 {
+  position: relative;
+  left: -20px;
+  margin: 5px 0 15px 0;
+}
+#pixture-reloaded #widgetbox_widget_div_1 {
+  position: relative;
+  left: -20px;
+  margin: 20px 0 15px 0;
+} */
+.page-about-it-professional-services #content-area {
+   position: relative;
+   top: -30px;
+   width: 95%;
+}
+.page-about-it-professional-services .panel-col-top .pane-title {
+   font-size: 2.5em;
+
+}
+#it-professional-services .it-ps-buildings
+{
+   position: relative;
+   float: left;
+   padding: 0 10px 10px 0;
+}
+
+#it-professional-services .it-professional-services-slogan
+{
+   position: relative;
+   color: #38306E;
+   font-size: 1.5em;
+   line-height: 1.5;
+}
+
+#it-professional-services .it-professional-services-slogan2
+{
+   position: relative;
+   right: -25px;
+   color: #38306E;
+   font-size: 1.5em;
+   line-height: 1.5;
+}
+#it-professional-services .panel-col-last {
+    float: left;
+    width: 49.9%;
+	position: relative;
+}
+#it-professional-services .panel-col-top, 
+#it-professional-services .panel-col-bottom {
+    clear: both;
+    width: 90%;
+}
+#two-steps .one {
+  background: url("images/one.png") no-repeat 0px 0px;
+
+}
+
+#two-steps .two {
+  background: url("images/two.png") no-repeat 0px 0px;
+}
+#two-steps .one, #two-steps .two {
+   float: right;
+}
+#two-steps h4.steps {
+   position: relative;
+   top: -30px;
+}
+#xform-block .hcit-save-for-later-button {
+    background: url("../includes/images/submit.png") no-repeat scroll left top transparent;
+    width: 120px;
+}
+address.rtecenter{
+	padding-bottom: 30px;
+}
+#xform-block .hcit-save-for-later-button button {
+    background: url("images/save-for-later-button.png") repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    height: 23px;
+    left: 250px;
+    line-height: 23px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    text-decoration: none;
+    width: 200px;
+}
+#xform-block .hcit-save-button-next button {
+    background: url("images/submit.png") no-repeat scroll right top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    width: 150px;
+}
+body #block-cacure_mgmt-3 p.form-module-submit.form-module-submit-enabled {
+    background: url("images/submit-enabled.png") no-repeat scroll left top transparent !important;
+}
+#node-3 #consent-submit {
+    background: url("images/submit-right.png") no-repeat scroll right top transparent;
+    border: medium none;
+    color: #FFFFFF;
+    font-weight: bold;
+	padding: 3px 30px 20px 20px;
+}
+.page-my-current-questionnaire #generic-intro,
+.page-my-current-questionnaire #general-instructions{
+   width: 695px;
+   background: url("images/big-box-gray.png")no-repeat scroll left top transparent;
+   min-height: 211px;
+}
+.page-my-current-questionnaire #generic-intro h2,
+.page-my-current-questionnaire #general-instructions h4{
+   
+   background: #555252;
+   color: white;
+   padding: 0 0 0 10px;
+}
+.page-my-current-questionnaire #generic-intro p,
+.page-my-current-questionnaire #general-instructions #left,
+.page-my-current-questionnaire #general-instructions #right {
+   padding: 0 10px;
+}
+.page-primary-links-about-healthcare-it-inc #content-area {
+   position: relative;
+   top: -42px;
+}
+.page-primary-links-about-hosting .title {
+   font-size: 2.5em;
+}
+.page-primary-links-about-hosting #content-header,
+.page-primary-links-about-hosting  #content-area {
+   position: relative;
+   top: -25px;
+}
+.page-primary-links-about-hosting .slogan {
+   position: relative;
+   left: 25px;
+   font-size: 1.5em;
+   line-height: 1.5;
+}
+.page-primary-links-about-hosting .slogan2 {
+   position: relative;
+   left: 110px;
+   font-size: 1.5em;
+   line-height: 1.5;
+}
+.page-about-bigr #content-area {
+   position: relative;
+   top: -25px;
+   width: 95%;
+}
+.page-about-bigr .rack-test-tubes,
+.page-about-bigr .test-tubes{
+   position: relative;
+   left: 400px;
+}
+.page-about-bigr .bigr-image {
+   position: relative;
+   top: -20px;
+}

@@ -1,0 +1,351 @@
+<?php
+
+module_load_include('php', 'cacure_api', 'MySimpleXMLElement');
+module_load_include('php', 'cacure_api', 'RestCall');
+
+/**
+ * This function return array of settings
+ * @return array
+ */
+function caCure_get_settings(){
+  static $caCure;
+  if(!isset($caCure)) { 
+      $caCure = variable_get('cacure_settings', array());
+  } 
+  return $caCure;
+}
+
+/**
+ * This function returns avaliable context to forms.
+ * @return array
+ */
+function caCure_get_contexts(){ 
+  $settings = caCure_get_settings(); 
+  $context = array_intersect_key($settings['contexts'], context_active_contexts()); 
+  if(!empty($context))
+    return array_shift($context);
+  return false;
+}
+/**
+ * Implementation of hook_strongarm().
+ */
+/*function cacure_api_strongarm(){
+  //get path to settings.xml
+  $xmlUrl = drupal_get_path('module', 'cacure_api') . '/settings.xml';
+  $xmlstr = file_get_contents($xmlUrl);
+  //create new object
+  $xmlMap = new MySimpleXMLElement($xmlstr); 
+  // return new item in drupal variables
+  return array(
+    'cacure_settings' => $xmlMap->toArray($xmlMap->children())
+  );
+}*/
+
+/**
+ * Update settings functionality
+ */
+/**
+ * Implementation of hook_menu().
+ * Creates "API" tab
+ */
+function cacure_api_menu(){
+  $items = array();
+
+  $items['admin/settings/cacure_settings/api'] = array(
+    'title' => 'API',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cacure_api_form'),
+    'access arguments' => array('access cacure settings'),
+    'description' => '',
+    'type' => MENU_LOCAL_TASK,
+  );
+  
+  return $items;
+}
+
+/**
+ * Creates form for "API" settings tab
+ * @param array $form_state
+ * @return array
+ */
+function cacure_api_form($form_state){
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Update settings'),
+    );
+    return $form;
+}
+
+/**
+ * Handles api form submition
+ * @param array $form
+ * @param array $form_state 
+ */
+function cacure_api_form_submit($form, &$form_state){
+    cacure_api_update_settings();
+    drupal_set_message(t('Settings have been updated.'), 'status');
+}
+
+/**
+ * Gets settings from 'settings.xml'
+ * @return array 
+ */
+function cacure_api_get_settings(){
+    $xmlUrl = drupal_get_path('module', 'cacure_api') . '/settings.xml';
+    $xmlstr = file_get_contents($xmlUrl);
+    //create new object
+    $xmlMap = new MySimpleXMLElement($xmlstr);
+    // return new item in drupal variables
+    return $xmlMap->toArray($xmlMap->children());
+}
+
+/**
+ * Updates related with api settings
+ * <pre>
+ * Flow:
+ * 1. Get settings.
+ * 2. Compare contexts with existed and find differencies.
+ * 3. If new contexts are present:
+ *   3.1 Add contexts to system (with assigned role name).
+ *   3.2 Add roles with the same names (with permissions)
+ *   3.4 Add roles to "allowed list".
+ * 4. If some contexts are missed. Perform operations reversed to step 3.
+ * 5. Convert settings to old format for internal usage.
+ * 6. Update variable 'cacure_settings'
+ * </pre>
+ */
+function cacure_api_update_settings(){
+    $settings = cacure_api_get_settings();
+    cacure_api_update_context($settings);
+    variable_set('cacure_settings', cacure_api_convert_settings($settings));
+}
+
+/**
+ * Updates all site's context if needed
+ * @param array $settings
+ */
+function cacure_api_update_context($settings){
+    $contexts = cacure_api_get_changed_context($settings);
+   
+    foreach ($contexts['add'] as $context){
+        cacure_api_save_context($context);
+    }
+    foreach ($contexts['delete'] as $context){
+        cacure_api_delete_context($context);
+    }
+}
+
+/**
+ * Gets contexts different from existed
+ * @param array $settings
+ * @return array array('add' => array, 'delete' => array) 
+ */
+function cacure_api_get_changed_context($settings){
+    $siteContexts = context_context_list();
+    $add    = array();
+    $exist  = array();
+    
+    foreach ($settings['contexts']['context'] as $index => $context){
+        $name = $context['local'];
+        $isChanged = false;
+        if (!in_array($name, $siteContexts)){
+            $isChanged = true;
+        } else {
+            $record = context_load($name);
+            if (isset($context['description']) 
+                && $context['description'] != $record->description)
+            {
+                $isChanged = true;
+            }
+            elseif (isset($context['role'])
+                && ($role = cacure_api_get_context_role($record))
+                && ($context['role'] != $role))
+            {
+                $context['role_old'] = $role;
+                $isChanged = true;
+            }
+        }
+        if ($isChanged){
+            $add[$name] = $context;
+        }
+        $exist[] = $context['local'];
+    } 
+    return array(
+        'add'    => $add,
+        'delete' => array_diff($siteContexts, $exist),
+    );
+}
+
+/**
+ * Gets role name from context's record
+ * @param stdClass $record
+ * @return string|null 
+ */
+function cacure_api_get_context_role($record)
+{
+    $role = null;
+    if (!empty($record->conditions['user']['values'])){
+        $roles = array_values($record->conditions['user']['values']);
+        $role = $roles[0];
+    } 
+    return $role;
+}
+
+/**
+ * Updates context
+ * @param array $context
+ */
+function cacure_api_save_context($context){
+    context_save(cacure_api_get_context_record($context));
+    cacure_api_save_role($context);
+}
+
+/**
+ * Deletes context
+ * @param string $context name
+ */
+function cacure_api_delete_context($contextName){
+    $context = context_load($contextName);
+    context_delete($context);
+    
+    //remove related role
+    cacure_api_delete_role(cacure_api_get_context_role($context));
+}
+
+/**
+ * Forms valid context record
+ * @param array $context
+ * @return stdClass 
+ */
+function cacure_api_get_context_record($context){
+    $record = new stdClass();
+    $record->name = $context['local'];
+    $record->description = !empty($context['description']) ? 
+        $context['description'] : '';
+    
+    if (!empty($context['role'])){
+        $record->conditions = array(
+            'user' => array(
+                'values' => array(
+                    $context['role'] => $context['role'],
+                ),
+            ),
+        );
+    }
+    return $record;
+}
+
+/**
+ * Saves role from context data
+ * @param array $context 
+ */
+function cacure_api_save_role($context){
+    if (empty($context['role'])){
+        return;
+    }
+      
+    if (!empty($context['role_old'])){
+        cacure_api_update_role($context['role_old'], $context['role']);
+    } else {
+        $roleId = cacure_api_create_role($context['role']);
+
+        if ($roleId){
+            cacure_api_add_autoassign($roleId);
+        }
+    }
+}
+
+/**
+ * Updates role name
+ * @param string $oldName
+ * @param string $newName 
+ */
+function cacure_api_update_role($oldName, $newName)
+{
+    if ($id = array_search($oldName, user_roles()))
+    {
+        db_query("UPDATE {role} SET `name`= '%s' WHERE rid=%d", $newName, $id);
+    }
+}
+
+/**
+ * Creates role
+ * @param string $role
+ * @return int
+ */
+function cacure_api_create_role($role){
+    if (empty($role) || in_array($role, user_roles())){
+        return false;
+    }
+    
+    db_query("INSERT INTO {role} (name) VALUES ('%s')", $role);
+    $id = db_last_insert_id(null, null);
+    cacure_api_create_permissions($id);
+    return $id;
+}
+
+/**
+ * Deletes role
+ * Note: "delete code" copied from user_admin_role_submit() 
+ * @param string $role 
+ */
+function cacure_api_delete_role($role){
+    $roleId = array_search($role, user_roles());
+    
+    if (!empty($roleId)){ 
+        db_query('DELETE FROM {role} WHERE rid = %d', $roleId);
+        db_query('DELETE FROM {permission} WHERE rid = %d', $roleId);
+        // Update the users who have this role set:
+        db_query('DELETE FROM {users_roles} WHERE rid = %d', $roleId);
+    }
+}
+
+/**
+ * Creates permissions for some role
+ * @param int $roleId
+ */
+function cacure_api_create_permissions($roleId){
+    $permissions = 'access news feeds, access mail template, view faq page, 
+        access frontpage, access content, access print, access refer_a_friend, 
+        switch theme, change own username, delete own account';
+    
+    db_query("INSERT INTO {permission} (rid, perm) VALUES (%d, '%s')", $roleId, $permissions);
+}
+
+/**
+ * Adds role to autoassign list (dropdown "Area of Interests")
+ * @param int $roleId 
+ */
+function cacure_api_add_autoassign($roleId){
+    $roles = _autoassignrole_get_settings('user_roles');
+    $roles[$roleId] = $roleId;
+    $sql = "UPDATE {autoassignrole} set value = '%s' where arid = '%s'";
+    db_query($sql, serialize($roles), 'user_roles');
+}
+
+/**
+ * Converts new settings to old format
+ * @param array $settings 
+ */
+function cacure_api_convert_settings($settings){
+    return array(
+        'server'   => $settings['server']['address'],
+        'port'     => $settings['server']['port'],
+        'context'  => $settings['server']['context'],
+        'api'      => cacure_api_get_settings_map($settings['apis']['api']),
+        'contexts' => cacure_api_get_settings_map($settings['contexts']['context']),
+    );
+}
+
+/**
+ * Gets map from settings
+ * @param array $settings contain keys 'local' and 'remove'
+ * @return array 
+ */
+function cacure_api_get_settings_map($settings){
+    $result = array();
+    foreach ($settings as $entry){
+        $result[$entry['local']] = $entry['remote'];
+    }
+    return $result;
+}

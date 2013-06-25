@@ -1,0 +1,55 @@
+<?php
+// $Id: profile_checkboxes.install,v 1.1.2.1 2010/10/25 00:55:07 bacteriaman Exp $
+
+/**
+ * @file
+ * The profile_checkboxes module install file, which handles the install/uninstall tasks.
+ *
+ */
+
+ /**
+ * Implementation of hook_install().
+ */
+function profile_checkboxes_install() {
+  // Create tables
+  drupal_install_schema('profile_checkboxes');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function profile_checkboxes_schema() {
+  $schema['profile_checkboxes'] = array(
+    'description' => 'Stores checkboxes choice for profile list selection fields.',
+    'fields' => array(
+      'fid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Profile field id.',
+      ),
+      'checkboxes' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'Checkboxes choice.',
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array('fid')
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ * This will automatically remove the MySQL database tables for profile_checkboxes.
+ *
+ */
+function profile_checkboxes_uninstall() {
+  // Remove tables
+  drupal_uninstall_schema('profile_checkboxes');
+}

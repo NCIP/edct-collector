@@ -1,0 +1,226 @@
+<?php
+// $Id: custom_node_template.module,v 1.1.2.12 2010/07/28 20:38:54 WebNewCastle Exp $
+
+/**
+ * Custom Node Template allows one to specify different node templates to be used on a node by node basis or by content type.  
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function custom_node_template_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#custom_node_template':
+// Help is incorporated in this manner as initial module development has been done in a manner
+// to make it simpler to add Advanced Help module support in the near future.
+      include('help/help.php');
+  }
+  return $output;
+}
+
+
+/**
+ * Implementation of hook_perm().
+ */
+function custom_node_template_perm() {
+  return array('administer custom node templates');
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function custom_node_template_nodeapi(&$node, $op) {
+
+  switch ($op) {
+    case 'insert':
+
+      if (isset($node->nodetemplate)) {
+        db_query("INSERT INTO {custom_node_template} (nid, nodetemplate) VALUES ('%d', '%s')", $node->nid, $node->nodetemplate);
+      }
+      break;
+
+    case 'update':
+
+      $nodetemplate = db_result(db_query("SELECT nodetemplate FROM {custom_node_template} WHERE nid = '%d'", $node->nid));
+      if (isset($node->nodetemplate)) {
+        if (empty($nodetemplate)) {
+          db_query("INSERT INTO {custom_node_template} (nid, nodetemplate) VALUES ('%d', '%s')", $node->nid, $node->nodetemplate);
+        }
+        else {
+          db_query("UPDATE {custom_node_template} SET nodetemplate = '%s' WHERE nid = '%d'", $node->nodetemplate, $node->nid);
+        }
+      }
+      else {
+        db_query("DELETE FROM {custom_node_template} WHERE nid = '%d'", $node->nid);
+      }
+      break;
+
+    case 'delete':
+
+      db_query("DELETE FROM {custom_node_template} WHERE nid = '%d'", $node->nid);
+      break;
+
+    case 'load':
+    case 'prepare':
+
+      $nodetemplate = db_result(db_query("SELECT nodetemplate FROM {custom_node_template} WHERE nid = '%d'", $node->nid));
+
+      if (empty($nodetemplate)) {
+        if (variable_get('nodetemplate_'. $node->type, FALSE)) {
+          $nodetemplate = variable_get('nodetemplate_'. $node->type, FALSE);
+        }
+        else {
+          $nodetemplate = 'default';
+        }
+      }
+
+      $node->nodetemplate = $nodetemplate;
+
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_node_type().
+ */
+function custom_node_template_node_type($op, $info) {
+
+  switch ($op) {
+    case 'delete':
+      variable_del('nodetemplate_'. $info->type);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function custom_node_template_form_alter(&$form, $form_state, $form_id) {
+  drupal_add_css(drupal_get_path('module', 'custom_node_template') .'/custom_node_template.css');
+  if ($form['#node']->type .'_node_form' == $form_id) {
+    $form['nodetemplate'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Node template settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#access' => user_access('administer custom node templates'),
+      '#group' => t('Node template settings') 
+    );
+    $form['#pre_render'][] = 'vertical_tabs_form_pre_render';
+    $nodetemplate = $form['#node']->nodetemplate;
+    if (empty($nodetemplate)) $nodetemplate = 'default';
+
+    $form['nodetemplate']['nodetemplate'] = array(
+      '#type' => 'radios',
+      '#title' => t('Node template'),
+      '#description' => t('Select the node template to be used for displaying this node.  If "default" is selected, then your node will be displayed per existing rules (node template suggestions) for your theme.  All applicable node templates (node-XXX.tpl.php files) are listed here.  Your main node.tpl.php file is listed as "Main Node Template". See Online Help (/admin/help) for more information on this setting.'),
+      '#default_value' => $nodetemplate,
+      '#options' => _custom_node_templates(),
+      '#access' => user_access('administer custom node templates')
+    );
+    $form['nodetemplate']['#item'] = $nodetemplate;
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function custom_node_template_form_node_type_form_alter(&$form, &$from_state) {
+  drupal_add_css(drupal_get_path('module', 'custom_node_template') .'/custom_node_template.css');
+
+  if (isset($form['identity']['type'])) {
+    $form['nodetemplate'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Node template settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#group' => t('Node template settings')
+    );
+    $form['#pre_render'][] = 'vertical_tabs_form_pre_render';
+    $nodetemplate = variable_get('nodetemplate_' . $form['#node_type']->type, 'default');
+
+    $form['nodetemplate']['nodetemplate'] = array(
+      '#type' => 'radios',
+      '#title' => t('Node template'),
+      '#description' => t('Select the default node template to be used when adding NEW nodes of this content type.  Changing this setting will not change the display of nodes you created previously.  If "default" is selected, then your node will be displayed per existing rules (node template suggestions) for your theme.  All applicable node templates (node-XXX.tpl.php files) are listed here.  Your main node.tpl.php file is listed as "Main Node Template". See Online Help (/admin/help) for more information on this setting.'),
+      '#default_value' => $nodetemplate,
+      '#options' => _custom_node_templates()
+    );
+    $form['nodetemplate']['#item'] = $nodetemplate;
+  }
+}
+
+/**
+* Implementation of hook_content_extra_fields().
+*/
+function custom_node_template_content_extra_fields($type_name) {
+    $extra['custom_node_template'] = array(
+      'label' => t('Node template settings'),
+      'description' => t('Custom note template settings fieldset.'),
+      'weight' => 3,
+    );
+	return $extra;
+}
+
+
+function _custom_node_templates() {
+
+  $theme = variable_get('theme_default', 'garland');
+  $theme_path = drupal_get_path('theme', $theme) .'/';
+    $options = array('default' => '<img class="custom_node_template" src="'.base_path() .drupal_get_path('module', 'custom_node_template').'/images/default.png" title="'.$displayname.'" /> '.t('default'));
+
+  $handler = opendir($theme_path);
+  while ($file = readdir($handler)) {
+    if ($file != '.' && $file != '..' && substr($file, 0, 4) == 'node' && substr($file, -8, 8) == '.tpl.php' && substr($file, -13, 5) != '-edit') {
+        $name = drupal_substr($file, 0, -8);
+        $displayname = substr_replace($name, '', 0, 5);
+        $displayname = str_replace('-', ' ', $displayname);
+        $displayname = str_replace('_', ' ', $displayname);
+        if (empty($displayname)) { $displayname = t('Main Node Template');}
+        $options[$name] = $displayname;
+        if (file_exists(drupal_get_path('module', 'custom_node_template')."/images/$name.png")) { $options[$name] = '<img class="custom_node_template" src="'.base_path() .drupal_get_path('module', 'custom_node_template').'/images/'.$name.'.png" title="'.$displayname.'" /> '.$displayname; }
+        if (file_exists("$theme_path/$name.png")) { $options[$name] = '<img class="custom_node_template" src="'.base_path() .$theme_path.'/'.$name.'.png" title="'.$displayname.'" /> '.$displayname; }
+
+    }
+  }
+  closedir($handler);
+
+  return $options;
+}
+
+/**
+ * Implementation of hook_preprocess_node().
+ */
+function custom_node_template_preprocess_node(&$variables) {
+  if (drupal_substr(request_uri(), -5) != '/edit') {
+    if ($variables['nodetemplate'] != 'default') {
+      $nodetemplate = 'node-'. drupal_substr($variables['nodetemplate'], 5);
+      $variables['template_files'][] = $variables['node']->nodetemplate;
+    }
+  }
+  if (module_exists('taxonomy') && arg(0) == 'node' && is_numeric(arg(1)) && !arg(2)) {
+    $node = node_load(arg(1));
+    $node_type_vocabularies = taxonomy_get_vocabularies($node->type);
+    foreach ($node_type_vocabularies as $node_type_vocabulary) {
+      foreach (taxonomy_node_get_terms_by_vocabulary($node, $node_type_vocabulary->vid, $key = 'tid') as $node_vocabulary_term) {
+        $node_term_list[$node_vocabulary_term->vid][$node_vocabulary_term->tid] = $node_vocabulary_term->name;
+      }
+      $variables['node_vocabulary'][$node_type_vocabulary->vid] = theme_item_list($node_term_list[$node_type_vocabulary->vid]);
+    }
+   $variables['node_vocabulary_term'] = $node_term_list;
+  }
+  $variables['custom_mission'] = variable_get('site_mission', '');
+}
+
+/**
+ * Implementation of hook_preprocess_page().
+ */
+function custom_node_template_preprocess_page(&$vars) {
+  if (drupal_substr(request_uri(), -5) != '/edit') {
+    if ($variables['nodetemplate'] != 'default') {
+      $pagetemplate = 'page-'. drupal_substr($vars['node']->nodetemplate, 5);
+      $vars['template_file'] = $pagetemplate;
+    }
+  }
+  $vars['custom_mission'] = variable_get('site_mission', '');
+}

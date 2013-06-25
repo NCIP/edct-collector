@@ -1,0 +1,35 @@
+<?php
+
+function cacure_x_init(){
+  
+}
+
+
+ /**
+ * Implementation of hook_menu().
+ */
+function cacure_x_menu() {
+  $items = array();
+
+  $items['form/%/%'] = array(
+    'title' => 'My Current Questionnaire',
+    'page callback' => 'cacure_x_page_callback',
+    'access arguments' => array('access content'),
+    'access callback'  => 'user_access',
+    'page arguments' => array(1,2),
+    'file' => 'cacure_x.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['formsubmit/%'] = array(
+    'title' => 'My Current Questionnaire',
+    'page callback' => 'cacure_x_formsubmit_callback',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'page arguments' => array(1),
+    'file' => 'cacure_x.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}

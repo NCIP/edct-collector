@@ -1,0 +1,2243 @@
+<?php
+// $Id: menu_access.module,v 1.10 2009/10/16 05:30:15 emptyvoid Exp $
+/** 
+  * @file menu_access.module
+  * 
+  * This module handles access permissions for menus.
+  */
+  
+/**
+  * Implementation of hook_help()
+  */
+function menu_access_help($path, $arg) {
+  if ($path == 'admin/help#menu_access') {
+    return '<p>'. t('The menu access module provides permission management for system roles and individual users for menus.') .'</p>';
+  };
+  if ($path == 'admin/build/menu/menu_access') {
+    return '<p>'. t('The menu access settings page provides an interface to define default permissions for all menus.<br />Please note any roles intented to manage menus must have the <b>administer menus</b> permission assigned to the role.') .'</p>';
+  }
+  if ($path == 'admin/build/menu-customize/%/menu_access') {
+    return '<p>'. t('The menu access page provides an interface to define permissions for the menu.') .'</p>';
+  }
+  if ($path == 'admin/build/menu') {
+    return '<p>'. t('The menu access module provides additional permissions to define global and per menu access settings. Should your account have access, click on <b>Menu Access Settings</b> to define global settings.') .'</p>';
+  }
+}
+  
+
+/**
+  *  Valid permissions for this module
+  *  @return array An array of valid permissions for the menu_access module
+  */
+function menu_access_perm() {
+  return array(
+  'access menus',
+  'administer menu access settings',
+  'administer menu settings',
+  'create menu content',
+  'delete menu content',
+  'edit menu content',
+  );
+}
+
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function menu_access_menu() {
+  
+  // menu access settings in menu list
+  $items['admin/build/menu/menu_access'] = array(
+    'title' => 'Menu Access Settings',
+    'description' => 'Configure menu acess permissions.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_access_admin_settings'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer menu access settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
+  // menu access settings in menu list
+  $items['admin/build/menu-customize/%menu/menu_access'] = array(
+    'title' => 'Set Permissions',
+    'description' => 'Configure access permissions.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_access_settings_form', 3),
+    'access callback' => 'user_access',
+    'access arguments' => (menu_access_get_settings('per_menu') == TRUE) ? array('administer menu access settings') : FALSE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+  
+  // menu item overrides
+  
+  //
+  
+  
+  // add menu override HACK
+   $items['admin/build/menu/add'] = array(
+    'title' => 'Add menu',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_edit_menu', 'add'),
+    'access arguments' => array('create menu content'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'menu.admin.inc',
+    'file path' => drupal_get_path('module', 'menu'),
+  );
+  
+  // Menu settings override HACK
+  $items['admin/build/menu/settings'] = array(
+    'title' => 'Menu Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_configure'),
+    'access arguments' => array('administer menu settings,edit menu content'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5,
+    'file' => 'menu.admin.inc',
+    'file path' => drupal_get_path('module', 'menu'),
+  );
+  
+  // Menu settings override HACK
+  $items['admin/build/menu-customize/%menu/edit'] = array(
+    'title' => 'Edit menu',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_edit_menu', 'edit', 3),
+    'access arguments' => array('edit menu content'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'menu.admin.inc',
+    'file path' => drupal_get_path('module', 'menu'),
+  );
+  
+  // Menu settings override HACK
+  $items['admin/build/menu-customize/%menu/delete'] = array(
+    'title' => 'Delete menu',
+    'page callback' => 'menu_access_menu_delete_menu_page',
+    'page arguments' => array(3),
+    'access arguments' => array('delete menu content'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  
+  // hack - this clears the menu item array to reset settings.
+  $items['admin/build/menu'] = array();
+  $items['admin/build/menu'] = array(
+    'title' => 'Menus',
+    'description' => "Control your site's navigation menu, primary links and secondary links. as well as rename and reorganize menu items.",
+    'page callback' => 'menu_access_override_menu_overview_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer menu'),
+  );
+
+  
+  return $items;
+}
+
+
+/**
+ * Menu override methods for check access
+ */
+function menu_access_check_menu_item_access($mlid, $account = NULL, $perm_str = NULL, $op = 'view') {
+  global $user;
+  $perm = array();
+  $result = FALSE;
+
+  if (is_null($account) || $account == '') {
+    $account = $user;
+  }
+
+  // User #1 has all privileges:
+  if ($account->uid == 1) {
+    return TRUE;
+  }
+
+  if (!is_null($perm_str)) {
+      // if the menu is passed permission validation check that the user has access rights.
+        // To reduce the number of SQL queries, we cache the user's permissions
+      // in a static variable.
+      if (!isset($perm[$account->uid])) {
+        $result = db_query("SELECT p.perm FROM {role} r INNER JOIN {permission} p ON p.rid = r.rid WHERE r.rid IN (". db_placeholders($account->roles) .")", array_keys($account->roles));
+    
+        $perms = array();
+        while ($row = db_fetch_object($result)) {
+          $perms += array_flip(explode(', ', $row->perm));
+        }
+        $perm[$account->uid] = $perms;
+      }
+    
+      // user has permissions
+      $result = isset($perm[$account->uid][$perm_str]);
+      
+      if ($result == TRUE) {
+        
+          // check if the user is assigned to view the menu
+          $result = menu_item_access_macl_get_user_grant_by_menuId($op, $mlid, $account);
+          
+          // if the user is not explicity assigned to view the menu
+          // check if the user is assigned to any roles allowed to view it.
+          if ($result == FALSE) {
+            $settings = menu_item_access_per_menu_setting($op, $mlid);
+            
+            $userroles = $account->roles;
+            
+            foreach ($userroles as $key => $value) {
+              //$search_set = array_search($key, $settings);
+              if (FALSE !== array_search($key, $settings)) {
+                $result = TRUE;
+              }
+            }
+          }
+      }
+  }
+  else {
+  
+    // check if the user is assigned to view the menu
+      $result = menu_item_access_macl_get_user_grant_by_menuId($op, $mlid, $account->uid);
+      
+    // if the user is not explicity assigned to view the menu
+    // check if the user is assigned to any roles allowed to view it.
+    if ($result == FALSE) {
+      $settings = menu_item_access_per_menu_setting($op, $mlid);
+      
+      $userroles = $account->roles;
+      
+      foreach ($userroles as $key => $value) {
+        //$search_set = array_search($key, $settings);
+        if (FALSE !== array_search($key, $settings)) {
+          $result = TRUE;
+        }
+      }
+    }
+  }
+  
+  
+  
+  return $result;
+  
+}
+
+
+/**
+  * Menu Module Override Methods
+  */
+
+/**
+ * Menu callback which shows an overview page of all the custom menus and their descriptions.
+ */
+function menu_access_override_menu_overview_page() {
+  
+  $result = db_query("SELECT * FROM {menu_custom} ORDER BY title");
+  $content = array();
+  while ($menu = db_fetch_array($result)) {
+    
+    if (menu_access('view', $menu['menu_name'])) {
+      $menu['href'] = 'admin/build/menu-customize/'. $menu['menu_name'];
+      $menu['localized_options'] = array();
+      $content[] = $menu;
+    }
+    
+  }
+  
+  return theme('admin_block_content', $content);
+}
+
+
+/**
+ * Menu override get all menus
+ */
+function menu_access_get_menus() {
+  $result = db_query("SELECT * FROM {menu_custom} ORDER BY title");
+  $content = array();
+  while ($menu = db_fetch_array($result)) {
+    
+    if (menu_access('view', $menu['menu_name'])) {
+      $content[$menu['menu_name']] = $menu['title'];
+    }
+    
+  }
+  
+  return $content;
+}
+
+
+/**
+ * Menu Access Block Code
+ */
+
+/**
+ * Implementation of hook_block().
+ */
+function menu_access_block($op = 'list', $delta = 0, $edit = array()) {
+  global $user;
+
+  if ($op == 'list') {
+    $blocks[0]['info'] = t('Menu Access - Navigation');
+    // Menu blocks can't be cached because each menu item can have
+    // a custom access callback. 
+    $blocks[0]['cache'] = BLOCK_NO_CACHE;
+    
+    $blocks[1]['info'] = t('Menu Access - Primary links');
+    // Menu blocks can't be cached because each menu item can have
+    // a custom access callback. 
+    $blocks[1]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[2]['info'] = t('Menu Access - Secondary links');
+    // Menu blocks can't be cached because each menu item can have
+    // a custom access callback. 
+    $blocks[2]['cache'] = BLOCK_NO_CACHE;
+    
+  return $blocks;
+  }
+  else if ($op == 'view') {
+    $block = array();
+
+    switch ($delta) {
+      case 0:
+        if ($menu = menu_access_menu_tree()) {
+          if (menu_access_access('access menus', NULL, FALSE, 'navigation')) {
+            $block['subject'] = $user->uid ? check_plain($user->name) : t('Navigation');
+            $block['content'] = $menu;
+            return $block;
+          }
+          else {
+            return '';
+          }
+        }
+      case 1:
+        if ($menu = menu_access_menu_tree('primary-links')) {
+          if (menu_access_access('access menus', NULL, FALSE, 'primary-links')) {
+            $block['subject'] = $user->uid ? check_plain($user->name) : t('Primary links');
+            $block['content'] = $menu;
+            return $block;
+          }
+          else {
+            return '';
+          }
+        }
+      case 2:
+        if ($menu = menu_access_menu_tree('secondary-links')) {
+          if (menu_access_access('access menus', NULL, FALSE, 'secondary-links')) {
+            $block['subject'] = $user->uid ? check_plain($user->name) : t('Secondary links');
+            $block['content'] = $menu;
+            return $block;
+          }
+          else {
+            return '';
+          }
+        }
+    }
+  }
+}
+
+
+/**
+ * Render a menu tree based on a seed menu item id.
+ *
+ * The tree is expanded if the isexpanded option attribute is TRUE
+ *
+ * @param $mlid
+ *   The menu id
+ * @return
+ *   The rendered HTML of the menu.
+ */
+function menu_access_menu_tree_by_menu_item($mlid = NULL, $isexpanded = FALSE) {
+  static $menu_output = array();
+   
+  if (!is_null($mlid)) {
+    if (!isset($menu_output[$mlid])) {
+      $tree = menu_access_menu_tree_menu_item_data($mlid, $isexpanded);
+      $menu_output[$mlid] = menu_access_menu_tree_output($tree);
+    }
+  }
+  else {
+      $menu_output[$mlid] = "ERROR menu item ID was not passed!";
+  }
+  
+  return $menu_output[$mlid];
+  
+}
+
+
+
+
+
+
+/**
+ * Render a menu tree based on the current path.
+ *
+ * The tree is expanded based on the current path and dynamic paths are also
+ * changed according to the defined to_arg functions (for example the 'My account'
+ * link is changed from user/% to a link with the current user's uid).
+ *
+ * @param $menu_name
+ *   The name of the menu.
+ * @return
+ *   The rendered HTML of that menu on the current page.
+ */
+function menu_access_menu_tree($menu_name = 'navigation', $isexpanded = FALSE, $forced = FALSE) {
+  static $menu_output = array();
+
+  if (!isset($menu_output[$menu_name])) {
+    if ($forced == TRUE) {
+      $tree = menu_access_menu_tree_forced_data($menu_name);
+    }
+    else {
+      $tree = menu_access_menu_tree_page_data($menu_name, $isexpanded);
+    }
+    $menu_output[$menu_name] = menu_access_menu_tree_output($tree);
+  }
+  return $menu_output[$menu_name];
+}
+
+function menu_access_get_menu_Item($mlid = 0) {
+  
+  $menu_item = NULL;
+  
+  if ($mlid != 0) {
+    $menu_item = db_fetch_array(db_query("SELECT mi.* FROM {menu_links} AS mi WHERE mlid = %d", $mlid));
+  }
+  
+  return $menu_item;
+}
+
+/**
+ * Returns a rendered menu tree.
+ *
+ * @param $tree
+ *   A data structure representing the tree as returned from menu_tree_data.
+ * @return
+ *   The rendered HTML of that data structure.
+ */
+function menu_access_menu_tree_output($tree) {
+  $output = '';
+  $items = array();
+
+  // Pull out just the menu items we are going to render so that we
+  // get an accurate count for the first/last classes.
+  foreach ($tree as $data) {
+    if (!$data['link']['hidden']) {
+      $items[] = $data;
+    }
+  }
+
+  $num_items = count($items);
+  foreach ($items as $i => $data) {
+    $extra_class = NULL;
+    if ($i == 0) {
+      $extra_class = 'first';
+    }
+    if ($i == $num_items - 1) {
+      $extra_class = 'last';
+    }
+    $link = theme('menu_item_link', $data['link']);
+    if ($data['below']) {
+      $output .= theme('menu_item', $link, $data['link']['has_children'], menu_access_menu_tree_output($data['below']), $data['link']['in_active_trail'], $extra_class);
+    }
+    else {
+      $output .= theme('menu_item', $link, $data['link']['has_children'], '', $data['link']['in_active_trail'], $extra_class);
+    }
+  }
+  return $output ? theme('menu_tree', $output) : '';
+}
+
+
+
+/**
+ * Get menu item children
+ *
+ * @param $mlid
+ *   The menu item id
+ * @return
+ *   An array of menu item ids for all children menu items.
+ */
+function menu_access_menu_get_child_by_menu_item($mlid) {
+  $children = array();
+  
+  $childresult = db_query("SELECT mlid FROM {menu_links} WHERE plid = %d AND hidden <> 1", $mlid);
+  while ($child_row = db_fetch_array($childresult)) {
+    $children[] = $child_row['mlid'];
+    
+    $childarr = menu_access_menu_get_child_by_menu_item($child_row);
+    if (!empty($childarr)) {
+      $children = array_merge($childarr, $children);
+    }
+  }
+  
+  return $children;
+}
+
+
+/**
+ * Get menu children
+ *
+ * @param $menu_name
+ *   The menu item id
+ * @return
+ *   An array of menu item ids for all children menu items for the given menu_name.
+ */
+function menu_access_menu_get_child_menu_item_by_menu_name($menu_name) {
+  $children = array();
+  
+  $childresult = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '%s' AND plid = 0 AND hidden <> 1", $menu_name);
+  while ($child_row = db_fetch_array($childresult)) {
+    $children[] = $child_row['mlid'];
+    
+    $childarr = menu_access_menu_get_child_by_menu_item($child_row['mlid']);
+    if (!empty($childarr)) {
+      $children = array_merge($childarr, $children);
+    }
+  }
+  
+  return $children;
+}
+
+
+/**
+ * Get the data structure representing a named menu tree.
+ *
+ * The tree order is maintained by storing each parent in an individual
+ * field, see http://drupal.org/node/141866 for more.
+ *
+ * @param $menu_name
+ *   The named menu links to return
+ * @return
+ *   An array of menu links, in the order they should be rendered. The array
+ *   is a list of associative arrays -- these have two keys, link and below.
+ *   link is a menu item, ready for theming as a link. Below represents the
+ *   submenu below the link if there is one, and it is a subtree that has the
+ *   same structure described for the top-level array.
+ */
+function menu_access_menu_tree_forced_data($menu_name = 'primary-links') {
+  static $tree = array();
+  
+  // Generate a cache ID (cid) specific for the expanded menu.
+  // Normally a menu item is cached by page this is a extended menu that displays
+  // the same on all pages reguardless of location
+    $cid = 'links:'. $menu_name .'-expanded';
+    
+    if (!isset($tree[$cid])) {
+      // If the static variable doesn't have the data, check {cache_menu}.
+      $cache = cache_get($cid, 'cache_menu');
+      if ($cache && isset($cache->data)) {
+        // If the cache entry exists, it will just be the cid for the actual data.
+        // This avoids duplication of large amounts of data.
+        $cache = cache_get($cache->data, 'cache_menu');
+        if ($cache && isset($cache->data)) {
+          $data = $cache->data;
+        }
+      }
+      // If the tree data was not in the cache, $data will be NULL.
+      if (!isset($data)) {
+        // Build and run the query, and build the tree.
+        // Check whether a menu link exists that corresponds to the current path.
+          
+          $parents[] = '0';
+          $parents_result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '%s' AND plid = 0 AND hidden <> 1", $menu_name);
+          while ($row = db_fetch_array($parents_result)) {
+            $parents[] = $row['mlid'];
+          }
+        // Stage One: Get top Link elements
+        
+          $children = menu_access_menu_get_child_menu_item_by_menu_name($menu_name);
+        
+          $args = $parents = array_unique(array_values($parents));
+          
+          $args = array_unique(array_merge($args, $children));
+          
+          //$args = array_diff(array_merge($args, $children), array_intersect($args, $children));
+          
+          $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+        
+        //menu_access_menu_get_child_menu_item_by_menu_name($menu_name);
+        
+        // Check whether a menu link exists that corresponds to the current path.
+              /*
+              $children = menu_access_menu_get_child_menu_item_by_menu_name($menu_name);
+              
+              //$children = db_fetch_array(db_query("SELECT mlid FROM {menu_links} WHERE plid = %d", $mlid));
+              if (!empty($children)) {
+                $childplaceholders = implode(', ', array_fill(0, count($children), '%d'));
+              } else {
+                $childplaceholders = '';
+              }
+              
+              
+              do {
+                $result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '%s' AND has_children = 1 AND plid IN (". $childplaceholders .") AND mlid NOT IN (". $childplaceholders .")", array_merge(array($menu_name), $children));
+                $num_rows = FALSE;
+                while ($item = db_fetch_array($result)) {
+                  $args[] = $item['mlid'];
+                  $num_rows = TRUE;
+                }
+                $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+              } while ($num_rows);
+              array_unshift($args, $mlid);
+            */
+        
+            /*
+              do {
+                $result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '".$menu_name."' AND has_children = 1 AND plid IN (". $placeholders .") AND mlid NOT IN (". $placeholders .")", $args);
+                $num_rows = FALSE;
+                while ($item = db_fetch_array($result)) {
+                  $args[] = $item['mlid'];
+                  $num_rows = TRUE;
+                }
+                $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+              } while ($num_rows);
+              array_unshift($args, $mlid);
+            */
+        
+        $data['tree'] = menu_tree_data(db_query("
+          SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+          FROM {menu_links} ml LEFT JOIN {menu_router} m ON m.path = ml.router_path
+          WHERE ml.menu_name = '". $menu_name ."' AND ml.plid IN (". $placeholders .")
+          ORDER BY p1 ASC, p2 ASC, p3 ASC, p4 ASC, p5 ASC, p6 ASC, p7 ASC, p8 ASC, p9 ASC", $args), $parents);
+        
+        $data['node_links'] = array();
+        menu_tree_collect_node_links($data['tree'], $data['node_links']);
+        
+        // Cache the data, if it is not already in the cache.
+        $tree_cid = _menu_tree_cid($menu_name, $data);
+        if (!cache_get($tree_cid, 'cache_menu')) {
+          cache_set($tree_cid, $data, 'cache_menu');
+        }
+        // Cache the cid of the (shared) data using the page-specific cid.
+        cache_set($cid, $tree_cid, 'cache_menu');
+        
+      }
+      
+      // Check access for the current user to each item in the tree.
+      menu_access_menu_tree_check_access($data['tree'], $data['node_links']);
+      $tree[$cid] = $data['tree'];
+    }
+    return $tree[$cid];
+
+}
+
+
+
+
+/**
+ * Get the data structure representing a menu tree, based on the mlid passed.
+ *
+ * The tree order is maintained by storing each parent in an individual
+ * field, see http://drupal.org/node/141866 for more.
+ *
+ * @param $mlid
+ *   The menu item id
+ * @return
+ *   An array of menu links, in the order they should be rendered. The array
+ *   is a list of associative arrays -- these have two keys, link and below.
+ *   link is a menu item, ready for theming as a link. Below represents the
+ *   submenu below the link if there is one, and it is a subtree that has the
+ *   same structure described for the top-level array.
+ */
+function menu_access_menu_tree_menu_item_data($mlid, $isexpanded = FALSE) {
+  
+  $tree = array();
+
+  $menulink = db_fetch_array(db_query("SELECT * FROM {menu_links} WHERE mlid = %d", $mlid));
+  $menurouter = menu_get_item($menulink["link_path"]);
+  $pageitem = menu_get_item();
+  
+  // Load the menu item corresponding to the current page.
+  //if ($item = menu_get_item()) {
+    // Generate a cache ID (cid) specific for this page.
+    $cid = 'links:'. $mlid .':page-cid:'. $menurouter['href'] .':'. (int)$menurouter['access'];
+    
+    /*
+    if (!isset($tree[$cid])) {
+      // If the static variable doesn't have the data, check {cache_menu}.
+      $cache = cache_get($cid, 'cache_menu');
+      if ($cache && isset($cache->data)) {
+        // If the cache entry exists, it will just be the cid for the actual data.
+        // This avoids duplication of large amounts of data.
+        $cache = cache_get($cache->data, 'cache_menu');
+        if ($cache && isset($cache->data)) {
+          $data = $cache->data;
+        }
+      }
+      // If the tree data was not in the cache, $data will be NULL.
+      if (!isset($data)) {
+    */
+      
+      
+      
+        // Build and run the query, and build the tree.
+        if ($menurouter['access']) {
+        
+            $parents = array();
+            
+          if ($isexpanded) {
+          
+            
+          
+            //$parents = db_fetch_array(db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '%s' AND p1 = %d AND hidden <> 1", $menulink['menu_name'], $mlid));
+            
+            $parents[] = $mlid;
+            $parents = db_fetch_array(db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '%s' AND plid= %d AND hidden <> 1", $menulink['menu_name'], $mlid));
+            
+            if (!empty($parents) && is_array($parents)) {
+              
+              $parents = array_unique(array_values($parents));
+              rsort($parents);
+              
+              // remove 0 to clear the root
+              if (array_key_exists(0, $parents)) {
+                array_pop($parents);
+              }
+              $args = $parents = array_unique(array_values($parents));
+            }
+            
+            // Stage One: Get top Link elements
+            $children = menu_access_menu_get_child_by_menu_item($mlid);
+          
+            $args = $parents = array_unique(array_values($parents));
+            
+            $args = array_unique(array_merge($args, $children));
+            
+            if (!empty($args)) {
+              $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+            }
+            else {
+              $placeholders = "";
+            }
+            
+          }
+          else {
+            
+            // Check whether a menu link exists that corresponds to the current path.
+            if (!empty($pageitem)) {
+              $args = array($pageitem['href']);
+              $placeholders = "'%s'";
+              
+              $pageparents = db_fetch_array(db_query("SELECT mlid, p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '". $menulink['menu_name'] ."' AND plid <> ". $mlid ." AND link_path IN ( ". $placeholders ." )", $args));
+              
+              if ($pageparents == FALSE) {
+                $pageparents = db_fetch_array(db_query("SELECT mlid, p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '". $menulink['menu_name'] ."' AND plid = ". $mlid  ." AND link_path IN ( ". $placeholders ." )", $args));
+              }
+            }
+            
+            $args = array();
+            $placeholders = "";
+            
+              //$parents[] = $mlid;
+            $parents = db_fetch_array(db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '". $menulink['menu_name'] ."' AND plid = ". $mlid ." AND hidden <> 1"));
+            
+            if (!is_array($parents)) {
+              $parents = array();
+            }
+            
+            if (is_array($pageparents) && is_array($parents)) {
+              $parents = array_merge($parents, $pageparents);
+            }
+            
+            if (is_array($parents)) {
+              
+              $parents = array_unique(array_values($parents));
+              rsort($parents);
+              
+              // remove 0 to clear the root
+              $parents = menu_access_remove_array_value(0, $parents);
+              
+              $args = $parents; //= array_unique(array_values($parents));
+            }
+            
+            if (!empty($args)) {
+              $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+            }
+            else {
+              $placeholders = "";
+            }
+            
+              $expanded = variable_get('menu_expanded', array());
+              // Check whether the current menu has any links set to be expanded.
+              if (in_array($menulink['menu_name'], $expanded)) {
+                // Collect all the links set to be expanded, and then add all of
+                // their children to the list as well.
+                do {
+                  $result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '". $menulink['menu_name'] ."' AND plid IN (". $placeholders .") AND mlid NOT IN (". $placeholders .")", array_merge($args, $args));
+                  $num_rows = FALSE;
+                  while ($item = db_fetch_array($result)) {
+                    $args[] = $item['mlid'];
+                    $num_rows = TRUE;
+                  }
+                  $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+                } while ($num_rows);
+              }
+              //array_unshift($args, $menulink['menu_name']);
+            
+          }
+        }
+        else {
+          // Show only the top-level menu items when access is denied.
+          $parents_result = db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '%s' AND plid = %d AND hidden <> 1", $menulink['menu_name'], $mlid);
+            while ($row = db_fetch_array($parents_result)) {
+              $parents[] = $row['mlid'];
+            }
+          $args = $parents;
+          if (!empty($args)) {
+              $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+            }
+          else {
+              $placeholders = "";
+            }
+          
+        }
+        
+        if (!empty($args)) {
+        
+        $data['tree'] = menu_tree_data(db_query("
+          SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+          FROM {menu_links} ml LEFT JOIN {menu_router} m ON m.path = ml.router_path
+          WHERE ml.menu_name = '". $menulink['menu_name'] ."' AND ml.plid IN (". $placeholders .")
+          ORDER BY p1 ASC, p2 ASC, p3 ASC, p4 ASC, p5 ASC, p6 ASC, p7 ASC, p8 ASC, p9 ASC", $args), $parents);
+        
+        }
+        else {
+          $data['tree'] = array();
+        }
+        
+        $data['node_links'] = array();
+        menu_tree_collect_node_links($data['tree'], $data['node_links']);
+        /*
+        // Cache the data, if it is not already in the cache.
+        $tree_cid = _menu_tree_cid($mlid, $data);
+        if (!cache_get($tree_cid, 'cache_menu')) {
+          cache_set($tree_cid, $data, 'cache_menu');
+        }
+        // Cache the cid of the (shared) data using the page-specific cid.
+        cache_set($cid, $tree_cid, 'cache_menu');
+        
+      }
+      */
+      // Check access for the current user to each item in the tree.
+      menu_access_menu_tree_check_access($data['tree'], $data['node_links']);
+      $tree[$cid] = $data['tree'];
+    //}
+    return $tree[$cid];
+  //}
+
+  //return array();
+}
+
+
+
+function menu_access_remove_array_value($needle, $haystack) {
+  
+  $resultarray = array();
+  $targetkey = (isset($needle)) ? array_search($needle, $haystack) : FALSE;
+  
+  if ($targetkey != FALSE) {
+    
+      foreach ($haystack as $itemkey => $itemvalue) {
+        if ($itemkey != $targetkey) {
+          $resultarray[] = $itemvalue;
+        }
+      }
+    
+  }
+  else {
+    $resultarray = $haystack;
+  }
+  
+  return $resultarray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Get the data structure representing a named menu tree, based on the current page.
+ *
+ * The tree order is maintained by storing each parent in an individual
+ * field, see http://drupal.org/node/141866 for more.
+ *
+ * @param $menu_name
+ *   The named menu links to return
+ * @return
+ *   An array of menu links, in the order they should be rendered. The array
+ *   is a list of associative arrays -- these have two keys, link and below.
+ *   link is a menu item, ready for theming as a link. Below represents the
+ *   submenu below the link if there is one, and it is a subtree that has the
+ *   same structure described for the top-level array.
+ */
+function menu_access_menu_tree_page_data($menu_name = 'navigation', $isexpanded = FALSE) {
+  static $tree = array();
+
+  // Load the menu item corresponding to the current page.
+  if ($item = menu_get_item()) {
+    // Generate a cache ID (cid) specific for this page.
+    $cid = 'links:'. $menu_name .':page-cid:'. $item['href'] .':'. (int)$item['access'];
+
+    if (!isset($tree[$cid])) {
+      // If the static variable doesn't have the data, check {cache_menu}.
+      $cache = cache_get($cid, 'cache_menu');
+      if ($cache && isset($cache->data)) {
+        // If the cache entry exists, it will just be the cid for the actual data.
+        // This avoids duplication of large amounts of data.
+        $cache = cache_get($cache->data, 'cache_menu');
+        if ($cache && isset($cache->data)) {
+          $data = $cache->data;
+        }
+      }
+      // If the tree data was not in the cache, $data will be NULL.
+      if (!isset($data)) {
+        // Build and run the query, and build the tree.
+        if ($item['access']) {
+          // Check whether a menu link exists that corresponds to the current path.
+          $args = array($menu_name, $item['href']);
+          $placeholders = "'%s'";
+          if (drupal_is_front_page()) {
+            $args[] = '<front>';
+            $placeholders .= ", '%s'";
+          }
+          $parents = db_fetch_array(db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '%s' AND link_path IN (". $placeholders .")", $args));
+
+          if (empty($parents)) {
+            // If no link exists, we may be on a local task that's not in the links.
+            // TODO: Handle the case like a local task on a specific node in the menu.
+            $parents = db_fetch_array(db_query("SELECT p1, p2, p3, p4, p5, p6, p7, p8 FROM {menu_links} WHERE menu_name = '%s' AND link_path = '%s'", $menu_name, $item['tab_root']));
+          }
+          // We always want all the top-level links with plid == 0.
+          $parents[] = '0';
+
+          // Use array_values() so that the indices are numeric for array_merge().
+          $args = $parents = array_unique(array_values($parents));
+          $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+          
+          // override validation if true override and display the entire menu branch.
+          if ($isexpanded) {
+              
+              do {
+                $result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '%s' AND has_children = 1 AND plid IN (". $placeholders .') AND mlid NOT IN ('. $placeholders .')', array_merge(array($menu_name), $args, $args));
+                $num_rows = FALSE;
+                while ($item = db_fetch_array($result)) {
+                  $args[] = $item['mlid'];
+                  $num_rows = TRUE;
+                }
+                $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+              } while ($num_rows);
+              array_unshift($args, $menu_name);
+          }
+          else {
+          
+            $expanded = variable_get('menu_expanded', array());
+            // Check whether the current menu has any links set to be expanded.
+            if (in_array($menu_name, $expanded)) {
+              // Collect all the links set to be expanded, and then add all of
+              // their children to the list as well.
+              do {
+                $result = db_query("SELECT mlid FROM {menu_links} WHERE menu_name = '%s' AND expanded = 1 AND has_children = 1 AND plid IN (". $placeholders .') AND mlid NOT IN ('. $placeholders .')', array_merge(array($menu_name), $args, $args));
+                $num_rows = FALSE;
+                while ($item = db_fetch_array($result)) {
+                  $args[] = $item['mlid'];
+                  $num_rows = TRUE;
+                }
+                $placeholders = implode(', ', array_fill(0, count($args), '%d'));
+              } while ($num_rows);
+            }
+            array_unshift($args, $menu_name);
+            
+          
+          }
+        }
+        else {
+          // Show only the top-level menu items when access is denied.
+          $args = array($menu_name, '0');
+          $placeholders = '%d';
+          $parents = array();
+        }
+        // Select the links from the table, and recursively build the tree. We
+        // LEFT JOIN since there is no match in {menu_router} for an external
+        // link.
+        $data['tree'] = menu_tree_data(db_query("
+          SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+          FROM {menu_links} ml LEFT JOIN {menu_router} m ON m.path = ml.router_path
+          WHERE ml.menu_name = '%s' AND ml.plid IN (". $placeholders .")
+          ORDER BY p1 ASC, p2 ASC, p3 ASC, p4 ASC, p5 ASC, p6 ASC, p7 ASC, p8 ASC, p9 ASC", $args), $parents);
+        $data['node_links'] = array();
+        menu_tree_collect_node_links($data['tree'], $data['node_links']);
+        // Cache the data, if it is not already in the cache.
+        $tree_cid = _menu_tree_cid($menu_name, $data);
+        if (!cache_get($tree_cid, 'cache_menu')) {
+          cache_set($tree_cid, $data, 'cache_menu');
+        }
+        // Cache the cid of the (shared) data using the page-specific cid.
+        cache_set($cid, $tree_cid, 'cache_menu');
+      }
+      
+      // Check access for the current user to each item in the tree.
+      if ($data['tree'] != NULL) {
+        menu_access_menu_tree_check_access($data['tree'], $data['node_links']);
+      }
+      $tree[$cid] = $data['tree'];
+    }
+    return $tree[$cid];
+  }
+
+  return array();
+}
+
+
+/**
+ * Check access and perform other dynamic operations for each link in the tree.
+ */
+function menu_access_menu_tree_check_access(&$tree, $node_links = array(), $validate_node = TRUE) {
+  if ($node_links) {
+    // Use db_rewrite_sql to evaluate view access without loading each full node.
+    $nids = array_keys($node_links);
+    $placeholders = '%d'. str_repeat(', %d', count($nids) - 1);
+    $result = db_query(db_rewrite_sql("SELECT n.nid, n.status FROM {node} n WHERE n.status = 1 AND n.nid IN (". $placeholders .")"), $nids);
+    while ($node = db_fetch_array($result)) {
+      $nid = $node['nid'];
+      if ($validate_node == TRUE) {
+        $status = $node['status'];
+      }
+      else {
+        $status = TRUE;
+      }
+      foreach ($node_links[$nid] as $mlid => $link) {
+        // check if target node is active.
+        if ($status == TRUE) {
+          // hack to enforce menu item access.
+          if (module_exists('menu_item_access')) {
+            $node_links[$nid][$mlid]['access'] = menu_access_check_menu_item_access($mlid);
+          }
+          else {
+            $node_links[$nid][$mlid]['access'] = TRUE; 
+          }
+        }
+        else {
+          $node_links[$nid][$mlid]['access'] = FALSE;
+        }
+      }
+    }
+  }
+  _menu_access_menu_tree_check_access($tree);
+  return;
+}
+
+
+
+/**
+ * Recursive helper function for menu_tree_check_access()
+ */
+function _menu_access_menu_tree_check_access(&$tree, $validate_node = TRUE ) {
+  $new_tree = array();
+  foreach ($tree as $key => $v) {
+    $item = &$tree[$key]['link'];
+    // hack to enforce menu item access.
+        if (module_exists('menu_item_access')) {
+          $item['access'] = menu_access_check_menu_item_access($item['mlid']);
+        } 
+    _menu_link_translate($item);
+    if ($item['access']) {
+      if ($tree[$key]['below']) {
+        _menu_access_menu_tree_check_access($tree[$key]['below']);
+      }
+      // The weights are made a uniform 5 digits by adding 50000 as an offset.
+      // After _menu_link_translate(), $item['title'] has the localized link title.
+      // Adding the mlid to the end of the index insures that it is unique.
+      $new_tree[(50000 + $item['weight']) .' '. $item['title'] .' '. $item['mlid']] = $tree[$key];
+    }
+  }
+  // Sort siblings in the tree based on the weights and localized titles.
+  ksort($new_tree);
+  $tree = $new_tree;
+}
+
+
+/**
+ * Form Hook Alter for extend existing forms
+ */
+
+function menu_access_form_alter(&$form, $form_state, $form_id) {
+  
+  if ($form_id == 'menu_edit_menu') {
+    
+  // override the submit button to run the override edit/save
+    $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#submit' => array('menu_access_menu_edit_menu_submit'),
+  );
+    
+    
+  }
+}
+
+
+
+
+
+
+
+
+/**
+ * Menu Add Form Override Methods
+ */
+
+/**
+ * Submit function for adding or editing a custom menu.
+ */
+function menu_access_menu_edit_menu_submit($form, &$form_state) {
+  $menu = $form_state['values'];
+  $path = 'admin/build/menu-customize/';
+  if ($form['#insert']) {
+    // Add 'menu-' to the menu name to help avoid name-space conflicts.
+    $menu['menu_name'] = 'menu-'. $menu['menu_name'];
+    $link['link_title'] = $menu['title'];
+    $link['link_path'] = $path . $menu['menu_name'];
+    $link['router_path'] = $path .'%';
+    $link['module'] = 'menu';
+    $link['plid'] = db_result(db_query("SELECT mlid FROM {menu_links} WHERE link_path = '%s' AND module = '%s'", 'admin/build/menu', 'system'));
+    menu_link_save($link);
+    db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", $menu['menu_name'], $menu['title'], $menu['description']);
+  }
+  else {
+    db_query("UPDATE {menu_custom} SET title = '%s', description = '%s' WHERE menu_name = '%s'", $menu['title'], $menu['description'], $menu['menu_name']);
+    $result = db_query("SELECT mlid FROM {menu_links} WHERE link_path = '%s'", $path . $menu['menu_name']);
+    while ($m = db_fetch_array($result)) {
+      $link = menu_link_load($m['mlid']);
+      $link['link_title'] = $menu['title'];
+      menu_link_save($link);
+    }
+  }
+  $form_state['redirect'] = $path . $menu['menu_name'];
+}
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Menu Delete Override methods
+ * Override the default to include deletion of menu access records
+ */
+
+
+/**
+ * Menu callback; check access and get a confirm form for deletion of a custom menu.
+ */
+function menu_access_menu_delete_menu_page($menu) {
+  // System-defined menus may not be deleted.
+  if (in_array($menu['menu_name'], menu_list_system_menus())) {
+    drupal_access_denied();
+    return;
+  }
+  return drupal_get_form('menu_access_menu_delete_menu_confirm', $menu);
+}
+
+/**
+ * Build a confirm form for deletion of a custom menu.
+ */
+function menu_access_menu_delete_menu_confirm(&$form_state, $menu) {
+  $form['#menu'] = $menu;
+  $caption = '';
+  $num_links = db_result(db_query("SELECT COUNT(*) FROM {menu_links} WHERE menu_name = '%s'", $menu['menu_name']));
+  if ($num_links) {
+    $caption .= '<p>'. format_plural($num_links, '<strong>Warning:</strong> There is currently 1 menu item in %title. It will be deleted (system-defined items will be reset).', '<strong>Warning:</strong> There are currently @count menu items in %title. They will be deleted (system-defined items will be reset).', array('%title' => $menu['title'])) .'</p>';
+  }
+  $caption .= '<p>'. t('This action cannot be undone.') .'</p>';
+  return confirm_form($form, t('Are you sure you want to delete the custom menu %title?', array('%title' => $menu['title'])), 'admin/build/menu-customize/'. $menu['menu_name'], $caption, t('Delete'));
+}
+
+/**
+ * Delete a custom menu and all items in it.
+ */
+function menu_access_menu_delete_menu_confirm_submit($form, &$form_state) {
+  $menu = $form['#menu'];
+  $form_state['redirect'] = 'admin/build/menu';
+  // System-defined menus may not be deleted - only menus defined by this module.
+  if (in_array($menu['menu_name'], menu_list_system_menus())  || !db_result(db_query("SELECT COUNT(*) FROM {menu_custom} WHERE menu_name = '%s'", $menu['menu_name']))) {
+    return;
+  }
+  // Reset all the menu links defined by the system via hook_menu.
+  $result = db_query("SELECT * FROM {menu_links} ml INNER JOIN {menu_router} m ON ml.router_path = m.path WHERE ml.menu_name = '%s' AND ml.module = 'system' ORDER BY m.number_parts ASC", $menu['menu_name']);
+  while ($item = db_fetch_array($result)) {
+    menu_reset_item($item);
+  }
+  // Delete all links to the overview page for this menu.
+  $result = db_query("SELECT mlid FROM {menu_links} ml WHERE ml.link_path = '%s'", 'admin/build/menu-customize/'. $menu['menu_name']);
+  while ($m = db_fetch_array($result)) {
+    menu_link_delete($m['mlid']);
+  }
+  // Delete all the links in the menu and the menu from the list of custom menus.
+  db_query("DELETE FROM {menu_links} WHERE menu_name = '%s'", $menu['menu_name']);
+  db_query("DELETE FROM {menu_custom} WHERE menu_name = '%s'", $menu['menu_name']);
+  
+  // all permissions
+  db_query("DELETE FROM {menu_access_role} WHERE menu_name = '%s'", $menu['menu_name']);
+  db_query("DELETE FROM {menu_access_user} WHERE menu_name = '%s'", $menu['menu_name']);
+  
+  // Delete all the blocks for this menu.
+  db_query("DELETE FROM {blocks} WHERE module = 'menu' AND delta = '%s'", $menu['menu_name']);
+  db_query("DELETE FROM {blocks_roles} WHERE module = 'menu' AND delta = '%s'", $menu['menu_name']);
+  
+  menu_cache_clear_all();
+  cache_clear_all();
+  $t_args = array('%title' => $menu['title']);
+  drupal_set_message(t('The custom menu %title has been deleted.', $t_args));
+  watchdog('menu', 'Deleted custom menu %title and all its menu items.', $t_args, WATCHDOG_NOTICE);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Module menu access check function
+ */
+
+function menu_access_access($string, $account = NULL, $reset = FALSE, $menu = NULL) {
+  global $user;
+  static $perm = array();
+  $result = FALSE;
+
+
+  if ($reset) {
+    unset($perm);
+  }
+
+  if (is_null($account) || $account == '') {
+    $account = $user;
+  }
+
+  // User #1 has all privileges:
+  if ($account->uid == 1) {
+    return TRUE;
+  }
+
+  // To reduce the number of SQL queries, we cache the user's permissions
+  // in a static variable.
+  if (!isset($perm[$account->uid])) {
+    $result = db_query("SELECT p.perm FROM {role} r INNER JOIN {permission} p ON p.rid = r.rid WHERE r.rid IN (". db_placeholders($account->roles) .")", array_keys($account->roles));
+
+    $perms = array();
+    while ($row = db_fetch_object($result)) {
+      $perms += array_flip(explode(', ', $row->perm));
+    }
+    $perm[$account->uid] = $perms;
+  }
+
+  // user has permissions
+  $result = isset($perm[$account->uid][$string]);
+  
+  // if the menu is passed permission validation check that the user has access rights.
+  if ($result == TRUE) {
+    
+    $global_access = FALSE;
+    
+    // check if the user is assigned to view the menu
+      $result = menu_access_macl_get_user_grant_by_name('view', $menu['menu_name'], $account->uid);
+      
+      $global_access = $result;
+      
+    // if the user is not explicity assigned to view the menu
+    // check if the user is assigned to any roles allowed to view it.
+    if ($result == FALSE) {
+      $settings = menu_access_per_menu_setting('view', $menu);
+      
+      $userroles = $account->roles;
+      
+      
+      foreach ($userroles as $key => $value) {
+        $search_set = array_search($key, $settings);
+        if ($search_set != -1 && $search_set != FALSE) {
+          $result = TRUE;
+        }
+      }
+      
+    }
+  }
+  return $result;
+}
+
+
+
+
+
+
+
+
+
+
+/**
+  * implements the hook_admin()
+  * This is the main administration form of defining global security settings.
+  */
+function menu_access_admin_settings() {
+  $roles = menu_access_get_roles_and_author();
+ 
+  //per menu
+  $form['menu'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Per menu access control settings'),
+    '#collapsible' => TRUE,
+    '#description' => t('Optionally you can enable per menu access control settings. '.
+      'Configure access per menu at the menu access permissions page.'),
+  );
+  
+  $form['menu']['per_menu'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable per menu access control settings'),
+    '#default_value' => menu_access_get_settings('per_menu'),
+    //'#default_value' => TRUE,
+  );
+   
+  //defaults
+  $form['defaults'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Default access control settings'),
+    '#collapsible' => TRUE,
+    '#description' => t('If per menu settings are available, the default settings will be overridden by the settings below.'),
+  );
+  drupal_add_css(drupal_get_path('module', 'menu_access') .'/menu_access.css');
+ 
+  $form['defaults']['view'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('View'),
+    '#default_value' => menu_access_get_settings('view'),
+  );
+  $form['defaults']['update'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('Edit'),
+    '#default_value' => menu_access_get_settings('update'),
+  );
+  $form['defaults']['delete'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('Delete'),
+    '#default_value' => menu_access_get_settings('delete'),
+  );
+  $form['defaults']['clearer'] = array(
+    '#value' => '<br clear="all" />',
+  );
+  $priority = menu_access_get_settings('priority');
+  $form['advanced'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['advanced']['priority'] = array(
+    '#type' => 'weight',
+    '#title' => t('Give menu grants priority'),
+    '#default_value' => $priority,
+    '#description' => t('If you are only using this access control module, you can safely ignore this. '.
+      'If you are using multiple access control modules you can adjust the priority of this module.'),
+  ); 
+  
+  //$form['type'] = array('#type' => 'value', '#value' => $type);
+  
+  $form['save'] = array(
+      '#type' => 'submit',
+      '#value' => t('Save configuration'),
+      '#submit' => array('menu_access_admin_settings_submit'),
+      '#weight' => 10,
+    );
+  
+  $form['default'] = array(
+      '#type' => 'submit',
+      '#value' => t('Reset to defaults'),
+      '#submit' => array('menu_access_admin_settings_reset'),
+      '#weight' => 11,
+    );
+  
+  //$form['#submit'][] = 'menu_access_admin_settings_submit';
+  
+  return $form;
+}
+
+
+/**
+  * Saves the settings for the menu default settings admin form.
+  */
+  
+function menu_access_admin_settings_submit($form, &$form_state) {
+  $form_values = $form_state['values'];
+  $per_menu_old = menu_access_get_settings('per_menu');
+  $settings = menu_access_get_settings();
+  
+    // variables available 'view', 'update', 'delete', 'per_menu', 'priority'
+  $available_settings = menu_access_available_settings();
+  
+  if (!empty($available_settings) && is_array($available_settings)) {
+    foreach ($available_settings as $setting) {
+
+      if (is_array($form_values[$setting])) {
+        unset($form_values[$setting][0]);
+        //$form_values[$setting][0] = array();
+        $form_values[$setting] = array_filter($form_values[$setting]);
+        //$settings[$setting] = strval($form_values[$setting]);
+        $settings[$setting] = $form_values[$setting];
+      }
+      else {
+        $settings[$setting] = $form_values[$setting];
+      }
+    }
+  }
+    menu_access_set_settings($settings);
+    
+  // now update all menus with the global settings  
+  // mass update all nodes that use default settings
+  
+  // --- stage one
+  // if the new settings are enabled and the old settings where enabled
+  if (menu_access_get_settings('per_menu') && $per_menu_old) {
+    $sql = "SELECT {menu_custom}.menu_name FROM {menu_custom} LEFT JOIN {menu_access_role} ON {menu_access_role}.menu_name = {menu_custom}.menu_name WHERE {menu_access_role}.menu_name IS NULL";
+  }
+  // else get all menu names
+  else {
+    $sql = "SELECT {menu_custom}.menu_name FROM {menu_custom}";
+  }
+  
+  $result = db_query($sql);
+  
+  // -- stage two  
+  // loop through the returned list
+  while ($menu = db_fetch_object($result)) {
+    // Assign grants to the menu objects
+    menu_access_acquire_grants(menu_load($menu->menu_name));
+  }
+    
+    menu_rebuild();
+    
+    drupal_set_message(t('Your settings have been saved.'));
+}
+
+/**
+  * Resets the admin settings if reset is submitted.
+  */
+
+
+function menu_access_admin_settings_reset($form, &$form_state) {
+  
+   variable_del('menu_access_settings');
+   variable_set('menu_access_settings', array('per_menu' => '1', 'priority' => '10', 'view' => array('1', '2'), 'update' => array('2'), 'delete' => array('2')));
+  
+     menu_rebuild();
+  
+   drupal_set_message(t('Default settings restored.'));
+    
+}
+
+
+/**
+  * Menu Access per menu Pages
+  */
+function menu_access_settings_form(&$form_state, $menu) {
+  
+  //menu_cache_clear_all();
+  
+  $roles = menu_access_get_roles_and_author();
+  
+  $form['menu'] = array(
+    '#type' => 'hidden', 
+    '#value' => $menu['menu_name'],
+    );
+  
+  
+  $form['settings'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Role access control settings'),
+    '#collapsible' => TRUE,
+  );
+  drupal_add_css(drupal_get_path('module', 'menu_access') .'/menu_access.css');
+   
+   $form['settings']['view'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('View'),
+    '#default_value' => menu_access_per_menu_setting('view', $menu),
+  );
+ 
+  $form['settings']['update'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('Edit'),
+    '#default_value' => menu_access_per_menu_setting('update', $menu),
+  );
+  $form['settings']['delete'] = array('#type' => 'checkboxes',
+    '#prefix' => '<div class="menu_access-div">',
+    '#suffix' => '</div>',
+    '#options' => $roles,
+    '#title' => t('Delete'),
+    '#default_value' => menu_access_per_menu_setting('delete', $menu),
+  );
+ 
+ 
+  $form['settings']['clearer'] = array(
+    '#value' => '<br clear="all" />',
+  );
+  
+  
+    $form['macl'] = array(
+      '#type' => 'fieldset', 
+      '#title' => t('User access control lists'),
+      '#description' => t('These settings allow you to grant access to specific users. <br />Explicity assigning a user to view, update, or delete access will disreguard the roles assigned to the user. Meaning, explicitly granting rights to user to a menu will take precedence over any rules defines for roles.'),
+      '#collapsible' => TRUE,
+      '#tree' => TRUE,
+    );
+  
+    /*
+    
+    Display code that works.
+    */
+    
+    foreach (array('view', 'update', 'delete') as $op) {
+        
+        //menu_access_macl_edit_form($menu['menu_name']);
+        $form['macl'][$op] = menu_access_macl_edit_form($menu['menu_name'], 'Grant '. $op .' access ', $op);
+
+        
+        //$form['macl'][$op]['#collapsed'] =  !isset($_POST['macl'][$op]['add_button']) && !isset($_POST['macl'][$op]['delete_button']);
+        //$form['macl'][$op]['#collapsed'] = menu_access_validate_userlist($form, $menu);
+        // hack - for now always display the listing open.
+        $form['macl'][$op]['#collapsed'] = FALSE;
+    }
+    
+  $form['submit'] = array(
+  '#type' => 'submit',
+  '#value' => t('Save'),
+  '#submit' => array('menu_access_settings_submit'),
+  '#weight' => 10,
+  );
+  
+  return $form;
+}
+
+/**
+ * Utility function to validate if the grant user sections should be open by default
+ */
+function menu_access_validate_userlist(&$form_state, $menu) {
+  
+  foreach (array('view', 'update', 'delete') as $op) {
+    
+      if (isset($_POST['macl'][$op]['user_list'])) {
+        if ($_POST['macl'][$op]['user_list'] != 'a:0:{}' && $_POST['macl'][$op]['user_list'] != '') {
+          return FALSE;
+        }
+      }
+      
+      else if ($form_state['post']['macl'][$op]['user_list'] != 'a:0:{}' && $form_state['post']['macl'][$op]['user_list'] != '') {
+          return FALSE;  
+      }
+      
+      else {
+          if (!isset($_POST['macl'][$op]['add_button']) && !isset($_POST['macl'][$op]['delete_button'])) {
+            return TRUE;
+          }
+      }
+      
+  return TRUE;
+  }
+}
+
+
+
+/**
+  * Saves the settings for the menu default settings admin form.
+  */
+  
+function menu_access_settings_submit($form, &$form_state) {
+  
+  $form_values = $form_state['values'];
+  
+  $menu = $form_values['menu'];
+  $settings = array();
+  
+  foreach (array('view', 'update', 'delete') as $op) {
+    // set the settings so that further calls will return this setting
+    if (is_array($form_values)) {
+      unset($form_values[$op][0]);
+      $settings[$op] = array_filter($form_values[$op]);
+    }
+  }
+  
+   //save new settings for later..
+  menu_access_save_per_menu_settings($menu, $settings);
+
+  //apply new settings
+  //node_access_acquire_grants($node);
+  
+  
+  if (isset($form_values['macl'])) {
+    
+      $form_per_user = $form_values['macl'];
+    
+      menu_access_macl_save_settings($menu, $form_per_user);
+    
+  }
+  
+  // if the menu item access module is enabled
+  if (module_exists('menu_item_access')) {
+    
+      // apply the same permissions of the menu to the navigation menu item.
+      
+      // first load the menu item
+      $menu_obj = menu_load($menu);
+      
+      // Second find the menu item
+      $menu_item = db_fetch_array(db_query("SELECT * FROM {menu_links} WHERE menu_name = '%s' AND link_path = 'admin/build/menu-customize/%s'", 'navigation', $menu_obj["menu_name"]));
+      
+      // Set role access for the menu item
+      menu_item_access_save_per_menu_settings($menu_item["mlid"], $settings);
+      
+      if (isset($form_values['macl'])) {
+        menu_item_access_macl_save_settings($menu_item["mlid"], $form_values['macl']);
+      }
+  }
+  
+  //save new settings for later..
+  //content_access_save_per_node_settings($node, $settings);
+
+  //apply new settings
+  //node_access_acquire_grants($node);
+  
+   menu_cache_clear_all();
+   menu_rebuild();
+  
+  drupal_set_message('Your changes have been saved.');
+}
+
+
+
+/**
+  * Role management methods
+  */
+  
+/*
+ * Returns the menu_access' settings
+ * @param $return One of the menu_access_available_settings(), e.g. 'view' or 'permenu'
+ */
+function menu_access_get_settings($return = 'all') {
+  if ($return == 'all') {
+    return variable_get('menu_access_settings', array());
+  }
+  else {
+    $settings = menu_access_get_settings();
+    return isset($settings[$return]) ? $settings[$return] : array();
+  }
+}
+
+/*
+ * Saves the menu_access settings - needs the complete settings array
+ */
+function menu_access_set_settings($settings) {
+  //cleanup the settings before saving
+  foreach (menu_access_available_settings() as $setting) {
+    if (isset($settings[$setting]) && is_array($settings[$setting])) {
+      foreach ($settings[$setting] as $type => $value) {
+        if (!isset($value)) {
+          unset($settings[$setting][$type]);
+        }
+      }
+    }
+  }
+  variable_set('menu_access_settings', $settings);
+}
+
+
+/*
+ * returns an array containing all available content_access settings
+ */
+function menu_access_available_settings() {
+  $temp_arr = array('view', 'update', 'delete', 'per_menu', 'priority');
+  return $temp_arr;
+}
+
+
+/*
+ * Defines default values for settings
+ */
+function menu_access_get_setting_defaults($setting) {
+  switch ($setting) {
+    default:
+      return array();
+    case 'view':
+      return array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID);
+    case 'delete':
+      return array(DRUPAL_AUTHENTICATED_RID);
+    case 'update':
+      //$roles = menu_access_get_permission_access('edit menu content');
+      /*
+      if (count(array_diff(array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID), menu_access_get_permission_access('edit own menu content'))) == 0) {
+        $roles[] = 'author';
+      }
+      */
+      //return $roles;
+      return array(DRUPAL_AUTHENTICATED_RID);
+    case 'priority':
+      return 0;
+  }
+}
+
+
+
+/**
+  * Utility methods
+  */
+
+/**
+  * Returns an array of role ids, that contain the given permission
+  */
+function menu_access_get_permission_access($perm) {
+  static $roles = array();
+
+  if (!isset($roles[$perm])) {
+    $roles[$perm] = array_keys(user_roles(0, $perm));
+  }
+  return $roles[$perm];
+}
+
+  
+  
+  
+/*
+ * Returns all possible roles with an added item "author"
+ */
+function menu_access_get_roles_and_author() {
+  static $roles;
+  if (!isset($roles)) {
+    //$roles = array('author' => t('author')) + user_roles();
+    $roles = user_roles();
+  }
+  return $roles;
+}  
+
+
+/**
+  * Menu Permission Utility Methods
+  */
+
+/*
+ * Returns the per menu role settings. If no per node settings are available, it will return the
+ * default settings
+ * 
+ * @param $op One of view, update or delete
+ * @param $menu The menu object
+ * @param $settings (optional) This may be used to update the settings cache with the given settings
+ * @return An array of role ids which have access
+ */
+function menu_access_per_menu_setting($op, $menu, $settings = NULL) {
+  
+  
+  static $grants = array();
+ 
+  if (isset($settings)) {
+    //update settings cache
+    $grants[$menu['menu_name']] = $settings;
+    return;
+  }
+  if (!isset($grants[$menu['menu_name']])) {
+    //load settings from db
+    $grants[$menu['menu_name']] = menu_access_get_per_menu_settings($menu);
+  }
+  
+  //apply the defaults if no per menu settings are available
+  return isset($grants[$menu['menu_name']][$op]) ? $grants[$menu['menu_name']][$op] : menu_access_get_settings($op);
+}
+
+/*
+ * Saves custom per node settings in the own content_access table
+ */
+function menu_access_save_per_menu_settings($menu, $settings) {
+ // function expects an array, the array contains a group of view, edit, delete arrays listing role ids.
+ 
+ // setup defaults
+ $grant_view = 0;
+ $grant_edit = 0;
+ $grant_delete = 0;
+ $realm = 'menu access';
+ 
+ // get all active roles
+ $roles = user_roles();
+ 
+ // check that settings are not empty
+ if (!empty($settings) && is_array($settings)) {
+    // loop through each role
+    foreach ($roles as $role => $rolevalue) {
+      // Check if the role exists in each of the permission sets
+      
+      // view
+      $view_result = array_search($role, $settings['view']);
+      if ($view_result !== FALSE && $view_result != -1) { 
+        $grant_view = 1;
+      }
+      
+      // edit
+      $edit_result = array_search($role, $settings['update']);
+      if ($edit_result !== FALSE && $edit_result != -1) { 
+        $grant_edit = 1;
+      }
+      
+      // delete
+      $delete_result = array_search($role, $settings['delete']);
+      if ($delete_result !== FALSE && $delete_result != -1) { 
+        $grant_delete = 1;
+      }
+      
+      // now if all grants are empty delete the role for the menu.
+      if ($grant_view == 0 && $grant_edit == 0 && $grant_delete == 0) {
+          
+          // this should do nothing if no record exists
+          db_query("DELETE FROM {menu_access_role} WHERE menu_name = '%s' AND rid = '%d'", $menu, $role);
+      }
+      else {
+        // try to update an existing role record for the menu
+        db_query("UPDATE {menu_access_role} SET menu_name = '%s', rid = '%d', realm = '%s', grant_view = '%d', grant_update = '%d', grant_delete = '%d' WHERE menu_name = '%s' and rid = '%d'", $menu, $role, $realm, $grant_view, $grant_edit, $grant_delete, $menu, $role);
+        
+        // check if the update did anything
+        if (!db_affected_rows()) { 
+          
+            // insert instead
+            db_query("INSERT INTO {menu_access_role} (menu_name, rid, realm, grant_view, grant_update, grant_delete) values ('%s', %d, '%s', %d, %d, %d)", $menu, $role, $realm, $grant_view, $grant_edit, $grant_delete);
+          
+        }
+      }
+      
+       $grant_view = 0;
+       $grant_edit = 0;
+       $grant_delete = 0;
+      
+    }
+  }
+}
+
+/*
+ * Gets the per node settings of a node
+ * Note: This function won't apply defaults, so if there are no other settings 
+ * it will return an empty array
+ */
+function menu_access_get_per_menu_settings($menu) {
+  
+  $settings = array();
+  $results = db_query("SELECT rid, grant_view, grant_update, grant_delete from {menu_access_role} WHERE menu_name = '%s'", $menu['menu_name']);
+  
+  while ($accessitem = db_fetch_array($results)) {
+    if ($accessitem['grant_view'] == 1) {
+      $settings['view'][] = $accessitem['rid'];
+    }
+    if ($accessitem['grant_update'] == 1) {
+      $settings['update'][] = $accessitem['rid'];
+    }
+    if ($accessitem['grant_delete'] == 1) {
+      $settings['delete'][] = $accessitem['rid'];
+    }
+  }
+  
+  if (empty($settings)) {
+    return array();
+  }
+  
+  //return unserialize($settings);
+  return $settings;
+}
+
+
+
+/**
+  * Menu Grant Methods
+  */
+
+  
+/**
+    * Aquires a list of grants for the menu
+    */
+function menu_access_acquire_grants($menu) {
+  $grants = module_invoke_all('menu_access_records', $menu);
+  if (empty($grants)) {
+    $grants[] = array('realm' => 'all', 'grant_view' => 1, 'grant_update' => 0, 'grant_delete' => 0);
+  }
+  else {
+    // retain grants by highest priority
+    $grant_by_priority = array();
+    foreach ($grants as $g) {
+      $grant_by_priority[intval($g['priority'])][] = $g;
+    }
+    krsort($grant_by_priority);
+    $grants = array_shift($grant_by_priority);
+  }
+
+  node_access_write_grants($node, $grants);
+}
+
+
+
+
+/**
+  * Validates access rights for a menu
+  */
+function menu_access($op, $menu, $account = NULL) {
+  global $user;
+
+  if (!$menu) {
+    return FALSE;
+  }
+  // Convert the menu to an object if necessary:
+  if ($op != 'create') {
+    $menu = menu_load($menu);
+  }
+  // If no user object is supplied, the access check is for the current user.
+  if (empty($account)) {
+    $account = $user;
+  }
+  // If the node is in a restricted format, disallow editing.
+  if ($op == 'update' && !filter_access($menu->format)) {
+    return FALSE;
+  }
+
+  /*
+  if (user_access('administer menus', $account)) {
+    return TRUE;
+  }
+  */
+  
+  if (!user_access('access menus', $account)) {
+    return FALSE;
+  }
+  // if the user is the superuser always return true
+  if ($account->uid == 1) {
+    return TRUE;
+  }
+  
+  // Step Zero: Check if per-menu access rights are enabled
+  if (menu_access_get_settings('per_menu') == 1) {
+  // Step One: Validate individual user access rights
+  
+    // If users are assigned to the menu
+    if (menu_access_macl_has_users($menu['menu_name']) > 0) {
+      // the user is assigned to the view option for the menu
+      if (menu_access_macl_get_user_grant_by_name($op, $menu['menu_name'], $account)) {
+        return TRUE;
+      }
+    }
+    
+    // Step Two: Validate roles access rights
+    
+    // get the menu role permissions
+    $msettings = menu_access_per_menu_setting($op, $menu);
+    
+    // check if the user roles are within the roles assigned for the given operation
+    foreach ($account->roles as $key => $value) {
+      $search_result = array_search($key, $msettings);
+      if ($search_result != -1 && $search_result != FALSE) {
+        return TRUE;
+      }
+    }
+  }
+  else {
+    // check against global settings
+      $msettings = menu_access_get_settings('all');
+      
+      // check if the user roles are within the roles assigned for the given operation
+    foreach ($account->roles as $key => $value) {
+      $search_result = array_search($key, $msettings[$op]);
+      if ($search_result != -1 && $search_result != FALSE) {
+        return TRUE;
+      }
+    }
+  }
+  /*
+  // If the module did not override the access rights, use those set in the
+  // menu_access table.
+  if ($op != 'create' && $menu->menu_name) {
+    
+    $grants = array();
+    
+    foreach (menu_access_grants($op, $account) as $realm => $gids) {
+      foreach ($gids as $gid) {
+        $grants[] = "(realm = '$realm')";
+      }
+    }
+
+    $grants_sql = '';
+    if (count($grants)) {
+      $grants_sql = 'AND ('. implode(' OR ', $grants) .')';
+    }
+
+    $sql = "SELECT COUNT(*) FROM {menu_access_role} WHERE (menu_name = '' OR menu_name = '%s') $grants_sql AND grant_$op >= 1";
+    $result = db_query($sql, $menu->menu_name);
+    return (db_result($result));
+  }
+  */
+  
+  // Let authors view their own menus.
+  if ($op == 'view' && $account->uid == $node->uid && $account->uid != 0) {
+    return TRUE;
+  }
+  
+  return FALSE;
+}
+
+
+/**
+  *  creates a global grants wrapper
+  */
+function menu_access_grants($op, $account = NULL) {
+
+  if (!isset($account)) {
+    $account = $GLOBALS['user'];
+  }
+
+  return array_merge(array('all' => array(0)), module_invoke_all('module_grants', $account, $op));
+}
+
+
+
+
+
+
+/**
+  * Menu User Access Layer methods
+  * ACL for menus
+  */
+
+
+/**
+ * Save per menu user access settings
+ */
+function menu_access_macl_save_settings($menu_name, $settings) {
+  
+  // step one
+  // purge the uses for the given menu.
+  menu_access_macl_delete($menu_name);
+  
+  // Step two
+  // Loop through the view, update and delete and build a permissions set
+  foreach (array('view', 'update', 'delete') as $op) {
+
+    if (isset($settings[$op])) {
+      $users = unserialize($settings[$op]['user_list']);
+      foreach ($users as $uid => $name) {
+        // check if a record already exists
+        $check_result = db_fetch_array(db_query("SELECT COUNT(*) AS count FROM {menu_access_user} WHERE menu_name = '%s' AND uid = %d", $menu_name, $uid));
+        // if a record exists update the grant option
+        if ($check_result['count'] != 0) {
+          db_query("UPDATE {menu_access_user} SET grant_". $op ." = 1 WHERE menu_name = '%s' AND uid = %d", $menu_name, $uid);
+          // if no roles where updated insert a new record
+        }
+        else {
+          db_query("INSERT INTO {menu_access_user} (menu_name, uid, realm, grant_". $op .") VALUES ('%s', %d, 'menu access macl', 1)", $menu_name, $uid);
+        }
+      }
+    }
+  }
+}
+
+
+
+
+/**
+ * Delete an existing MACL.
+ */
+function menu_access_macl_delete($menu_name) {
+  db_query("DELETE FROM {menu_access_user} WHERE menu_name = '%s'", $menu_name);
+}
+
+
+/**
+ * Provide a form to edit the MACL that can be embedded in other forms.
+ * Pass $new_macl=TRUE if you have no MACL yet, but do supply a string 
+ * like 'primary-nav' as $menu_name anyway.
+ */
+function menu_access_macl_edit_form($menu_name, $label = NULL, $op, $new_macl = FALSE) {
+  $users = array();
+  
+   if (!$new_macl) {
+    // Ensure the MACL in question even exists.
+   /*
+    if (!$menu_name = db_result(db_query("SELECT menu_name FROM {menu_access_user} WHERE menu_name = %d", $menu_name))) {
+      return array();
+    }
+    */
+
+    $result = db_query("SELECT u.uid, u.name FROM {users} u LEFT JOIN {menu_access_user} aclu ON aclu.uid = u.uid WHERE menu_name = '%s' AND aclu.grant_". $op ." = 1", $menu_name);
+    while ($user = db_fetch_object($result)) {
+      $users[$user->uid] = $user->name;
+    }
+  }
+  
+  if (!isset($label)) {
+    $label = $menu_name;
+  }
+
+  $form = array(
+    '#type' => 'fieldset', 
+    '#collapsible' => TRUE, 
+    '#title' => $label,
+    '#tree' => TRUE);
+
+  $form['menu_name'] = array('#type' => 'value', '#value' => $menu_name);
+
+  $form['deletions'] = array('#type' => 'checkboxes', '#options' => array()); // placeholder
+  $form['delete_button'] = array(
+    '#type' => 'button',
+    '#value' => t('Remove Checked'),
+    '#submit' => FALSE,
+  );
+
+  $form['add'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Add user'), 
+    '#maxlength' => 60, 
+    '#size' => 40,
+    '#autocomplete_path' => 'user/autocomplete',
+  );
+  $form['add_button'] = array(
+    '#type' => 'button',
+    '#value' => t('Add User'),
+    '#submit' => FALSE,
+  );
+
+  $form['user_list'] = array(
+    '#type' => 'hidden',
+    '#default_value' => serialize($users),
+  );
+
+  $form['#after_build'] = array('menu_access_macl_edit_form_after_build');
+  
+  return $form;
+}
+
+
+
+
+
+/**
+ * Process a form that had our buttons on it.
+ */
+function menu_access_macl_edit_form_after_build($form, &$form_values) {
+  
+  // We can't use form_values because it's the entire structure
+  // and we have no clue where our values actually are. That's
+  // ok tho cause #value still works for us.
+  $user_list = unserialize($form['user_list']['#value']);
+  if (isset($form['delete_button']['#post']['op']) && $form['delete_button']['#post']['op'] == $form['delete_button']['#value']) {
+    $deletions = $form['deletions']['#value'];
+    foreach ($deletions as $uid) {
+      unset($user_list[$uid]);
+      unset($form['deletions']['#value'][$uid]);
+    }
+  }
+  else if (isset($form['add_button']['#post']['op']) && $form['add_button']['#post']['op'] == $form['add_button']['#value']) {
+    $name = $form['add']['#value'];
+    if (!empty($name)) {
+      $u = db_fetch_object(db_query("SELECT uid, name FROM {users} WHERE name = '%s'", $name));
+      if (!$u->uid) {
+          form_error($form['add'], "Invalid user.");
+      }
+      else {
+        $user_list[$u->uid] = $u->name;
+        $form['add']['#value'] = NULL;
+      }
+    }
+  }
+
+  if (count($user_list) != 0) {
+    $form['deletions']['#type'] = 'checkboxes';
+    $form['deletions']['#title'] = t("Current users");
+    $form['deletions']['#options'] = $user_list;
+    $form['deletions']['#value'] = array(); // don't carry value through.
+    // need $form_id and have no way to get it but from $_POST that
+    // I can find; and if we got here that variable's already been
+    // checked.
+    $form['deletions'] = form_builder($form_values['values']['form_id'], $form['deletions'], $form_values);
+  }
+  else {
+    $form['delete_button']['#type'] = 'value';
+  }
+  $form['user_list']['#value'] = serialize($user_list);
+  return $form;
+}
+
+/**
+ * Determines if an macl has some assigned users
+ */
+function menu_access_macl_has_users($menu_name) {
+  return db_result(db_query("SELECT COUNT(aclu.uid) FROM {menu_access_user} aclu WHERE menu_name = '%s'", $menu_name));
+}
+
+
+/**
+ * Implementation of hook_user
+ */
+function menu_access_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'delete':
+      db_query("DELETE FROM {menu_access_user} WHERE uid = %d", $account->uid);
+      break;
+  }
+}
+
+
+
+/**
+  * get user access settings by menu
+  */
+function menu_access_macl_get_user_grants_by_name($account, $name) {
+  return db_result(db_query("SELECT * FROM {menu_access_user} WHERE menu_name = '%s' AND uid = %d", $name, $account->uid));
+}
+
+
+/**
+ * get user access grant by menu
+ */
+function menu_access_macl_get_user_grant_by_name($op, $name, $account = NULL) {
+  if (empty($account)) {
+    $account = $user;
+  }
+  
+  $result = db_fetch_array(db_query("SELECT * FROM {menu_access_user} WHERE menu_name = '%s' AND uid = %d", $name, $account->uid));
+  
+  if (is_array($result)) {
+    $target = 'grant_'. $op;
+    if ($result[$target] == 1) {
+      return TRUE;
+    }
+  }
+  
+  return FALSE;
+}

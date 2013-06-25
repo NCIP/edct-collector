@@ -1,0 +1,145 @@
+<?php
+// $Id: profile_checkboxes.module,v 1.1.2.2 2010/10/25 00:55:07 bacteriaman Exp $
+
+/**
+ * @file
+ * The profile_checkboxes.module file, which produces the primary functionality.
+ *
+ */
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function profile_checkboxes_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'profile_field_form':
+      if (isset($form['fields']['options'])) {
+        // list selection option field exists
+        if (isset($form['fid']['#value'])) {
+          // get choice for existing list selection field
+          $field = db_result(db_query("SELECT checkboxes FROM {profile_checkboxes} WHERE fid = %d", $form['fid']['#value']));
+        }
+
+        $form['checkboxes'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Profile checkboxes'),
+          '#weight' => 1,
+          '#collapsible' => FALSE,
+          '#collapsed' => FALSE,
+          '#description' => t('Change single list selection to multi-select or replace options with equivalent number of checkboxes or radio buttons. Warning: to prevent data loss changing this option is prohibited when checkboxes or multi-select is selected.'),
+        );
+        $options = array(t('Single list selection (default)'), t('Checkboxes (multiple choice)'), t('Radio buttons (single choice)'), t('Multi-select (multiple choice)'),);
+        $form['checkboxes']['checkboxes'] = array(
+          '#type' => 'radios',
+          '#title' => t('Display as field type'),
+          '#default_value' => ($field ? $field : 0),
+          '#options' => $options,
+          '#disabled' => (($field == 1 || $field == 3) ? TRUE : FALSE),
+        );
+
+        // special validate handler to prevent comma usage in selection options
+        $form['#validate'][] = 'profile_checkboxes_validate_handler';
+        // special submit handler to process checkboxes choice
+        $form['#submit'][] = 'profile_checkboxes_submit_handler';
+        // adjust submit button weight to appear below profile checkboxes fieldset
+        $form['submit']['#weight'] = 10;
+      }
+      break;
+    case 'user_profile_form':
+    case 'user_register':
+      $fields = $form_id == 'user_register' ? profile_checkboxes_selection_fields() : profile_checkboxes_selection_fields(arg(1));
+      while ($field = db_fetch_object($fields)) {
+        if (isset($form[$field->category][$field->name])) {
+          if (!$form[$field->category][$field->name]['#required']) {
+            // remove default selection element from options array
+            array_shift($form[$field->category][$field->name]['#options']);
+          }
+
+          switch ($field->checkboxes) {
+            case 1:
+              // change list selection field type from 'select' to 'checkboxes'
+              $form[$field->category][$field->name]['#type'] = 'checkboxes';
+              // convert comma-delimited string values to default value array
+              $form[$field->category][$field->name]['#default_value'] = explode(', ', $field->value);
+              break;
+            case 2:
+              // change list selection field type from 'select' to 'radios'
+              $form[$field->category][$field->name]['#type'] = 'radios';
+              if ($form[$field->category][$field->name]['#default_value'] == '0') {
+                // profile module records empty field value as zero text when input is not required 
+                // clear zero text value for pre-existing entry when radio button field is required
+                // will otherwise produce "An illegal choice has been detected." message on submit
+                $form[$field->category][$field->name]['#default_value'] = '';
+              }
+              break;
+            case 3:
+              // change single list selection to multi-select
+              $form[$field->category][$field->name]['#multiple'] = TRUE;
+              // convert comma-delimited string values to default value array
+              $form[$field->category][$field->name]['#default_value'] = explode(', ', $field->value);
+              break;
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Custom validate handler to prevent comma usage in selection options.
+ */
+function profile_checkboxes_validate_handler($form, &$form_state) {
+  if (($form_state['values']['checkboxes'] == 1 || $form_state['values']['checkboxes'] == 3) && strpos($form_state['values']['options'], ',')) {
+    // commas not allowed in selection options because the user values are stored as comma-delimited
+    form_set_error('options', t('The use of commas in selection options is not allowed with checkboxes or multi-select.'));
+  }
+}
+
+/**
+ * Custom submit handler to process profile field add/edit form data.
+ */
+function profile_checkboxes_submit_handler($form, &$form_state) {
+  if (isset($form_state['values']['fid'])) {
+    // delete existing record (instead of updating) to accommodate list selection fields created before enabling profile checkboxes
+    db_query("DELETE FROM {profile_checkboxes} WHERE fid = %d", $form_state['values']['fid']);
+    // use fid for existing list selection record
+    $fid = $form_state['values']['fid'];
+  }
+  else {
+    // get fid for created list selection record
+    $fid = db_query_range("SELECT fid FROM {profile_fields} WHERE type = 'selection' ORDER BY fid DESC", 0, 1);
+  }
+
+  // insert checkboxes choice for this list selection field
+  db_query("INSERT INTO {profile_checkboxes} (fid, checkboxes) VALUES (%d, %d)", $fid, $form_state['values']['checkboxes']);
+  // cleanup any orphaned records remaining from previously deleted list selections
+  db_query("DELETE FROM {profile_checkboxes} WHERE fid NOT IN (SELECT fid FROM {profile_fields})");
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function profile_checkboxes_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'validate':
+      $fields = profile_checkboxes_selection_fields($account->uid);
+      while ($field = db_fetch_object($fields)) {
+        if (isset($edit[$field->name]) && ($field->checkboxes == 1 || $field->checkboxes == 3)) {
+          // checkboxes and multi-select: convert field array values to comma-delimited string
+          $edit[$field->name] = implode(', ', array_filter($edit[$field->name]));
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Return profile list selection field data.
+ */
+function profile_checkboxes_selection_fields($uid = NULL) {
+  return db_query("SELECT pf.fid, pf.title, pf.name, pf.category, pv.value, pc.checkboxes
+                   FROM {profile_fields} pf
+                   LEFT JOIN {profile_values} pv ON pv.fid = pf.fid AND pv.uid = %d
+                   LEFT JOIN {profile_checkboxes} pc ON pc.fid = pf.fid
+                   WHERE pf.type = 'selection' AND pc.checkboxes > 0", $uid);
+}

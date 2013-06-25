@@ -1,0 +1,46 @@
+<?php
+
+function cacure_t_init(){
+//  print_r(theme('cacure_font_size'));
+//  die;
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function cacure_t_block($op = 'list', $delta = 0, $edit = array()){
+  if ($op == 'list') {
+    $blocks[13]['info'] = t('CaCure Text Size block');
+    $blocks[13]['cache'] = BLOCK_NO_CACHE;
+    return $blocks;
+  } else
+    if ($op == 'view') {
+      $block = array();
+      switch ($delta) {
+        case 13:
+          $block['subject'] = '';
+          $block['content'] = cacure_t_tset();
+          return $block;
+      }
+    }
+}
+function cacure_t_tset(){
+  $path = drupal_get_path('module', 'cacure_t') . '/js/cacure_t.js';
+  drupal_add_js($path);
+  return theme('cacure_font_size');
+}
+/**
+ * Implementation of hook_theme().
+ */
+function cacure_t_theme(){
+  $path = drupal_get_path('module', 'cacure_t');
+//  d($path); die;
+  return array(
+    //  All avaliable modules.
+    'cacure_font_size' => array(
+      'template' => 'cacure_t_block',
+      'arguments' => array('arg' => NULL),
+      'path' => $path . '/templates',
+    ),
+  );
+}

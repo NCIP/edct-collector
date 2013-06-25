@@ -1,0 +1,164 @@
+<?php
+
+function team_devel_init(){
+  drupal_add_js(drupal_get_path('module', 'team_devel') . '/js/team_devel.js');
+}
+/**
+ * Get type of protocol.
+ * @return string
+ */
+function  team_devel_getProtocol() {
+  return strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+}
+/**
+ * Function to detect browser. Need to rewrite.
+ */
+function team_devel_detect_browser(){
+  if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') ){
+     if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Netscape') ){
+       $browser = 'Netscape (Gecko/Netscape)';
+     }
+     else if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') ){
+       $browser = 'Firefox';
+     }
+     else
+     {
+       $browser = 'Mozilla';
+     }
+  }
+  else if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ){
+     if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') ){
+       $browser = 'Opera';
+     }
+     else{
+       $browser = 'IE';
+     }
+  }
+  else{
+     $browser = 'other';
+  }
+  return $browser;
+}
+/**
+ * This helper function split string in parts.
+ * @param  $string
+ * @return array
+ */
+function split_string($string, $max_characters_in_string){
+
+  $output = array();
+  $buf = '';
+  $pointer = 0;
+
+  $words_stack = explode(' ', $string); 
+  $first_word = array_shift($words_stack);
+
+  $str[$pointer] = array('keys' => array($first_word), 'count' => strlen($first_word) + 1);
+
+  foreach($words_stack as $word){
+
+    $c_word_count = strlen($word);
+
+    $current_count = $str[$pointer]['count'];
+
+    if($current_count >= $max_characters_in_string || $current_count + $c_word_count >= $max_characters_in_string){
+      $output[] = implode(' ', $str[$pointer]['keys']);
+      ++$pointer;
+      $str[$pointer] = array('keys' => array($word), 'count' => strlen($word) + 1);
+    }else{
+      $str[$pointer]['keys'][] = $word;
+      $str[$pointer]['count'] = $current_count + $c_word_count +1;
+    } 
+  }
+
+  if(count($str) > count($output)){
+    $last = array_pop($str);
+    $output[] = implode(' ', $last['keys']);
+  }
+
+  return $output;
+}
+
+/**
+ * Render objects
+ */
+function d($object = null) {
+  $args = func_get_args();
+
+  if(count($args)>1){
+    foreach($args as $arg)
+      d($arg);
+    return;
+  }
+  
+  if(is_null($object)){
+    $object = "It's work!";
+  }elseif (function_exists('krumo')) {
+    krumo($object);
+    return;
+  }
+
+  static $css_r;
+  $output = '';
+
+  $reverse =  array_pop(array_reverse(debug_backtrace()));
+  
+  $path = dirname(__FILE__) . '/css/d-render.css';
+
+  $css = '';
+
+  if ($fp = @fopen($path, 'r', 1)) {
+	  $css = fread($fp, filesize($path));
+		fclose($fp);
+	}
+
+  if(!$css_r){
+    echo  '<style type="text/css">';
+    echo $css;
+    echo '</style>';
+    $css_r = true;
+  }
+
+  $type = gettype($object);
+
+  switch ($type) {
+    case 'array';
+    case 'object':
+      $ret = '<pre>' . print_r($object, true) . '</pre>';
+      $class = get_class($object);
+      $type = $class ? $class : $type;
+      break;
+    case 'boolean':
+      $ret = '<span>' . (int) $object . '<i><b> (boolean)</b></i></span>';
+      break;
+    case 'NULL' :
+      $ret = '<span><b>NULL</b></span>';
+      break;
+    case 'resource' :
+    case 'unknown type' :
+    default:
+      $ret = '<span>' . $object . '</span>';
+  }
+
+  $output .= '<div class="d-main"><div class="clear-main clearfix"><div class="d-header">';
+
+  $output .= '<div class="d-file"><div class="clear-box clearfix"><i><b> file : </b>' . $reverse['file'] . '</i></div></div>';
+  $output .= '<div class="d-line"><div class="clear-box clearfix"><i><b> line : </b>' . $reverse['line'] . '</i></div></div>';
+  $output .= '<div class="d-type"><div class="clear-box clearfix"><div><div class="d-type-view">' . $type . '</div><div class="d-type-name"> type : </div></div></div></div>';
+  $output .= '<div class="clear"></div>';
+
+
+  $output .= '</div>';
+
+  $output .= '<div class="d-render">';
+
+  $output .= $ret;
+
+  $output .= '</div>';
+
+  $output .= '</div></div>';
+
+  echo $output;
+
+//  echo $ret . '<pre><i> line : ' . $reverse['line'] . '<br /> file : ' . $reverse['file'] . '</i></pre>';
+}

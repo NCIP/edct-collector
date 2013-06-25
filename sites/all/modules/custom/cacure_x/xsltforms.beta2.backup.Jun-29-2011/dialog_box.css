@@ -1,0 +1,107 @@
+#content {
+  padding: 20px;
+}
+
+#dialog {
+  position: absolute;
+  width: 443px;
+  padding: 5px;
+  z-index: 200;
+  background: url("../includes/images/dialog_bg.png") top left repeat-x #EEEEEE;
+  border: 1px solid #DDDDDD;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+
+}
+
+#dialog-header {
+  display: block;
+  position: relative;
+  width: 411px;
+  height: 25px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#dialog-title {
+  float: left;
+  margin: 0.1em 16px 0.2em 0;
+}
+
+#dialog-close {
+  float: right;
+  cursor: pointer;
+  margin: 8px 3px 0 0;
+  height: 11px;
+  width: 11px;
+  background: url(../includes/images/dialog_close.gif) no-repeat;
+}
+
+#dialog-content {
+  text-align: left;
+  display: block;
+  padding: 6px;
+  color: #333333;
+  font-size: 12px;
+}
+
+#dialog-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 100%;
+  background: #FFF;
+  opacity: .75;
+  filter: alpha(opacity = 75);
+  z-index: 100
+}
+
+.error {
+  border-top: none
+}
+
+.errorheader {
+  color: #6f2c2c;
+  border: 1px solid #924949;
+  border-bottom: none
+}
+
+.warning {
+  background: transparent;
+  border: none;
+}
+
+.warningheader {
+  background: url('../includes/images/modal_box.png') top right repeat-x;
+  border: 1px solid #e2002f;
+  padding: 5px 15px;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.success {
+  border: 1px solid #60a174;
+  border-top: none
+}
+
+.successheader {
+  color: #3c7f51;
+  border: 1px solid #60a174;
+  border-bottom: none
+}
+
+.prompt {
+  border: 1px solid #4f6d81;
+  border-top: none
+}
+
+.promptheader {
+  color: #355468;
+  border: 1px solid #4f6d81;
+  border-bottom: none
+}
