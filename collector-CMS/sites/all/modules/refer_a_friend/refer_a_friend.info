@@ -1,0 +1,4 @@
+name = Refer A Friend
+description = Will add a refer a friend form to drupal with optional menu item.
+package = Hammertech
+core = 6.x

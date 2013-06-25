@@ -1,0 +1,4 @@
+name = IPost
+description = Syncs IPost Database with drupal user profile information.
+package = Hammertech
+core = 6.x

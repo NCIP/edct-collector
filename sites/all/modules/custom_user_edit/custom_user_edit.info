@@ -1,5 +1,0 @@
-name = Custom User Edit
-description = Adds user edit page to path user/edit
-package = Hammertech
-core = 6.x
-php = 5.x 

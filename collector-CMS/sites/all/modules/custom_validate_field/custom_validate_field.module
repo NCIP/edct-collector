@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * Implementation of hook_perm()
+ */
+function custom_validate_field_perm() {
+    return array('administer custom_validate_field');
+}
+
+
+/**
+ * Implementation of hook_menu()
+ */
+function custom_validate_field_menu() {
+    $items = array();
+	$items['admin/settings/custom_validate_field'] = array(
+	    'title' => 'Custom User Form Validation',
+	    'description' => 'The settings page to edit rules for custom user validation.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('custom_validate_field_settings_form'),
+	    'access arguments' => array('administer custom_validate_field'),
+	    'file' => 'custom_validate_field.admin.inc',
+		'type' => MENU_NORMAL_ITEM,
+	);
+    return $items;
+}
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function custom_validate_field_form_alter(&$form, $form_state, $form_id) {
+    $isPersonalInfo = ($form_id == 'user_profile_form' && $form['_category']['#value'] == 'Personal Info');
+    $isContactInfo = ($form_id == 'user_profile_form' && $form['_category']['#value'] == 'Alternate Contact Info');
+    $isUserRegister = ($form_id == 'user_register');
+    if($isPersonalInfo || $isUserRegister) {
+    	$form['Personal Info']['profile_middle_initial']['#maxlength'] = 1;
+		$form['Personal Info']['profile_zip_code']['#maxlength'] = 12;
+    }
+    if($isPersonalInfo) $form['#validate'][] = 'custom_validate_field_validate_personal_info';
+    if($isContactInfo) $form['#validate'][] = 'custom_validate_field_validate_contact_info';
+    if($isUserRegister) {
+        $form['#validate'][] = 'custom_validate_field_validate_register';
+        $form['#validate'][] = 'custom_validate_field_validate_personal_info';
+        $form['#validate'][] = 'custom_validate_field_validate_contact_info';
+    }
+}
+
+function custom_validate_field_validate_register($form, $form_state) {
+//     check email
+//    if(!valid_email_address($form_state['values']['mail'])) {
+//		form_set_error('edit-mail', variable_get('custom_validate_field_email', 'Email is not valid.'));
+//	}
+}
+
+function custom_validate_field_validate_personal_info($form, &$form_state) {
+	// check first name
+    if(!is_letters_only($form_state['values']['profile_first_name'])) {
+	    form_set_error('edit-profile-first-name', variable_get('custom_validate_field_first_name', 'First Name may only contain letters.'));
+	}
+	// check middle initial
+    if(!empty($form_state['values']['profile_middle_initial']) && !is_letters_only($form_state['values']['profile_middle_initial'])) {
+	    form_set_error('edit-profile-middle-initial', variable_get('custom_validate_field_middle_initial', 'Middle Initial may only contain letters.'));
+	}
+	// check last name
+    if(!is_letters_only($form_state['values']['profile_last_name'])) {
+	    form_set_error('edit-profile-last-name', variable_get('custom_validate_field_last_name', 'Last Name may only contain letters.'));
+	}
+    // check city
+    if(!empty($form_state['values']['profile_city']) && !is_letters_only($form_state['values']['profile_city'])) {
+	    form_set_error('edit-profile-city', variable_get('custom_validate_field_city', 'City may only contain letters.'));
+	}
+	// check province
+    if(!empty($form_state['values']['profile_province']) && !is_letters_only($form_state['values']['profile_province'])) {
+	    form_set_error('edit-profile-province', variable_get('custom_validate_field_province', 'Province may only contain letters.'));
+	}
+  if(($form_state['values']['profile_phone_number'] != '') && !ctype_digit($form_state['values']['profile_phone_number'])) {
+    form_set_error('profile_phone_number', t('Wrong phone number. Please enter numbers only. Do not include special characters such as spaces or dashes.'));
+  }
+}
+
+function custom_validate_field_validate_contact_info($form, &$form_state) {
+    // check first name
+    if(!empty($form_state['values']['profile_contact_first_name']) && !is_letters_only($form_state['values']['profile_contact_first_name'])) {
+	    form_set_error('edit-profile-contact-first-name', variable_get('custom_validate_field_contact_first_name', 'First Name may only contain letters.'));
+	}
+	// check middle initial
+    if(!empty($form_state['values']['profile_contact_middle_initial']) && !is_letters_only($form_state['values']['profile_middle_initial'])) {
+	    form_set_error('edit-profile-contact-middle-initial', variable_get('custom_validate_field_contact_middle_initial', 'Middle Initial may only contain letters.'));
+	}
+	// check last name
+    if(!empty($form_state['values']['profile_contact_last_name']) && !is_letters_only($form_state['values']['profile_contact_last_name'])) {
+	    form_set_error('edit-profile-contact-last-name', variable_get('custom_validate_field_contact_last_name', 'Last Name may only contain letters.'));
+	}
+    // check city
+    if(!empty($form_state['values']['profile_contact_city']) && !is_letters_only($form_state['values']['profile_contact_city'])) {
+	    form_set_error('edit-profile-contact-city', variable_get('custom_validate_field_contact_city', 'City may only contain letters.'));
+	}
+	// check province
+    if(!empty($form_state['values']['profile_contact_province']) && !is_letters_only($form_state['values']['profile_contact_province'])) {
+	    form_set_error('edit-profile-contact-province', variable_get('custom_validate_field_contact_province', 'Province may only contain letters.'));
+	}
+	// check zip
+    if(!empty($form_state['values']['profile_contact_zip_code']) && !is_numbers_and_letters($form_state['values']['profile_contact_zip_code'])) {
+	    form_set_error('edit-profile-contact-zip-code', variable_get('custom_validate_field_contact_zip_code', 'Zip Code may only contain letters and numbers.'));
+	}
+	// check phone number
+    if(!empty($form_state['values']['profile_contact_phone_number']) && !is_valid_phone_number($form_state['values']['profile_contact_phone_number'])) {
+		form_set_error('edit-profile-contact-phone-number', variable_get('custom_validate_field_contact_phone_number', 'Phone Number is invalid.'));
+	}
+    // check email
+    if(!empty($form_state['values']['profile_contact_email']) && !valid_email_address($form_state['values']['profile_contact_email'])) {
+		form_set_error('edit-profile-contact-email', variable_get('custom_validate_field_contact_email', 'Email is invalid.'));
+	}
+}
+  
+
+function is_letters_only($test) {
+    if(preg_match("/^[a-zA-Z ]+$/", $test) === 0) return false;
+    else return true;
+}
+
+function is_numbers_only($test) {
+    if(preg_match("/^[0-9]+$/", $test) === 0) return false;
+    else return true;
+}
+
+function is_numbers_and_letters($test) {
+    if(preg_match("/^[0-9a-zA-z ]+$/", $test) === 0) return false;
+    else return true;
+}
+
+function is_valid_phone_number($test) {
+    // getting the format
+    $format = trim(ereg_replace("[0-9]", "#", $test));
+    // list of valid formats
+    $formats = array(
+    	'###-###-####',
+    	'####-###-###',
+        '(###) ###-###',
+        '####-####-####',
+        '##-###-####-####',
+        '####-####',
+        '###-###-###',
+        '#####-###-###',
+        '##########');
+    // checking if format is valid
+    return (in_array($format, $formats)) ? true : false;
+}

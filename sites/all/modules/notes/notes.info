@@ -1,4 +1,0 @@
-name = Notes
-description = Allows administrators to add notes to a user account.
-package = Hammertech
-core = 6.x

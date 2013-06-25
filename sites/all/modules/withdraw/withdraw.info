@@ -1,4 +1,0 @@
-name = Withdraw
-description = Custom Cancel Account Page.
-package = Hammertech
-core = 6.x

@@ -1,4 +1,0 @@
-name = Username Validation
-description = Validate the username in the user login form.
-package = Hammertech
-core = 6.x
