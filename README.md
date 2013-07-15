@@ -1,7 +1,10 @@
 Welcome to the EDCT Collector Project!
 =========================================
 
-EDCT Collector tool allows users to collect form data. It is developed in Java and requires Apache Ant for building.
+The eDCT Collector is designed to collect and store data submitted to the system in accordance with the model 
+designed in [eDCT Form Builder] (https://github.com/NCIP/edct-form-builder).  
+
+It is developed in Java and requires Apache Ant for building.
 
 EDCT Collector is distributed under the BSD 3-Clause License. Please see the NOTICE and LICENSE files for details.
 
