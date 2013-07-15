@@ -10,7 +10,7 @@ You will find more details about EDCT Collector in the following links:
 
  * [Code Repository](https://github.com/NCIP/edct-collector)
  * [Issue Tracker](https://tracker.nci.nih.gov/browse/EDCT)
- * [Documentation](https://wiki.nci.nih.gov/display/eDCT/Enterprise+Data+Collection+Tool)
+ * [Documentation](https://wiki.nci.nih.gov/x/KgawB)
  
  
-Please join us in further developing and improving EDCT Collector.
+Please join us in further developing and improving EDCT Collector project.
