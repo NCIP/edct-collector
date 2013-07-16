@@ -2,7 +2,7 @@ Welcome to the EDCT Collector Project!
 =========================================
 
 The eDCT Collector is designed to collect and store data submitted to the system in accordance with the model 
-designed in [eDCT Form Builder] (https://github.com/NCIP/edct-form-builder).  
+designed in [eDCT Form Builder] (https://github.com/NCIP/edct-formbuilder).  
 
 It is developed in Java and requires Apache Ant for building.
 
